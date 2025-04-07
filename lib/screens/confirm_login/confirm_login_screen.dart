@@ -1,6 +1,7 @@
 import 'package:alrefadah/screens/confirm_login/widgets/confirm_card_login_number_widget.dart';
 import 'package:alrefadah/screens/confirm_login/widgets/custom_timer_widget.dart';
 import 'package:alrefadah/screens/confirm_login/widgets/title_of_confirm_login_widget.dart';
+import 'package:alrefadah/screens/home_page/home_page.dart';
 import 'package:alrefadah/utils/components/custom_button.dart';
 import 'package:alrefadah/utils/components/height.dart';
 import 'package:alrefadah/utils/constants/colors_constants.dart';
@@ -103,11 +104,11 @@ class _ConfirmLoginScreenState extends State<ConfirmLoginScreen> {
                   isActive: code != null,
                   text: 'تأكيد',
                   onTap: () {
-                    if (code != null) {
+                    if (code != null && code!.length == 6 && code == '111111') {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const ConfirmLoginScreen(),
+                          builder: (context) => const HomePage(),
                         ),
                       );
                     }
