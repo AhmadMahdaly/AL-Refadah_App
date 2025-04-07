@@ -1,7 +1,8 @@
-import 'dart:async';
-
+import 'package:alrefadah/screens/confirm_login/widgets/confirm_card_login_number_widget.dart';
+import 'package:alrefadah/screens/confirm_login/widgets/custom_timer_widget.dart';
+import 'package:alrefadah/screens/confirm_login/widgets/title_of_confirm_login_widget.dart';
+import 'package:alrefadah/utils/components/custom_button.dart';
 import 'package:alrefadah/utils/components/height.dart';
-import 'package:alrefadah/utils/components/width.dart';
 import 'package:alrefadah/utils/constants/colors_constants.dart';
 import 'package:alrefadah/widgets/end_of_page.dart';
 import 'package:flutter/material.dart';
@@ -16,36 +17,6 @@ class ConfirmLoginScreen extends StatefulWidget {
 }
 
 class _ConfirmLoginScreenState extends State<ConfirmLoginScreen> {
-  int timeLeft = 30; // المدة بالثواني
-  Timer? timer;
-  @override
-  void initState() {
-    super.initState();
-    startTimer(); // بدء العد التنازلي
-  }
-
-  void startTimer() {
-    setState(() {
-      timeLeft = 30;
-    });
-
-    timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      setState(() {
-        if (timeLeft > 0) {
-          timeLeft--;
-        } else {
-          timer.cancel();
-        }
-      });
-    });
-  }
-
-  @override
-  void dispose() {
-    timer?.cancel();
-    super.dispose();
-  }
-
   bool _onEditing = true;
   String? code;
   @override
@@ -61,15 +32,9 @@ class _ConfirmLoginScreenState extends State<ConfirmLoginScreen> {
                 const H(h: 40),
                 Image.asset('assets/images/logo.png', width: 110.w),
                 const H(h: 20),
-                Text(
-                  'تسجيل الدخول إلى حسابك',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: kMainColor,
-                    fontSize: 20.sp,
-                    fontWeight: FontWeight.w800,
-                  ),
-                ),
+                const TitleOfConfirmLoginWidget(),
+                const H(h: 16),
+                const ConfirmCardLoginNumberWidget(),
                 const H(h: 16),
                 Text(
                   'أكد هويتك',
@@ -94,13 +59,14 @@ class _ConfirmLoginScreenState extends State<ConfirmLoginScreen> {
                 ),
                 const H(h: 30),
                 VerificationCode(
-                  length: 4,
-                  margin: EdgeInsets.symmetric(horizontal: 8.sp),
-                  underlineWidth: 1.2,
-                  itemSize: 60.sp,
+                  length: 6,
+                  margin: EdgeInsets.symmetric(horizontal: 2.sp),
+                  underlineWidth: 1,
+                  itemSize: 48.sp,
                   textStyle: TextStyle(
                     fontSize: 22.sp,
                     color: kMainColor,
+                    fontFamily: 'FF Shamel Family',
                     fontWeight: FontWeight.w700,
                   ),
                   fullBorder: true,
@@ -131,74 +97,23 @@ class _ConfirmLoginScreenState extends State<ConfirmLoginScreen> {
                   ),
                 ),
                 const H(h: 16),
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    InkWell(
-                      onTap: startTimer,
-                      child: Text(
-                        'اعادة إرسال الرمز',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: kMainColor,
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w600,
-                          height: 1.20.h,
+                const CustomTimerWidget(),
+                const H(h: 60),
+                CustomButton(
+                  isActive: code != null,
+                  text: 'تأكيد',
+                  onTap: () {
+                    if (code != null) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const ConfirmLoginScreen(),
                         ),
-                      ),
-                    ),
-                    W(w: 12.w),
-                    Text(
-                      timeLeft.toString().padLeft(2, '0'),
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: kMainColor,
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w600,
-                        height: 1.20.h,
-                      ),
-                    ),
-                  ],
+                      );
+                    }
+                  },
                 ),
-                const H(h: 32),
-                Container(
-                  width: 309.w,
-                  height: 62.h,
-                  alignment: Alignment.center,
-                  decoration: ShapeDecoration(
-                    shape: RoundedRectangleBorder(
-                      side: BorderSide(width: 0.50.w, color: kMainColor),
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        'تم إرسال رمز التحقق إلى:',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: kTextColor,
-                          fontSize: 15.sp,
-                          fontWeight: FontWeight.w300,
-                          height: 1.54.h,
-                        ),
-                      ),
-                      W(w: 10.w),
-
-                      Text(
-                        '***55689056',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: kTextColor,
-                          fontSize: 15.sp,
-                          fontWeight: FontWeight.w400,
-                          height: 1.54.h,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                const H(h: 20),
               ],
             ),
           ),
