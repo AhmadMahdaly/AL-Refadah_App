@@ -8,7 +8,7 @@ class AppWelcome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-      'اهلا بك في شركة رفاد',
+      'اهلا بك في شركة الرفادة',
       textAlign: TextAlign.center,
       style: TextStyle(
         color: kMainColor,
