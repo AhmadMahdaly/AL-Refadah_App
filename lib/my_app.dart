@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
           create: (context) => AuthCubit(),
           child: MaterialApp(
             debugShowCheckedModeBanner: false,
-            title: 'RIFAD',
+            title: 'AL Refadah',
             theme: ThemeData(
               appBarTheme: const AppBarTheme(
                 color: kScaffoldBackgroundColor,
