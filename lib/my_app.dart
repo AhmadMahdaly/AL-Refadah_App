@@ -30,6 +30,10 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             title: 'RIFAD',
             theme: ThemeData(
+              appBarTheme: const AppBarTheme(
+                color: kScaffoldBackgroundColor,
+                iconTheme: IconThemeData(color: kMainColor),
+              ),
               scaffoldBackgroundColor: kScaffoldBackgroundColor,
               textTheme: Theme.of(
                 context,
