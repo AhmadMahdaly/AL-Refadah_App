@@ -38,6 +38,7 @@ class CustomTextformfield extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      textDirection: TextDirection.ltr,
       style: TextStyle(
         fontSize: 15.sp,
         color: const Color(0xFF494949),
@@ -54,7 +55,7 @@ class CustomTextformfield extends StatelessWidget {
       maxLines: maxLines,
       textAlignVertical: TextAlignVertical.top,
       controller: controller,
-      autovalidateMode: AutovalidateMode.onUserInteraction,
+      autovalidateMode: AutovalidateMode.onUnfocus,
       validator: validator,
       onChanged: onChanged,
       obscureText: obscureText,
