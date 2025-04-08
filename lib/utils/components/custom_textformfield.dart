@@ -38,6 +38,12 @@ class CustomTextformfield extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      style: TextStyle(
+        fontSize: 15.sp,
+        color: const Color(0xFF494949),
+        fontWeight: FontWeight.w300,
+        fontFamily: 'FF Shamel Family',
+      ),
       textInputAction: textInputAction,
       autofillHints: autofillHints,
       enabled: enabled,
@@ -59,8 +65,8 @@ class CustomTextformfield extends StatelessWidget {
           fontSize: 15.sp,
           color: const Color(0xFF494949),
           fontWeight: FontWeight.w300,
-          fontFamily: 'FF Shamel Family',
         ),
+
         suffixIcon: passwordIcon,
         prefixIcon: icon,
         border: border(),
