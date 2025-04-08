@@ -43,9 +43,10 @@ class _ConfirmLoginScreenState extends State<ConfirmLoginScreen> {
           setState(() {
             _isInAsyncCall = false;
           });
-          Navigator.push(
+          Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(builder: (context) => const HomePage()),
+            (route) => false,
           );
         } else if (state is AppLoginErrorState) {
           setState(() {
