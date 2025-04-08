@@ -42,6 +42,7 @@ flutter:
     - assets/svg/
     - assets/images/recaptcha.png
     - assets/icons/Frame 2.png
+    - .env
 
 
   fonts:
