@@ -4,7 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ConfirmCardLoginNumberWidget extends StatelessWidget {
-  const ConfirmCardLoginNumberWidget({super.key});
+  const ConfirmCardLoginNumberWidget({required this.phoneNumber, super.key});
+  final String phoneNumber;
+  String maskExceptLast4(String phoneNumber) {
+    if (phoneNumber.length <= 4) return phoneNumber;
+    final last4 = phoneNumber.substring(phoneNumber.length - 4);
+    return '*' * (phoneNumber.length - 4) + last4;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +40,8 @@ class ConfirmCardLoginNumberWidget extends StatelessWidget {
           ),
           W(w: 10.w),
           Text(
-            '55689056***',
+            maskExceptLast4(phoneNumber),
+            textDirection: TextDirection.ltr,
             textAlign: TextAlign.center,
             style: TextStyle(
               color: kTextColor,

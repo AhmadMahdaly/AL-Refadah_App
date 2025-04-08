@@ -97,7 +97,9 @@ class _ConfirmLoginScreenState extends State<ConfirmLoginScreen> {
                           const H(h: 20),
                           const TitleOfConfirmLoginWidget(),
                           const H(h: 16),
-                          const ConfirmCardLoginNumberWidget(),
+                          ConfirmCardLoginNumberWidget(
+                            phoneNumber: widget.phoneNumber,
+                          ),
                           const H(h: 16),
                           Text(
                             'أكد هويتك',
@@ -121,32 +123,37 @@ class _ConfirmLoginScreenState extends State<ConfirmLoginScreen> {
                             ),
                           ),
                           const H(h: 30),
-                          VerificationCode(
-                            length: 6,
-                            margin: EdgeInsets.symmetric(horizontal: 2.sp),
-                            underlineWidth: 1,
-                            itemSize: 48.sp,
-                            textStyle: TextStyle(
-                              fontSize: 22.sp,
-                              color: kMainColor,
-                              fontFamily: 'FF Shamel Family',
-                              fontWeight: FontWeight.w700,
+                          Directionality(
+                            textDirection: TextDirection.ltr,
+                            child: VerificationCode(
+                              length: 6,
+                              margin: EdgeInsets.symmetric(horizontal: 2.sp),
+                              underlineWidth: 1,
+                              itemSize: 48.sp,
+                              textStyle: TextStyle(
+                                fontSize: 22.sp,
+                                color: kMainColor,
+                                fontFamily: 'FF Shamel Family',
+                                fontWeight: FontWeight.w700,
+                              ),
+                              fullBorder: true,
+                              underlineColor: kMainColor,
+                              underlineUnfocusedColor: const Color(0xFFD3D3D3),
+                              cursorColor: const Color(0xFFFCFCFC),
+                              onCompleted: (String value) {
+                                setState(() {
+                                  code = value;
+                                });
+                              },
+                              onEditing: (bool value) {
+                                setState(() {
+                                  _onEditing = value;
+                                });
+                                if (!_onEditing) {
+                                  FocusScope.of(context).unfocus();
+                                }
+                              },
                             ),
-                            fullBorder: true,
-                            underlineColor: kMainColor,
-                            underlineUnfocusedColor: const Color(0xFFD3D3D3),
-                            cursorColor: const Color(0xFFFCFCFC),
-                            onCompleted: (String value) {
-                              setState(() {
-                                code = value;
-                              });
-                            },
-                            onEditing: (bool value) {
-                              setState(() {
-                                _onEditing = value;
-                              });
-                              if (!_onEditing) FocusScope.of(context).unfocus();
-                            },
                           ),
                           const H(h: 36),
                           Text(
