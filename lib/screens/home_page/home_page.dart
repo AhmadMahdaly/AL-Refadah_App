@@ -2,6 +2,7 @@ import 'package:alrefadah/utils/components/height.dart';
 import 'package:alrefadah/utils/components/width.dart';
 import 'package:alrefadah/utils/constants/colors_constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class HomePage extends StatelessWidget {
@@ -9,18 +10,23 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setEnabledSystemUIMode(
+      SystemUiMode.manual,
+      overlays: SystemUiOverlay.values,
+    );
+
     return Scaffold(
+      appBar: AppBar(automaticallyImplyLeading: false),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 25.w),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const H(h: 30),
             Align(
               alignment: Alignment.topCenter,
               child: Container(
                 height: 30.h,
-                width: 130.w,
+                width: 160.w,
                 alignment: Alignment.center,
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
