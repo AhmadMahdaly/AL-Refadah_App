@@ -17,59 +17,33 @@ class CustomButton extends StatelessWidget {
   final int padding;
   @override
   Widget build(BuildContext context) {
-    return isActive
-        ? InkWell(
-          onTap: onTap,
-          child: Container(
-            margin: EdgeInsets.symmetric(horizontal: padding.w),
-            alignment: Alignment.center,
-            width: double.infinity,
-            height: 62.h,
-            decoration: ShapeDecoration(
-              gradient: const LinearGradient(
-                begin: Alignment(1, 0.50),
-                end: Alignment(0, 0.50),
-                colors: [kSecondaryColor, kMainColor],
-              ),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-            ),
-            child: Text(
-              text,
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 21.sp,
-                fontWeight: FontWeight.w300,
-                height: 1.35.h,
-              ),
-            ),
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: padding.w),
+        alignment: Alignment.center,
+        width: double.infinity,
+        height: 62.h,
+        decoration: ShapeDecoration(
+          gradient: const LinearGradient(
+            begin: Alignment(1, 0.50),
+            end: Alignment(0, 0.50),
+            colors: [kSecondaryColor, kMainColor],
           ),
-        )
-        : InkWell(
-          onTap: onTap,
-          child: Container(
-            margin: EdgeInsets.symmetric(horizontal: padding.w),
-            alignment: Alignment.center,
-            width: double.infinity,
-            height: 62.h,
-            decoration: ShapeDecoration(
-              color: kScaffoldBackgroundColor,
-              shape: RoundedRectangleBorder(
-                side: BorderSide(color: kTextColor, width: 1.w),
-                borderRadius: BorderRadius.circular(10),
-              ),
-            ),
-            child: Text(
-              text,
-              style: TextStyle(
-                color: kTextColor,
-                fontSize: 21.sp,
-                fontWeight: FontWeight.w300,
-                height: 1.35.h,
-              ),
-            ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
           ),
-        );
+        ),
+        child: Text(
+          text,
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 21.sp,
+            fontWeight: FontWeight.w300,
+            height: 1.35.h,
+          ),
+        ),
+      ),
+    );
   }
 }
