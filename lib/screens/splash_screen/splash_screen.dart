@@ -1,4 +1,4 @@
-import 'package:alrefadah/screens/login/login_screen.dart';
+import 'package:alrefadah/screens/check_auth.dart';
 import 'package:alrefadah/screens/splash_screen/widgets/splash_logo.dart';
 import 'package:alrefadah/widgets/end_of_page.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +20,7 @@ class _SplashScreenState extends State<SplashScreen>
     Future.delayed(const Duration(seconds: 3), () {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const LoginScreen()),
+        MaterialPageRoute(builder: (context) => const CheckAuth()),
       );
     });
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
