@@ -65,7 +65,7 @@ class AuthCubit extends Cubit<AuthStates> {
 
       if (response.statusCode == 200) {
         emit(AppLoginSuccessState());
-        final data = jsonDecode(response.body);
+        final data = jsonDecode(response.body) as Map<String, dynamic>;
         final token = data['accessToken'].toString();
         await storage.write(key: 'auth_token', value: token);
       } else {
