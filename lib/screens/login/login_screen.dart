@@ -84,7 +84,7 @@ class _LoginScreenState extends State<LoginScreen> {
               fit: StackFit.expand,
               children: [
                 Positioned(
-                  bottom: isKeyboardVisible ? -260 : 0,
+                  bottom: isKeyboardVisible ? -250 : 0,
                   left: 0,
                   right: 0,
                   child: const EndOfPage(),
@@ -93,6 +93,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   padding: EdgeInsets.symmetric(horizontal: 25.w),
                   child: SingleChildScrollView(
                     child: AutofillGroup(
+                      onDisposeAction: AutofillContextAction.cancel,
                       child: Form(
                         key: formKey,
                         child: Column(
@@ -120,23 +121,6 @@ class _LoginScreenState extends State<LoginScreen> {
                               },
                               text: 'رقم الهوية',
                               icon: const Icon(Icons.numbers_outlined),
-                              // passwordIcon: IconButton(
-                              //   onPressed:
-                              //       () => setState(() {
-                              //         isShowPassword = !isShowPassword;
-                              //       }),
-                              //   icon:
-                              //       isShowPassword
-                              //           ? SvgPicture.asset(
-                              //             'assets/svg/eye.svg',
-                              //             fit: BoxFit.none,
-                              //           )
-                              //           : SvgPicture.asset(
-                              //             'assets/svg/EyeClosed.svg',
-                              //             fit: BoxFit.none,
-                              //           ),
-                              // ),
-                              //  obscureText: isShowPassword,
                               keyboardType: TextInputType.number,
                               contentPadding: EdgeInsets.symmetric(
                                 vertical: 18.h,
@@ -162,7 +146,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               },
                               text: 'رقم الجوال',
                               icon: const Icon(Icons.phone_android_outlined),
-                              keyboardType: TextInputType.phone,
+                              keyboardType: TextInputType.number,
                               contentPadding: EdgeInsets.symmetric(
                                 vertical: 18.h,
                                 horizontal: 10.w,
