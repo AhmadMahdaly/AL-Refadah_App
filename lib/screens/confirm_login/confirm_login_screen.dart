@@ -48,7 +48,7 @@ class _ConfirmLoginScreenState extends State<ConfirmLoginScreen> {
             MaterialPageRoute(builder: (context) => const HomePage()),
             (route) => false,
           );
-        } else if (state is AppLoginErrorState) {
+        } else if (state is AppLoginWithCodeErrorState) {
           setState(() {
             _isInAsyncCall = false;
           });
