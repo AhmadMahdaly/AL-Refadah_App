@@ -36,7 +36,20 @@ class HomePage extends StatelessWidget {
                     (route) => false,
                   );
                 } catch (e) {
-                  print(e);
+                  showDialog<String>(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: const Text('خطأ'),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.of(context).pop(),
+                            child: const Text('موافق'),
+                          ),
+                        ],
+                      );
+                    },
+                  );
                 }
               },
               icon: const Icon(Icons.exit_to_app),
