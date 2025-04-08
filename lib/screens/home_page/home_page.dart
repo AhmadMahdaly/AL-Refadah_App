@@ -1,8 +1,11 @@
+import 'package:alrefadah/cubit/auth_cubit/auth_cubit.dart';
+import 'package:alrefadah/screens/login/login_screen.dart';
 import 'package:alrefadah/utils/components/height.dart';
 import 'package:alrefadah/utils/components/width.dart';
 import 'package:alrefadah/utils/constants/colors_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class HomePage extends StatelessWidget {
@@ -16,7 +19,31 @@ class HomePage extends StatelessWidget {
     );
 
     return Scaffold(
-      appBar: AppBar(automaticallyImplyLeading: false),
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        actions: [
+          RotatedBox(
+            quarterTurns: 2,
+            child: IconButton(
+              onPressed: () {
+                try {
+                  BlocProvider.of<AuthCubit>(context).logout();
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const LoginScreen(),
+                    ),
+                    (route) => false,
+                  );
+                } catch (e) {
+                  print(e);
+                }
+              },
+              icon: const Icon(Icons.exit_to_app),
+            ),
+          ),
+        ],
+      ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 25.w),
         child: Column(
