@@ -35,11 +35,11 @@ class _LoginScreenState extends State<LoginScreen> {
     final isKeyboardVisible = MediaQuery.of(context).viewInsets.bottom > 0;
     return BlocConsumer<AuthCubit, AuthStates>(
       listener: (context, state) {
-        if (state is AppLoginLoadingState) {
+        if (state is LoginLoadingState) {
           setState(() {
             _isInAsyncCall = true;
           });
-        } else if (state is AppLoginSuccessState) {
+        } else if (state is LoginSuccessState) {
           setState(() {
             _isInAsyncCall = false;
           });
@@ -53,7 +53,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
             ),
           );
-        } else if (state is AppLoginErrorState) {
+        } else if (state is LoginErrorState) {
           setState(() {
             _isInAsyncCall = false;
           });

@@ -7,7 +7,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 
 class AuthCubit extends Cubit<AuthStates> {
-  AuthCubit() : super(AppLoginInitialState());
+  AuthCubit() : super(LoginInitialState());
 
   final storage = const FlutterSecureStorage();
   final String baseUrlLogin = dotenv.env['BASEURLLOGIN'] ?? '';
@@ -16,7 +16,7 @@ class AuthCubit extends Cubit<AuthStates> {
     required String phoneNumber,
     required String identityNumber,
   }) async {
-    emit(AppLoginLoadingState());
+    emit(LoginLoadingState());
     try {
       final response = await http.post(
         Uri.parse(baseUrlLogin),
@@ -33,12 +33,12 @@ class AuthCubit extends Cubit<AuthStates> {
       );
 
       if (response.statusCode == 200) {
-        emit(AppLoginSuccessState());
+        emit(LoginSuccessState());
       } else {
-        emit(AppLoginErrorState('خطأ'));
+        emit(LoginErrorState('خطأ'));
       }
     } catch (e) {
-      emit(AppLoginErrorState('خطأ'));
+      emit(LoginErrorState('خطأ'));
     }
   }
 
@@ -47,7 +47,7 @@ class AuthCubit extends Cubit<AuthStates> {
     required String identityNumber,
     required String code,
   }) async {
-    emit(AppLoginLoadingState());
+    emit(LoginLoadingState());
     try {
       final response = await http.post(
         Uri.parse('$baseUrlLoginWithCode$code'),
@@ -64,15 +64,15 @@ class AuthCubit extends Cubit<AuthStates> {
       );
 
       if (response.statusCode == 200) {
-        emit(AppLoginSuccessState());
+        emit(LoginSuccessState());
         final data = jsonDecode(response.body) as Map<String, dynamic>;
         final token = data['accessToken'].toString();
         await storage.write(key: 'auth_token', value: token);
       } else {
-        emit(AppLoginWithCodeErrorState('خطأ'));
+        emit(LoginWithCodeErrorState('خطأ'));
       }
     } catch (e) {
-      emit(AppLoginWithCodeErrorState('خطأ'));
+      emit(LoginWithCodeErrorState('خطأ'));
     }
   }
 
@@ -83,6 +83,6 @@ class AuthCubit extends Cubit<AuthStates> {
 
   Future<void> logout() async {
     await storage.delete(key: 'auth_token');
-    emit(AppLogoutSuccessState());
+    emit(LogoutSuccessState());
   }
 }

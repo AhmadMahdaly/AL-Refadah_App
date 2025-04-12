@@ -35,11 +35,11 @@ class _ConfirmLoginScreenState extends State<ConfirmLoginScreen> {
     final isKeyboardVisible = MediaQuery.of(context).viewInsets.bottom > 0;
     return BlocConsumer<AuthCubit, AuthStates>(
       listener: (context, state) {
-        if (state is AppLoginLoadingState) {
+        if (state is LoginLoadingState) {
           setState(() {
             _isInAsyncCall = true;
           });
-        } else if (state is AppLoginSuccessState) {
+        } else if (state is LoginSuccessState) {
           setState(() {
             _isInAsyncCall = false;
           });
@@ -48,7 +48,7 @@ class _ConfirmLoginScreenState extends State<ConfirmLoginScreen> {
             MaterialPageRoute(builder: (context) => const HomePage()),
             (route) => false,
           );
-        } else if (state is AppLoginWithCodeErrorState) {
+        } else if (state is LoginWithCodeErrorState) {
           setState(() {
             _isInAsyncCall = false;
           });
