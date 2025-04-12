@@ -1,15 +1,17 @@
 import 'dart:convert';
 
 import 'package:alrefadah/cubit/auth_cubit/auth_states.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:http/http.dart' as http;
 
 class AuthCubit extends Cubit<AuthStates> {
   AuthCubit() : super(LoginInitialState());
 
-  final storage = const FlutterSecureStorage();
+  final dio = Dio();
+  final storage = FlutterSecureStorage();
+
   final String baseUrlLogin = dotenv.env['BASEURLLOGIN'] ?? '';
   final String baseUrlLoginWithCode = dotenv.env['BASEURLLOGINWITHCODE'] ?? '';
   Future<void> login({
@@ -18,20 +20,20 @@ class AuthCubit extends Cubit<AuthStates> {
   }) async {
     emit(LoginLoadingState());
     try {
-      final response = await http.post(
-        Uri.parse(baseUrlLogin),
+      final headers = {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      };
 
-        body: json.encode({
+      final response = await dio.post<Map<String, dynamic>>(
+        baseUrlLogin,
+        data: json.encode({
           'companyId': dotenv.env['COMPANYID'] ?? '',
           'identityNumber': identityNumber,
           'phoneNumber': phoneNumber,
         }),
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
+        options: Options(headers: headers),
       );
-
       if (response.statusCode == 200) {
         emit(LoginSuccessState());
       } else {
@@ -49,25 +51,28 @@ class AuthCubit extends Cubit<AuthStates> {
   }) async {
     emit(LoginLoadingState());
     try {
-      final response = await http.post(
-        Uri.parse('$baseUrlLoginWithCode$code'),
+      final headers = {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      };
+      final response = await dio.post<Map<String, dynamic>>(
+        '$baseUrlLoginWithCode$code',
 
-        body: json.encode({
+        data: json.encode({
           'companyId': dotenv.env['COMPANYID'] ?? '',
           'identityNumber': identityNumber,
           'phoneNumber': phoneNumber,
         }),
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
+        options: Options(headers: headers),
       );
 
       if (response.statusCode == 200) {
+        final data = response.data!;
+        final accessToken = data['accessToken'].toString();
+        final refreshToken = data['refreshToken'].toString();
+        await saveTokens(accessToken, refreshToken);
+        headers.addAll({'Authorization': 'Bearer $accessToken'});
         emit(LoginSuccessState());
-        final data = jsonDecode(response.body) as Map<String, dynamic>;
-        final token = data['accessToken'].toString();
-        await storage.write(key: 'auth_token', value: token);
       } else {
         emit(LoginWithCodeErrorState('خطأ'));
       }
@@ -76,13 +81,98 @@ class AuthCubit extends Cubit<AuthStates> {
     }
   }
 
-  Future<bool> checkLogin() async {
-    final token = await storage.read(key: 'auth_token');
-    return token != null;
+  Future<void> saveTokens(String accessToken, String refreshToken) async {
+    await storage.write(key: 'access_token', value: accessToken);
+    await storage.write(key: 'refresh_token', value: refreshToken);
+  }
+
+  Future<String?> getAccessToken() => storage.read(key: 'access_token');
+  Future<String?> getRefreshToken() => storage.read(key: 'refresh_token');
+
+  void isLogin() {}
+
+  void setupDio() {
+    emit(SetUpLoadingState());
+    dio.interceptors.add(
+      InterceptorsWrapper(
+        onRequest: (options, handler) async {
+          final token = await getAccessToken();
+          if (token != null) {
+            options.headers['Authorization'] = 'Bearer $token';
+          }
+          emit(SetUpSuccessState());
+          return handler.next(options);
+        },
+        onError: (error, handler) async {
+          if (error.response?.statusCode == 401) {
+            final refreshed = await refreshToken();
+            if (refreshed) {
+              final retryToken = await getAccessToken();
+              error.requestOptions.headers['Authorization'] =
+                  'Bearer $retryToken';
+              final response = await dio.fetch<Response<dynamic>>(
+                error.requestOptions,
+              );
+              emit(SetUpSuccessState());
+              return handler.resolve(response);
+            } else if (!refreshed) {
+              //error
+              emit(SetUpErrorState());
+            }
+          }
+          emit(SetUpErrorState());
+          return handler.next(error);
+        },
+      ),
+    );
+  }
+
+  Future<bool> refreshToken() async {
+    emit(RefreshTokenLoadingState());
+    final refresh = await getRefreshToken();
+    if (refresh == null) return false;
+
+    try {
+      final response = await dio.post<dynamic>(
+        baseUrlLogin,
+        data: {'refresh_token': refresh},
+      );
+
+      if (response.statusCode == 200 && response.data != null) {
+        final data = response.data as Map<String, dynamic>;
+        final newAccessToken = data['access_token'];
+        final newRefreshToken = data['refresh_token'];
+        await saveTokens(newAccessToken as String, newRefreshToken as String);
+        emit(RefreshTokenSuccessState());
+      } else {
+        await storage.deleteAll();
+        emit(RefreshTokenErrorState());
+        return false;
+      }
+      emit(RefreshTokenSuccessState());
+      return true;
+    } catch (e) {
+      ////////
+      emit(RefreshTokenErrorState());
+      return false;
+    }
   }
 
   Future<void> logout() async {
-    await storage.delete(key: 'auth_token');
+    await storage.deleteAll();
     emit(LogoutSuccessState());
+  }
+
+  Future<bool> isLoggedIn() async {
+    emit(IsLoginLoadingState());
+    try {
+      final access = await getAccessToken();
+      final refresh = await getRefreshToken();
+      emit(IsLoginSuccessState());
+      return access != null && refresh != null;
+    } catch (e) {
+      emit(IsLoginErrorState());
+      return false;
+    }
   }
 }
