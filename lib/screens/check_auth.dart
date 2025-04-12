@@ -7,9 +7,8 @@ class CheckAuth extends StatelessWidget {
   const CheckAuth({super.key});
 
   final FlutterSecureStorage storage = const FlutterSecureStorage();
-
   Future<bool> checkLogin() async {
-    final token = await storage.read(key: 'auth_token');
+    final token = await storage.read(key: 'access_token');
     return token != null;
   }
 
