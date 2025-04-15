@@ -10,13 +10,12 @@ class AuthCubit extends Cubit<AuthStates> {
   AuthCubit() : super(LoginInitialState());
 
   final dio = Dio();
-  final storage = FlutterSecureStorage();
-
+  static const storage = FlutterSecureStorage();
   final String baseUrlLogin = dotenv.env['BASEURLLOGIN'] ?? '';
   final String baseUrlLoginWithCode = dotenv.env['BASEURLLOGINWITHCODE'] ?? '';
   Future<void> login({
-    required String phoneNumber,
-    required String identityNumber,
+    required String password,
+    required String userName,
   }) async {
     emit(LoginLoadingState());
     try {
@@ -29,8 +28,8 @@ class AuthCubit extends Cubit<AuthStates> {
         baseUrlLogin,
         data: json.encode({
           'companyId': dotenv.env['COMPANYID'] ?? '',
-          'identityNumber': identityNumber,
-          'phoneNumber': phoneNumber,
+          'identityNumber': userName,
+          'phoneNumber': password,
         }),
         options: Options(headers: headers),
       );
