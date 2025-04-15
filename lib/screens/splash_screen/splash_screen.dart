@@ -24,7 +24,6 @@ class _SplashScreenState extends State<SplashScreen>
         MaterialPageRoute(builder: (context) => const CheckAuth()),
       );
     });
-
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
   }
 
@@ -32,7 +31,6 @@ class _SplashScreenState extends State<SplashScreen>
   Widget build(BuildContext context) {
     return const Scaffold(
       body: SplashLogoWidget(),
-
       bottomNavigationBar: EndOfPage(),
     );
   }
