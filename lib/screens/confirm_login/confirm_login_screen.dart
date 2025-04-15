@@ -1,13 +1,13 @@
+import 'package:alrefadah/core/utils/components/custom_button.dart';
+import 'package:alrefadah/core/utils/components/height.dart';
+import 'package:alrefadah/core/utils/constants/colors_constants.dart';
+import 'package:alrefadah/core/widgets/end_of_page.dart';
 import 'package:alrefadah/cubit/auth_cubit/auth_cubit.dart';
 import 'package:alrefadah/cubit/auth_cubit/auth_states.dart';
 import 'package:alrefadah/screens/confirm_login/widgets/confirm_card_login_number_widget.dart';
 import 'package:alrefadah/screens/confirm_login/widgets/custom_timer_widget.dart';
 import 'package:alrefadah/screens/confirm_login/widgets/title_of_confirm_login_widget.dart';
 import 'package:alrefadah/screens/home_page/home_page.dart';
-import 'package:alrefadah/utils/components/custom_button.dart';
-import 'package:alrefadah/utils/components/height.dart';
-import 'package:alrefadah/utils/constants/colors_constants.dart';
-import 'package:alrefadah/widgets/end_of_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

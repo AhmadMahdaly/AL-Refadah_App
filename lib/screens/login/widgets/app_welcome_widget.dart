@@ -1,4 +1,4 @@
-import 'package:alrefadah/utils/constants/colors_constants.dart';
+import 'package:alrefadah/core/utils/constants/colors_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
