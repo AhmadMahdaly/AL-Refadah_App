@@ -1,6 +1,6 @@
+import 'package:alrefadah/core/theme/app_theme.dart';
 import 'package:alrefadah/cubit/auth_cubit/auth_cubit.dart';
 import 'package:alrefadah/screens/splash_screen/splash_screen.dart';
-import 'package:alrefadah/utils/constants/colors_constants.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -29,16 +29,7 @@ class MyApp extends StatelessWidget {
           child: MaterialApp(
             debugShowCheckedModeBanner: false,
             title: 'AL Rifadah',
-            theme: ThemeData(
-              appBarTheme: const AppBarTheme(
-                color: kScaffoldBackgroundColor,
-                iconTheme: IconThemeData(color: kMainColor),
-              ),
-              scaffoldBackgroundColor: kScaffoldBackgroundColor,
-              textTheme: Theme.of(
-                context,
-              ).textTheme.apply(fontFamily: 'GE SS Two'),
-            ),
+            theme: appTheme(context),
 
             /// Localizations
             localizationsDelegates: context.localizationDelegates,
