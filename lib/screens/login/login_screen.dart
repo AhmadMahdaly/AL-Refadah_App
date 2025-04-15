@@ -1,14 +1,15 @@
-import 'package:alrefadah/core/utils/components/custom_button.dart';
 import 'package:alrefadah/core/utils/components/custom_textformfield.dart';
 import 'package:alrefadah/core/utils/components/height.dart';
 import 'package:alrefadah/core/utils/components/width.dart';
 import 'package:alrefadah/core/utils/constants/colors_constants.dart';
 import 'package:alrefadah/core/widgets/end_of_page.dart';
+import 'package:alrefadah/core/widgets/error_dialog.dart';
 import 'package:alrefadah/cubit/auth_cubit/auth_cubit.dart';
 import 'package:alrefadah/cubit/auth_cubit/auth_states.dart';
 import 'package:alrefadah/screens/confirm_login/confirm_login_screen.dart';
 import 'package:alrefadah/screens/login/widgets/app_welcome_widget.dart';
 import 'package:alrefadah/screens/login/widgets/forget_password_widget.dart';
+import 'package:alrefadah/screens/login/widgets/login_button.dart';
 import 'package:alrefadah/screens/login/widgets/title_of_welcome_page_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -58,20 +59,7 @@ class _LoginScreenState extends State<LoginScreen> {
           setState(() {
             _isInAsyncCall = false;
           });
-          showDialog<String>(
-            context: context,
-            builder: (context) {
-              return AlertDialog(
-                title: const Text('خطأ'),
-                actions: [
-                  TextButton(
-                    onPressed: () => Navigator.of(context).pop(),
-                    child: const Text('موافق'),
-                  ),
-                ],
-              );
-            },
-          );
+          errorDialog(context);
         }
       },
       builder: (context, state) {
@@ -106,6 +94,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             const H(h: 12),
                             const TitleOfWelcomePage(),
                             const H(h: 32),
+
+                            /// user name textField
                             CustomTextformfield(
                               controller: _userNameController,
                               validator: (value) {
@@ -130,6 +120,8 @@ class _LoginScreenState extends State<LoginScreen> {
                               autofillHints: const [AutofillHints.name],
                             ),
                             const H(h: 20),
+
+                            /// Password textField
                             CustomTextformfield(
                               controller: _passwordController,
                               validator: (value) {
@@ -173,9 +165,11 @@ class _LoginScreenState extends State<LoginScreen> {
                             const H(h: 14),
                             const ForgetPasswordWidget(),
                             const H(h: 40),
+
+                            /// reCAPTCHA checkBox
                             Container(
                               width: 297.w,
-                              height: 72.h,
+                              height: 80.h,
                               decoration: ShapeDecoration(
                                 color: const Color(0xFFF9F9F9),
                                 shape: RoundedRectangleBorder(
@@ -183,7 +177,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     width: 0.84.w,
                                     color: const Color(0xFFD3D3D3),
                                   ),
-                                  borderRadius: BorderRadius.circular(2.53),
+                                  borderRadius: BorderRadius.circular(4),
                                 ),
                                 shadows: const [
                                   BoxShadow(
@@ -265,17 +259,14 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                             ),
                             const H(h: 30),
-                            CustomButton(
-                              text: 'تسجيل الدخول',
-                              onTap: () async {
-                                if (formKey.currentState!.validate() &&
-                                    isChecked) {
-                                  await authCubit.login(
-                                    userName: _userNameController.text,
-                                    password: _passwordController.text,
-                                  );
-                                }
-                              },
+
+                            /// Login Button
+                            LoginButton(
+                              formKey: formKey,
+                              isChecked: isChecked,
+                              authCubit: authCubit,
+                              userNameController: _userNameController,
+                              passwordController: _passwordController,
                             ),
                             const H(h: 25),
                           ],
