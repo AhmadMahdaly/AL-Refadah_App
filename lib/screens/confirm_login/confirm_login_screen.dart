@@ -1,9 +1,10 @@
-import 'package:alrefadah/core/utils/components/custom_button.dart';
 import 'package:alrefadah/core/utils/components/height.dart';
 import 'package:alrefadah/core/utils/constants/colors_constants.dart';
 import 'package:alrefadah/core/widgets/end_of_page.dart';
+import 'package:alrefadah/core/widgets/error_dialog.dart';
 import 'package:alrefadah/cubit/auth_cubit/auth_cubit.dart';
 import 'package:alrefadah/cubit/auth_cubit/auth_states.dart';
+import 'package:alrefadah/screens/confirm_login/widgets/confirm_button.dart';
 import 'package:alrefadah/screens/confirm_login/widgets/confirm_card_login_number_widget.dart';
 import 'package:alrefadah/screens/confirm_login/widgets/custom_timer_widget.dart';
 import 'package:alrefadah/screens/confirm_login/widgets/title_of_confirm_login_widget.dart';
@@ -52,25 +53,11 @@ class _ConfirmLoginScreenState extends State<ConfirmLoginScreen> {
           setState(() {
             _isInAsyncCall = false;
           });
-          showDialog<String>(
-            context: context,
-            builder: (context) {
-              return AlertDialog(
-                title: const Text('خطأ'),
-                actions: [
-                  TextButton(
-                    onPressed: () => Navigator.of(context).pop(),
-                    child: const Text('موافق'),
-                  ),
-                ],
-              );
-            },
-          );
+          errorDialog(context);
         }
       },
       builder: (BuildContext context, AuthStates state) {
         final authCubit = context.read<AuthCubit>();
-
         return Scaffold(
           body: ModalProgressHUD(
             inAsyncCall: _isInAsyncCall,
@@ -123,6 +110,8 @@ class _ConfirmLoginScreenState extends State<ConfirmLoginScreen> {
                             ),
                           ),
                           const H(h: 30),
+
+                          /// Verification code
                           Directionality(
                             textDirection: TextDirection.ltr,
                             child: VerificationCode(
@@ -167,19 +156,16 @@ class _ConfirmLoginScreenState extends State<ConfirmLoginScreen> {
                             ),
                           ),
                           const H(h: 16),
+
+                          /// timer
                           const CustomTimerWidget(),
                           const H(h: 60),
-                          CustomButton(
-                            text: 'تأكيد',
-                            onTap: () async {
-                              if (code != null && code!.length == 6) {
-                                await authCubit.loginWithCode(
-                                  phoneNumber: widget.phoneNumber,
-                                  identityNumber: widget.identityNumber,
-                                  code: code!,
-                                );
-                              }
-                            },
+
+                          /// Confirm button
+                          ConfirmButton(
+                            code: code,
+                            authCubit: authCubit,
+                            widget: widget,
                           ),
                           const H(h: 20),
                         ],
