@@ -17,13 +17,14 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   void initState() {
     super.initState();
+    BlocProvider.of<AuthCubit>(context).setupDio();
     Future.delayed(const Duration(seconds: 3), () {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => const CheckAuth()),
       );
     });
-    BlocProvider.of<AuthCubit>(context).setupDio();
+
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
   }
 
