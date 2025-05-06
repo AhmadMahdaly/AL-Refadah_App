@@ -1,18 +1,16 @@
-import 'package:alrefadah/core/utils/constants/colors_constants.dart';
+import 'package:alrefadah/core/themes/colors_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomButton extends StatelessWidget {
   const CustomButton({
     required this.text,
-    this.isActive = true,
     this.onTap,
     super.key,
     this.padding = 0,
   });
 
   final String text;
-  final bool isActive;
   final void Function()? onTap;
   final int padding;
   @override
@@ -23,7 +21,7 @@ class CustomButton extends StatelessWidget {
         margin: EdgeInsets.symmetric(horizontal: padding.w),
         alignment: Alignment.center,
         width: double.infinity,
-        height: 62.h,
+        height: 60.h,
         decoration: ShapeDecoration(
           gradient: const LinearGradient(
             begin: Alignment(1, 0.50),
@@ -31,7 +29,7 @@ class CustomButton extends StatelessWidget {
             colors: [kSecondaryColor, kMainColor],
           ),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(10.r),
           ),
         ),
         child: Text(
