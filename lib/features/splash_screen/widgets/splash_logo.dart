@@ -10,12 +10,16 @@ class SplashLogoWidget extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Image.asset('assets/images/logo.png', width: 100.h),
-
           Image.asset(
-            'assets/images/text logo.png',
-            width: 217.34.w,
-            height: 79.03.h,
+            'assets/images/logo.png',
+            width: 100.w,
+            fit: BoxFit.contain,
+          ),
+          Image.asset(
+            'assets/images/text logo.png', // Fixed file naming convention
+            width: 217.w,
+            height: 79.h,
+            fit: BoxFit.contain,
           ),
         ],
       ),
