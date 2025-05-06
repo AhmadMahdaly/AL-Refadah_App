@@ -1,9 +1,10 @@
-import 'package:alrefadah/core/utils/constants/colors_constants.dart';
+import 'package:alrefadah/core/themes/colors_constants.dart';
 import 'package:flutter/material.dart';
 
 ThemeData appTheme(BuildContext context) {
   return ThemeData(
     appBarTheme: const AppBarTheme(
+      surfaceTintColor: kScaffoldBackgroundColor,
       color: kScaffoldBackgroundColor,
       iconTheme: IconThemeData(color: kMainColor),
     ),
