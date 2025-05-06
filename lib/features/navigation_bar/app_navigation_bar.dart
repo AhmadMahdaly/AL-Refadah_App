@@ -1,10 +1,10 @@
-import 'package:alrefadah/core/utils/components/width.dart';
-import 'package:alrefadah/core/utils/constants/colors_constants.dart';
-import 'package:alrefadah/screens/home_page/home_page.dart';
-import 'package:alrefadah/screens/navigation_bar/widgets/select_icon_style.dart';
-import 'package:alrefadah/screens/navigation_bar/widgets/tab_item_name.dart';
+import 'package:alrefadah/core/themes/colors_constants.dart';
+import 'package:alrefadah/core/utils/components/space.dart';
+import 'package:alrefadah/features/home_page/screens/home_page.dart';
+import 'package:alrefadah/features/more_page/more_page.dart';
+import 'package:alrefadah/features/navigation_bar/widgets/select_icon_style.dart';
+import 'package:alrefadah/features/navigation_bar/widgets/tab_item_name.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AppNavigationBar extends StatefulWidget {
@@ -16,7 +16,7 @@ class AppNavigationBar extends StatefulWidget {
 
 class _AppNavigationBarState extends State<AppNavigationBar> {
   int _currentIndex = 0;
-  List<Widget> pages = [const HomePage(), const SizedBox()];
+  List<Widget> pages = [const HomePage(), const MorePage()];
   List<String> selectedIcon = [
     'assets/svg/home_bold.svg',
     'assets/svg/menu_bold.svg',
@@ -34,14 +34,10 @@ class _AppNavigationBarState extends State<AppNavigationBar> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setEnabledSystemUIMode(
-      SystemUiMode.manual,
-      overlays: SystemUiOverlay.values,
-    );
     return Scaffold(
       body: pages.elementAt(_currentIndex),
       bottomNavigationBar: BottomNavigationBar(
-        landscapeLayout: BottomNavigationBarLandscapeLayout.linear,
+        landscapeLayout: BottomNavigationBarLandscapeLayout.spread,
         backgroundColor: kScaffoldBackgroundColor,
         currentIndex: _currentIndex,
         onTap: _onItemTapped,
@@ -49,19 +45,18 @@ class _AppNavigationBarState extends State<AppNavigationBar> {
         unselectedItemColor: kTextColor,
         selectedLabelStyle: const TextStyle(
           /// To control height of Nav.bar
-          fontSize: 0,
+          fontSize: 2,
           fontWeight: FontWeight.bold,
         ),
         unselectedLabelStyle: const TextStyle(
-          color: kTextColor,
-
           /// To control height of Nav.bar
-          fontSize: 0,
+          fontSize: 2,
+          color: kTextColor,
           fontWeight: FontWeight.w400,
         ),
-        elevation: 1,
-        iconSize: 24.sp,
-        type: BottomNavigationBarType.fixed,
+        elevation: 0,
+        iconSize: 50.sp,
+        type: BottomNavigationBarType.shifting,
         items: [
           /// Home button
           BottomNavigationBarItem(
@@ -90,7 +85,7 @@ class _AppNavigationBarState extends State<AppNavigationBar> {
             label: '',
           ),
 
-          /// Wishlist button
+          /// More button
           BottomNavigationBarItem(
             icon:
                 _currentIndex == 1
