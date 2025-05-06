@@ -1,16 +1,18 @@
-import 'package:alrefadah/core/utils/components/custom_textformfield.dart';
-import 'package:alrefadah/core/utils/components/height.dart';
-import 'package:alrefadah/core/utils/components/width.dart';
-import 'package:alrefadah/core/utils/constants/colors_constants.dart';
-import 'package:alrefadah/core/widgets/end_of_page.dart';
-import 'package:alrefadah/core/widgets/error_dialog.dart';
-import 'package:alrefadah/cubit/auth_cubit/auth_cubit.dart';
-import 'package:alrefadah/cubit/auth_cubit/auth_states.dart';
-import 'package:alrefadah/screens/confirm_login/confirm_login_screen.dart';
-import 'package:alrefadah/screens/login/widgets/app_welcome_widget.dart';
-import 'package:alrefadah/screens/login/widgets/forget_password_widget.dart';
-import 'package:alrefadah/screens/login/widgets/login_button.dart';
-import 'package:alrefadah/screens/login/widgets/title_of_welcome_page_widget.dart';
+import 'package:alrefadah/core/themes/colors_constants.dart';
+import 'package:alrefadah/core/utils/components/custom_loading_indicator.dart';
+import 'package:alrefadah/core/utils/components/space.dart';
+import 'package:alrefadah/core/utils/components/text_fields/custom_textfield_with_hint.dart';
+import 'package:alrefadah/features/auth/cubit/auth_cubit.dart';
+import 'package:alrefadah/features/auth/cubit/auth_states.dart';
+import 'package:alrefadah/features/auth/screans/confirm_login_screen.dart';
+import 'package:alrefadah/features/auth/screans/register_screen.dart';
+import 'package:alrefadah/features/auth/widgets/login_page_widgets/app_welcome_widget.dart';
+import 'package:alrefadah/features/auth/widgets/login_page_widgets/forget_password_widget.dart';
+import 'package:alrefadah/features/auth/widgets/login_page_widgets/login_button.dart';
+import 'package:alrefadah/features/auth/widgets/login_page_widgets/title_of_welcome_page_widget.dart';
+import 'package:alrefadah/presentation/app/shared_widgets/custom_dialog/error_dialog.dart';
+import 'package:alrefadah/presentation/app/shared_widgets/end_of_page.dart';
+import 'package:alrefadah/presentation/app/shared_widgets/show_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -24,17 +26,18 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  bool isShowPassword = true;
+  bool isHidenPassword = true;
   bool isChecked = false;
   bool isLoading = false;
   final _passwordController = TextEditingController();
   final _userNameController = TextEditingController();
   final formKey = GlobalKey<FormState>();
   bool _isInAsyncCall = false;
-
+  final FocusNode nameFocus = FocusNode();
+  final FocusNode passwordFocus = FocusNode();
   @override
   Widget build(BuildContext context) {
-    final isKeyboardVisible = MediaQuery.of(context).viewInsets.bottom > 0;
+    final isKeyboardVisible = MediaQuery.of(context).viewInsets.bottom > 1;
     return BlocConsumer<AuthCubit, AuthStates>(
       listener: (context, state) {
         if (state is LoginLoadingState) {
@@ -47,19 +50,35 @@ class _LoginScreenState extends State<LoginScreen> {
           });
           Navigator.push(
             context,
-            MaterialPageRoute(
-              builder:
-                  (context) => ConfirmLoginScreen(
-                    phoneNumber: _passwordController.text,
-                    identityNumber: _userNameController.text,
-                  ),
-            ),
+            MaterialPageRoute(builder: (context) => const ConfirmLoginScreen()),
           );
         } else if (state is LoginErrorState) {
           setState(() {
             _isInAsyncCall = false;
           });
-          errorDialog(context);
+          showErrorDialog(
+            isBack: true,
+            context,
+            message: 'فشل في تسجيل الدخول',
+          );
+        } else if (state is ResendOTPLoadingState) {
+          setState(() {
+            _isInAsyncCall = true;
+          });
+        } else if (state is ResendOTPSuccessState) {
+          setState(() {
+            _isInAsyncCall = false;
+          });
+          showCustomSnackBar(
+            context,
+            'تم إرسال كود التفعيل إلى جوالك',
+            kGreenColor,
+          );
+        } else if (state is ResendOTPErrorState) {
+          setState(() {
+            _isInAsyncCall = false;
+          });
+          showCustomSnackBar(context, 'فشل في إعادة إرسال الرمز', kErrorColor);
         }
       },
       builder: (context, state) {
@@ -68,12 +87,12 @@ class _LoginScreenState extends State<LoginScreen> {
           body: ModalProgressHUD(
             inAsyncCall: _isInAsyncCall,
             opacity: 0.5,
-            progressIndicator: const CircularProgressIndicator(),
+            progressIndicator: const AppIndicator(),
             child: Stack(
               fit: StackFit.expand,
               children: [
                 Positioned(
-                  bottom: isKeyboardVisible ? -250 : 0,
+                  bottom: isKeyboardVisible ? -260 : 1,
                   left: 0,
                   right: 0,
                   child: const EndOfPage(),
@@ -81,11 +100,13 @@ class _LoginScreenState extends State<LoginScreen> {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 25.w),
                   child: SingleChildScrollView(
+                    physics: const BouncingScrollPhysics(),
                     child: AutofillGroup(
-                      onDisposeAction: AutofillContextAction.cancel,
                       child: Form(
                         key: formKey,
                         child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             const H(h: 40),
                             Image.asset('assets/images/logo.png', width: 110.w),
@@ -96,7 +117,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             const H(h: 32),
 
                             /// user name textField
-                            CustomTextformfield(
+                            CustomTextformfieldWithHint(
                               controller: _userNameController,
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
@@ -111,22 +132,29 @@ class _LoginScreenState extends State<LoginScreen> {
                                 width: 20.w,
                                 height: 20.h,
                               ),
-                              keyboardType: TextInputType.name,
+                              keyboardType: TextInputType.number,
                               contentPadding: EdgeInsets.symmetric(
                                 vertical: 18.h,
                                 horizontal: 10.w,
                               ),
+                              focusNode: nameFocus,
                               textInputAction: TextInputAction.next,
-                              autofillHints: const [AutofillHints.name],
+                              autofillHints: const [
+                                AutofillHints.telephoneNumber,
+                              ],
                             ),
                             const H(h: 20),
 
                             /// Password textField
-                            CustomTextformfield(
+                            CustomTextformfieldWithHint(
                               controller: _passwordController,
+                              focusNode: passwordFocus,
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
                                   return 'الرجاء إدخال كلمة المرور';
+                                }
+                                if (value.length < 6) {
+                                  return 'كلمة المرور يجب أن تكون 6 أحرف على الأقل';
                                 }
                                 return null;
                               },
@@ -142,14 +170,15 @@ class _LoginScreenState extends State<LoginScreen> {
                                 vertical: 18.h,
                                 horizontal: 10.w,
                               ),
+
                               textInputAction: TextInputAction.done,
                               passwordIcon: IconButton(
                                 onPressed:
                                     () => setState(() {
-                                      isShowPassword = !isShowPassword;
+                                      isHidenPassword = !isHidenPassword;
                                     }),
                                 icon:
-                                    isShowPassword
+                                    isHidenPassword
                                         ? SvgPicture.asset(
                                           'assets/svg/eye.svg',
                                           fit: BoxFit.none,
@@ -159,7 +188,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                           fit: BoxFit.none,
                                         ),
                               ),
-                              obscureText: isShowPassword,
+                              obscureText: isHidenPassword,
                               autofillHints: const [AutofillHints.password],
                             ),
                             const H(h: 14),
@@ -247,9 +276,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                         await Future.delayed(
                                           const Duration(seconds: 10),
                                           () {
-                                            setState(() {
-                                              isChecked = false;
-                                            });
+                                            if (mounted) {
+                                              setState(() {
+                                                isChecked = false;
+                                              });
+                                            }
                                           },
                                         );
                                       },
@@ -267,6 +298,39 @@ class _LoginScreenState extends State<LoginScreen> {
                               authCubit: authCubit,
                               userNameController: _userNameController,
                               passwordController: _passwordController,
+                            ),
+                            const H(h: 25),
+                            InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder:
+                                        (context) => const RegisterScreen(),
+                                  ),
+                                );
+                              },
+                              child: Row(
+                                spacing: 12.w,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    'إنشاء حساب جديد',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: kMainColor,
+                                      fontSize: 16.sp,
+                                      fontWeight: FontWeight.w400,
+                                      height: 1.43.h,
+                                    ),
+                                  ),
+                                  Icon(
+                                    Icons.arrow_forward_rounded,
+                                    color: kMainColor,
+                                    size: 20.w,
+                                  ),
+                                ],
+                              ),
                             ),
                             const H(h: 25),
                           ],
@@ -287,6 +351,8 @@ class _LoginScreenState extends State<LoginScreen> {
   void dispose() {
     _userNameController.dispose();
     _passwordController.dispose();
+    nameFocus.dispose();
+    passwordFocus.dispose();
     super.dispose();
   }
 }

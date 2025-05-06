@@ -1,15 +1,40 @@
-import 'package:alrefadah/core/utils/components/width.dart';
-import 'package:alrefadah/core/utils/constants/colors_constants.dart';
+import 'package:alrefadah/core/services/cache_helper.dart';
+import 'package:alrefadah/core/themes/colors_constants.dart';
+import 'package:alrefadah/core/utils/components/space.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class ConfirmCardLoginNumberWidget extends StatelessWidget {
-  const ConfirmCardLoginNumberWidget({required this.phoneNumber, super.key});
-  final String phoneNumber;
-  String maskExceptLast4(String phoneNumber) {
-    if (phoneNumber.length <= 4) return phoneNumber;
-    final last4 = phoneNumber.substring(phoneNumber.length - 4);
-    return '*' * (phoneNumber.length - 4) + last4;
+class ConfirmCardLoginNumberWidget extends StatefulWidget {
+  const ConfirmCardLoginNumberWidget({
+    // required this.phoneNumber,
+    super.key,
+  });
+
+  @override
+  State<ConfirmCardLoginNumberWidget> createState() =>
+      _ConfirmCardLoginNumberWidgetState();
+}
+
+class _ConfirmCardLoginNumberWidgetState
+    extends State<ConfirmCardLoginNumberWidget> {
+  @override
+  void initState() {
+    super.initState();
+    init();
+  }
+
+  Future<void> init() async {
+    phoneNo = await CacheHelper.getData(key: 'phoneNo');
+    if (mounted) {
+      setState(() {});
+    }
+  }
+
+  String? phoneNo;
+  String maskExceptLast4(String phoneNo) {
+    if (phoneNo.length <= 4) return phoneNo;
+    final last4 = phoneNo.substring(phoneNo.length - 4);
+    return '*' * (phoneNo.length - 4) + last4;
   }
 
   @override
@@ -40,7 +65,7 @@ class ConfirmCardLoginNumberWidget extends StatelessWidget {
           ),
           W(w: 10.w),
           Text(
-            maskExceptLast4(phoneNumber),
+            maskExceptLast4(phoneNo ?? ''),
             textDirection: TextDirection.ltr,
             textAlign: TextAlign.center,
             style: TextStyle(

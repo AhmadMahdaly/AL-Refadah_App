@@ -1,8 +1,10 @@
 import 'dart:async';
 
-import 'package:alrefadah/core/utils/components/width.dart';
-import 'package:alrefadah/core/utils/constants/colors_constants.dart';
+import 'package:alrefadah/core/themes/colors_constants.dart';
+import 'package:alrefadah/core/utils/components/space.dart';
+import 'package:alrefadah/features/auth/cubit/auth_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomTimerWidget extends StatefulWidget {
@@ -13,6 +15,7 @@ class CustomTimerWidget extends StatefulWidget {
 }
 
 class _CustomTimerWidgetState extends State<CustomTimerWidget> {
+  bool isButtonDisabled = false; // لمنع الضغط على الزر أثناء العد التنازلي
   int timeLeft = 30; // المدة بالثواني
   Timer? timer;
   @override
@@ -23,6 +26,7 @@ class _CustomTimerWidgetState extends State<CustomTimerWidget> {
 
   void startTimer() {
     setState(() {
+      isButtonDisabled = true;
       timeLeft = 30;
     });
 
@@ -31,6 +35,7 @@ class _CustomTimerWidgetState extends State<CustomTimerWidget> {
         if (timeLeft > 0) {
           timeLeft--;
         } else {
+          isButtonDisabled = false;
           timer.cancel();
         }
       });
@@ -49,12 +54,21 @@ class _CustomTimerWidgetState extends State<CustomTimerWidget> {
       mainAxisSize: MainAxisSize.min,
       children: [
         InkWell(
-          onTap: startTimer,
+          onTap:
+              isButtonDisabled
+                  ? null
+                  : () async {
+                    startTimer(); // إعادة بدء العد التنازلي عند الضغط على الزر
+                    setState(() {
+                      isButtonDisabled = true; // تعطيل الزر أثناء العد التنازلي
+                    });
+                    await context.read<AuthCubit>().resendOTP();
+                  },
           child: Text(
             'اعادة إرسال الرمز',
             textAlign: TextAlign.center,
             style: TextStyle(
-              color: kMainColor,
+              color: isButtonDisabled ? kTextColor : kMainColor,
               fontSize: 16.sp,
               fontWeight: FontWeight.w600,
               height: 1.20.h,
@@ -65,7 +79,7 @@ class _CustomTimerWidgetState extends State<CustomTimerWidget> {
         Text(
           '00:${timeLeft.toString().padLeft(2, '0')}',
           style: TextStyle(
-            color: kMainColor,
+            color: isButtonDisabled ? kTextColor : kMainColor,
             fontSize: 17.sp,
             fontFamily: 'FF Shamel Family',
             fontWeight: FontWeight.w600,

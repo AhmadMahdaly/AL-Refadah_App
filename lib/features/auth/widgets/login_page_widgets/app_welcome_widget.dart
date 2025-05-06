@@ -1,18 +1,18 @@
-import 'package:alrefadah/core/utils/constants/colors_constants.dart';
+import 'package:alrefadah/core/themes/colors_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class TitleOfConfirmLoginWidget extends StatelessWidget {
-  const TitleOfConfirmLoginWidget({super.key});
+class AppWelcome extends StatelessWidget {
+  const AppWelcome({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Text(
-      'تسجيل الدخول إلى حسابك',
+      'اهلا بك في شركة الرفادة',
       textAlign: TextAlign.center,
       style: TextStyle(
         color: kMainColor,
-        fontSize: 21.sp,
+        fontSize: 20.sp,
         fontWeight: FontWeight.w800,
         height: 1.20.h,
       ),

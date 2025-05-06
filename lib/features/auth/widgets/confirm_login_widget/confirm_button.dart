@@ -1,6 +1,6 @@
 import 'package:alrefadah/core/utils/components/custom_button.dart';
-import 'package:alrefadah/cubit/auth_cubit/auth_cubit.dart';
-import 'package:alrefadah/screens/confirm_login/confirm_login_screen.dart';
+import 'package:alrefadah/features/auth/cubit/auth_cubit.dart';
+import 'package:alrefadah/features/auth/screans/confirm_login_screen.dart';
 import 'package:flutter/material.dart';
 
 class ConfirmButton extends StatelessWidget {
@@ -21,11 +21,7 @@ class ConfirmButton extends StatelessWidget {
       text: 'تأكيد',
       onTap: () async {
         if (code != null && code!.length == 6) {
-          await authCubit.loginWithCode(
-            phoneNumber: widget.phoneNumber,
-            identityNumber: widget.identityNumber,
-            code: code!,
-          );
+          await authCubit.loginWithCode(code: code!);
         }
       },
     );

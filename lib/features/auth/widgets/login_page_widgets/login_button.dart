@@ -1,5 +1,5 @@
 import 'package:alrefadah/core/utils/components/custom_button.dart';
-import 'package:alrefadah/cubit/auth_cubit/auth_cubit.dart';
+import 'package:alrefadah/features/auth/cubit/auth_cubit.dart';
 import 'package:flutter/material.dart';
 
 class LoginButton extends StatelessWidget {
@@ -25,8 +25,19 @@ class LoginButton extends StatelessWidget {
       text: 'تسجيل الدخول',
       onTap: () async {
         if (formKey.currentState!.validate() && isChecked) {
+          //   ///
+          //   if (_userNameController.text == 'ahmed' &&
+          //       _passwordController.text == '123456') {
+          //     await Navigator.pushAndRemoveUntil(
+          //       context,
+          //       MaterialPageRoute(builder: (context) => const AppNavigationBar()),
+          //       (route) => false,
+          //     );
+          //   }
+
+          ///
           await authCubit.login(
-            userName: _userNameController.text,
+            phoneNo: _userNameController.text,
             password: _passwordController.text,
           );
         }
