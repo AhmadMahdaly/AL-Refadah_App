@@ -1,0 +1,97 @@
+import 'package:alrefadah/features/services_pages/buses/edit/models/edit_bus_model.dart';
+import 'package:alrefadah/features/services_pages/buses/main/cubit/buses_states.dart';
+import 'package:alrefadah/features/services_pages/buses/main/repo/buses_repo.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+class BusesCubit extends Cubit<BusesState> {
+  BusesCubit(this.repository) : super(BusesState());
+  final BusesRepo repository;
+  String? selectedSeason;
+
+  Future<void> getSeasons() async {
+    emit(state.copyWith(isLoadingSeasons: true));
+    try {
+      final seasons = await repository.getSeasons();
+      emit(state.copyWith(isLoadingSeasons: false, seasons: seasons));
+    } catch (e) {
+      emit(state.copyWith(isLoadingSeasons: false, error: e.toString()));
+    }
+  }
+
+  Future<void> getCenters() async {
+    emit(state.copyWith(isLoadingCenters: true));
+    try {
+      final centers = await repository.getCenters();
+      emit(state.copyWith(isLoadingCenters: false, centers: centers));
+    } catch (e) {
+      emit(state.copyWith(isLoadingCenters: false, error: e.toString()));
+    }
+  }
+
+  Future<void> getStages() async {
+    emit(state.copyWith(isLoadingStages: true));
+    try {
+      final stages = await repository.getStages();
+      emit(state.copyWith(isLoadingStages: false, stages: stages));
+    } catch (e) {
+      emit(state.copyWith(isLoadingStages: false, error: e.toString()));
+    }
+  }
+
+  Future<void> getTransportOperating(String selectedCenter) async {
+    emit(state.copyWith(isLoadingTransportOperating: true));
+    try {
+      final transportOperating = await repository.getTransportOperting(
+        selectedSeason!,
+        selectedCenter,
+      );
+      emit(
+        state.copyWith(
+          isLoadingTransportOperating: false,
+          transportOperating: transportOperating,
+        ),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(isLoadingTransportOperating: false, error: e.toString()),
+      );
+    }
+  }
+
+  Future<void> getAllBuses() async {
+    emit(state.copyWith(isLoadingAllBuses: true));
+    try {
+      final allBuses = await repository.getAllBuses(selectedSeason!);
+      emit(state.copyWith(isLoadingAllBuses: false, allBuses: allBuses));
+    } catch (e) {
+      emit(state.copyWith(isLoadingAllBuses: false, error: e.toString()));
+    }
+  }
+
+  Future<void> getAllTransports() async {
+    emit(state.copyWith(isLoadingAllTransports: true));
+    try {
+      final allTransports = await repository.getAllTransports();
+      emit(
+        state.copyWith(
+          isLoadingAllTransports: false,
+          alltransports: allTransports,
+        ),
+      );
+    } catch (e) {
+      emit(state.copyWith(isLoadingAllTransports: false, error: e.toString()));
+    }
+  }
+
+  Future<void> editTransportBus(List<EditBusModel> inputs) async {
+    emit(state.copyWith(isLoadingEditTransportBus: true));
+    try {
+      await repository.editTransportBus(inputs);
+      emit(state.copyWith(isLoadingEditTransportBus: false));
+    } catch (e) {
+      emit(
+        state.copyWith(isLoadingEditTransportBus: false, error: e.toString()),
+      );
+    }
+  }
+}
