@@ -1,6 +1,5 @@
-import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:meta/meta.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 part 'get_current_location_state.dart';

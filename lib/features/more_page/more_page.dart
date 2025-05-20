@@ -10,14 +10,17 @@ class MorePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: kScaffoldBackgroundColor,
       appBar: AppBar(
         backgroundColor: kMainColor,
-        flexibleSpace: Image.asset(
-          'assets/images/Frame 427319836.png',
-          color: kMainColor.withAlpha(1),
-          width: double.infinity,
-          fit: BoxFit.cover,
+        flexibleSpace: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Image.asset(
+              'assets/images/Frame 427319836.png',
+              width: double.infinity,
+              fit: BoxFit.cover,
+            ),
+          ],
         ),
         toolbarHeight: 90.h,
         title: const UserNameAndNumberAndLogOutButtonHeader(),

@@ -1,7 +1,7 @@
 import 'package:alrefadah/core/themes/colors_constants.dart';
 import 'package:alrefadah/core/utils/components/space.dart';
+import 'package:alrefadah/features/services_pages/guides/main/models/by_criteria/assignment_model.dart';
 import 'package:alrefadah/features/services_pages/guides/main/models/get_centers_model.dart';
-import 'package:alrefadah/features/services_pages/guides/main/models/get_guide_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -11,11 +11,11 @@ class ShowAllGuidesCard extends StatelessWidget {
     required this.center,
     super.key,
   });
-  final GetGuidesModel employe;
+  final AssignmentModel employe;
   final GetGuidesCenterModel center;
   @override
   Widget build(BuildContext context) {
-    final sentence = employe.empName;
+    final sentence = employe.employee!.fEmpName;
     final words = sentence.split(' ');
     final empName = words.take(3).join(' ');
     return Column(
@@ -34,7 +34,7 @@ class ShowAllGuidesCard extends StatelessWidget {
               SizedBox(
                 width: 50.w,
                 child: Text(
-                  employe.empNo.toString(),
+                  employe.fEmpNo.toString(),
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: kDartTextColor,
@@ -127,7 +127,7 @@ class ShowAllGuidesCard extends StatelessWidget {
                         SizedBox(
                           width: 90.w,
                           child: Text(
-                            employe.idNo.toString(),
+                            employe.employee!.fIdNo.toString(),
                             textAlign: TextAlign.start,
                             style: TextStyle(
                               color: kDartTextColor,
@@ -139,7 +139,7 @@ class ShowAllGuidesCard extends StatelessWidget {
                         SizedBox(
                           width: 90.w,
                           child: Text(
-                            employe.jawNo,
+                            employe.employee!.fJawNo,
                             textAlign: TextAlign.start,
                             style: TextStyle(
                               color: kDartTextColor,
@@ -151,7 +151,7 @@ class ShowAllGuidesCard extends StatelessWidget {
                         SizedBox(
                           width: 120.w,
                           child: Text(
-                            employe.email,
+                            employe.employee!.fEmail,
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               color: kDartTextColor,

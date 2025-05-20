@@ -52,26 +52,6 @@ class HomeSeasonModel {
   final String fHajDateFromM;
   final String fHajDateToM;
 
-  // Map<String, dynamic> toJson() {
-  //   return {
-  //     'fLastUpdate': fLastUpdate.toIso8601String(),
-  //     'fLastUpdateUser': fLastUpdateUser,
-  //     'fLastUpdateSum': fLastUpdateSum,
-  //     'fLastUpdateOper': fLastUpdateOper,
-  //     'fSeasonId': fSeasonId,
-  //     'fSeasonName': fSeasonName,
-  //     'fSeasonNameE': fSeasonNameE,
-  //     'fSeasonDateFromH': fSeasonDateFromH,
-  //     'fSeasonDateToH': fSeasonDateToH,
-  //     'fSeasonDateFromM': fSeasonDateFromM,
-  //     'fSeasonDateToM': fSeasonDateToM,
-  //     'fHajDateFromH': fHajDateFromH,
-  //     'fHajDateToH': fHajDateToH,
-  //     'fHajDateFromM': fHajDateFromM,
-  //     'fHajDateToM': fHajDateToM,
-  //   };
-  // }
-
   @override
   String toString() {
     return 'SeasonModel(fSeasonId: $fSeasonId, fSeasonName: $fSeasonName)';

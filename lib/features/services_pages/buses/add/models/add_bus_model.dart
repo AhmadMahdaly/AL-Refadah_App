@@ -1,5 +1,6 @@
 class AddBusModel {
   AddBusModel({
+    required this.fAdditionUser,
     required this.fCompanyId,
     required this.fSeasonId,
     required this.fCenterNo,
@@ -27,6 +28,7 @@ class AddBusModel {
   final String fBusNote;
   final String fBusIdTrip;
   final String fBusId;
+  final String fAdditionUser;
 
   Map<String, dynamic> toJson() => {
     'fCompanyId': fCompanyId,
@@ -45,7 +47,7 @@ class AddBusModel {
     'fLastUpdateSum': 0,
     'fLastUpdateOper': 0,
     'fAdditionDate': DateTime.now().toIso8601String(),
-    'fAdditionUser': 0,
+    'fAdditionUser': fAdditionUser,
     'fReceiptDate': DateTime.now().toIso8601String(),
     'fReceiptUser': 0,
     'fBusId': fBusId,

@@ -1,3 +1,4 @@
+import 'package:alrefadah/features/services_pages/guides/main/models/by_criteria/assignment_model.dart';
 import 'package:alrefadah/features/services_pages/guides/main/models/get_centers_model.dart';
 import 'package:alrefadah/features/services_pages/guides/main/models/get_guide_model.dart';
 import 'package:alrefadah/features/services_pages/guides/main/models/get_seasons_model.dart';
@@ -12,6 +13,8 @@ class GuidesState {
     this.isEditGuidesSuccess = false,
     this.isLoadingEditGuides = false,
     this.isLoadingGetByCriteria = false,
+    this.isLoadingdeleteGuide = false,
+    this.isdeleteGuidesSuccess = false,
     this.centers = const [],
     this.seasons = const [],
     this.guides = const [],
@@ -26,11 +29,14 @@ class GuidesState {
   final bool isLoadingGetByCriteria;
   final bool isAddGuidesSuccess;
   final bool isEditGuidesSuccess;
+  final bool isLoadingdeleteGuide;
+  final bool isdeleteGuidesSuccess;
   final List<GetGuidesCenterModel> centers;
   final List<GetGuidesSeasonsModel> seasons;
   final List<GetGuidesModel> guides;
-  final List<GetGuidesModel> guidesByCriteria;
+  final List<AssignmentModel> guidesByCriteria;
   final String? error;
+
   GuidesState copyWith({
     bool? isLoadingCenters,
     bool? isLoadingSeasons,
@@ -40,10 +46,12 @@ class GuidesState {
     bool? isLoadingGetByCriteria,
     bool? isAddGuidesSuccess,
     bool? isEditGuidesSuccess,
+    bool? isLoadingdeleteGuide,
+    bool? isdeleteGuidesSuccess,
     List<GetGuidesCenterModel>? centers,
     List<GetGuidesSeasonsModel>? seasons,
     List<GetGuidesModel>? guides,
-    List<GetGuidesModel>? guidesByCriteria,
+    List<AssignmentModel>? guidesByCriteria,
     String? error,
   }) {
     return GuidesState(
@@ -61,6 +69,9 @@ class GuidesState {
       guides: guides ?? this.guides,
       guidesByCriteria: guidesByCriteria ?? this.guidesByCriteria,
       error: error ?? this.error,
+      isLoadingdeleteGuide: isLoadingdeleteGuide ?? this.isLoadingdeleteGuide,
+      isdeleteGuidesSuccess:
+          isdeleteGuidesSuccess ?? this.isdeleteGuidesSuccess,
     );
   }
 }

@@ -4,14 +4,21 @@ import 'package:alrefadah/core/utils/components/text_fields/custom_number_textfi
 import 'package:alrefadah/core/utils/components/text_fields/textfield_border_radius.dart';
 import 'package:alrefadah/features/services_pages/buses/add/cubit/add_bus_cubit.dart';
 import 'package:alrefadah/features/services_pages/buses/add/models/add_bus_form_data.dart';
+import 'package:alrefadah/features/services_pages/buses/add/widgets/dropdowns/transports_dropdown.dart';
 import 'package:alrefadah/features/services_pages/buses/main/models/buses_get_all_transports_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AddBusDetailsCard extends StatefulWidget {
-  const AddBusDetailsCard({required this.index, super.key});
+  const AddBusDetailsCard({
+    required this.index,
+    required this.formKey,
+    super.key,
+  });
   final int index;
+  final GlobalKey<FormState> formKey;
+
   @override
   State<AddBusDetailsCard> createState() => _AddBusDetailsCardState();
 }
@@ -29,8 +36,6 @@ class _AddBusDetailsCardState extends State<AddBusDetailsCard> {
 
   @override
   Widget build(BuildContext context) {
-    final state = context.watch<AddBusCubit>().state;
-    final transports = state.transports;
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16.w),
       width: MediaQuery.of(context).size.width,
@@ -50,74 +55,42 @@ class _AddBusDetailsCardState extends State<AddBusDetailsCard> {
           ),
         ],
       ),
-      child: Column(
-        spacing: 10.h,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              IconButton(
-                icon: const Icon(Icons.delete, color: Colors.red),
-                onPressed: () {
-                  context.read<AddBusCubit>().removeBusForm(widget.index);
-                },
-              ),
-            ],
-          ),
-          DropdownButtonFormField<BusesGetAllTransportsModel>(
-            borderRadius: BorderRadius.circular(10.r),
-            isExpanded: true,
-            dropdownColor: kScaffoldBackgroundColor,
 
-            decoration: InputDecoration(
-              label: Text(
-                'الشركة الناقلة',
-                style: TextStyle(
-                  fontSize: 13.sp,
-                  color: const Color(0xFFA2A2A2),
-                  fontWeight: FontWeight.w300,
+      /// card form
+      child: Form(
+        key: widget.formKey,
+        child: Column(
+          spacing: 14.h,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                /// delete button
+                IconButton(
+                  icon: Icon(Icons.delete, color: Colors.red, size: 20.sp),
+                  onPressed: () {
+                    context.read<AddBusCubit>().removeBusForm(widget.index);
+                  },
                 ),
-              ),
-              fillColor: kScaffoldBackgroundColor,
-              filled: true,
-              border: textfieldBorderRadius(kMainColorLightColor),
-              focusedBorder: textfieldBorderRadius(kMainColorLightColor),
-              enabledBorder: textfieldBorderRadius(kMainColorLightColor),
-              focusedErrorBorder: textfieldBorderRadius(Colors.red),
+              ],
             ),
-            icon: const Icon(
-              Icons.keyboard_arrow_down_rounded,
-              color: kMainColor,
-            ),
-            style: TextStyle(
-              color: kMainColor,
-              fontSize: 15.sp,
-              fontFamily: 'GE SS Two',
-              fontWeight: FontWeight.w300,
-              height: 1.43.h,
-            ),
-            items:
-                transports.map((trans) {
-                  return DropdownMenuItem(
-                    value: trans,
-                    child: Text(trans.fTransportName),
-                  );
-                }).toList(),
-            onChanged: (value) {
-              setState(() {
-                selectedTransport = value;
-                form.selectedTransport = value;
-              });
-            },
-            value: selectedTransport,
-          ),
-          SizedBox(
-            height: 55.h,
-            child: Row(
+
+            /// transport dropdown
+            TransportsDropdown(form: form),
+
+            /// BusNo & Pilgrims qty
+            Row(
               spacing: 12.w,
               children: [
+                /// BusNo
                 Expanded(
                   child: CustomNumberTextformfield(
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'الرجاء إدخال رقم الحافلة';
+                      }
+                      return null;
+                    },
                     maxLength: 8,
                     controller: form.busNoController,
                     onChanged: (String value) {
@@ -126,8 +99,16 @@ class _AddBusDetailsCardState extends State<AddBusDetailsCard> {
                     labelText: 'رقم الحافلة',
                   ),
                 ),
+
+                /// Pilgrims qty
                 Expanded(
                   child: CustomNumberTextformfield(
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'الرجاء إدخال عدد الحجاج';
+                      }
+                      return null;
+                    },
                     maxLength: 4,
                     controller: form.pilgrimsQtyController,
                     labelText: 'عدد الحجاج',
@@ -135,19 +116,27 @@ class _AddBusDetailsCardState extends State<AddBusDetailsCard> {
                 ),
               ],
             ),
-          ),
-          SizedBox(
-            height: 55.h,
-            child: Row(
+
+            /// Trips times & bus status
+            Row(
               spacing: 12.w,
               children: [
+                /// Trips times
                 Expanded(
                   child: CustomNumberTextformfield(
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'الرجاء إدخال عدد الردود';
+                      }
+                      return null;
+                    },
                     maxLength: 3,
                     controller: form.tripsQtyController,
                     labelText: 'عدد الردود',
                   ),
                 ),
+
+                /// bus status
                 Expanded(
                   child: DropdownButtonFormField<String>(
                     borderRadius: BorderRadius.circular(10.r),
@@ -190,36 +179,38 @@ class _AddBusDetailsCardState extends State<AddBusDetailsCard> {
                 ),
               ],
             ),
-          ),
-          TextFormField(
-            keyboardType: TextInputType.text,
-            style: TextStyle(
-              fontSize: 15.sp,
-              color: const Color(0xFF494949),
-              fontWeight: FontWeight.w300,
-              fontFamily: 'FF Shamel Family',
-            ),
-            cursorWidth: 1.sp,
-            cursorColor: kMainColor,
-            minLines: 1,
-            maxLines: 2,
-            controller: form.notesController,
-            autovalidateMode: AutovalidateMode.onUnfocus,
-            decoration: InputDecoration(
-              labelText: 'الملاحظات',
-              labelStyle: TextStyle(
-                fontSize: 13.sp,
-                color: const Color(0xFFA2A2A2),
+
+            /// Notes
+            TextFormField(
+              keyboardType: TextInputType.text,
+              style: TextStyle(
+                fontSize: 15.sp,
+                color: const Color(0xFF494949),
                 fontWeight: FontWeight.w300,
+                fontFamily: 'FF Shamel Family',
               ),
-              border: textfieldBorderRadius(const Color(0xFFD6D6D6)),
-              focusedBorder: textfieldBorderRadius(kMainColor),
-              enabledBorder: textfieldBorderRadius(const Color(0xFFD6D6D6)),
-              focusedErrorBorder: textfieldBorderRadius(Colors.red),
+              cursorWidth: 1.sp,
+              cursorColor: kMainColor,
+              minLines: 1,
+              maxLines: 2,
+              controller: form.notesController,
+              autovalidateMode: AutovalidateMode.onUnfocus,
+              decoration: InputDecoration(
+                labelText: 'الملاحظات',
+                labelStyle: TextStyle(
+                  fontSize: 13.sp,
+                  color: const Color(0xFFA2A2A2),
+                  fontWeight: FontWeight.w300,
+                ),
+                border: textfieldBorderRadius(const Color(0xFFD6D6D6)),
+                focusedBorder: textfieldBorderRadius(kMainColor),
+                enabledBorder: textfieldBorderRadius(const Color(0xFFD6D6D6)),
+                focusedErrorBorder: textfieldBorderRadius(Colors.red),
+              ),
             ),
-          ),
-          H(h: 10.w),
-        ],
+            H(h: 10.w),
+          ],
+        ),
       ),
     );
   }

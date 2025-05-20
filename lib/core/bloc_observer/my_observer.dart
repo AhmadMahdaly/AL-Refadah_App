@@ -10,7 +10,7 @@ class MyObserver implements BlocObserver {
 
   @override
   void onClose(BlocBase bloc) {
-    log('onClose: $bloc');
+    // log('onClose: $bloc');
   }
 
   @override
@@ -20,7 +20,7 @@ class MyObserver implements BlocObserver {
 
   @override
   void onError(BlocBase bloc, Object error, StackTrace stackTrace) {
-    log('onError: $error');
+    // log('onError: $error');
   }
 
   @override

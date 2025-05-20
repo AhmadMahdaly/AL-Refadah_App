@@ -1,13 +1,22 @@
-// import 'package:easy_localization/easy_localization.dart';
-import 'package:alrefadah/core/themes/colors_constants.dart';
+import 'package:alrefadah/core/utils/components/custom_loading_indicator.dart';
 import 'package:alrefadah/core/utils/components/space.dart';
 import 'package:alrefadah/core/utils/components/text_fields/custom_text_field_with_label.dart';
-import 'package:alrefadah/features/services_pages/buses_travel/add/models/bus_travel_trip_model_by_stage_model.dart';
+import 'package:alrefadah/core/widgets/leading_icon.dart';
+import 'package:alrefadah/core/widgets/title_appbar.dart';
+import 'package:alrefadah/features/services_pages/buses/main/cubit/buses_cubit.dart';
+import 'package:alrefadah/features/services_pages/buses/main/cubit/buses_states.dart';
+import 'package:alrefadah/features/services_pages/buses/main/models/get_all_buses_model.dart';
+import 'package:alrefadah/features/services_pages/buses_travel/add/models/track_model.dart';
+import 'package:alrefadah/features/services_pages/buses_travel/add/models/trip_model.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/main/cubit/bus_travel_cubit.dart';
+import 'package:alrefadah/features/services_pages/buses_travel/main/cubit/bus_travel_state.dart';
+import 'package:alrefadah/features/services_pages/guides/main/cubit/guides_cubit.dart';
+import 'package:alrefadah/features/services_pages/guides/main/cubit/guides_states.dart';
+import 'package:alrefadah/features/services_pages/guides/main/models/by_criteria/assignment_model.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:intl/intl.dart';
 
 class ShowBusTravelTrip extends StatefulWidget {
   const ShowBusTravelTrip({required this.trip, super.key});
@@ -22,174 +31,200 @@ class _ShowBusTravelTripState extends State<ShowBusTravelTrip> {
   @override
   void initState() {
     super.initState();
-    initControllers();
+    initData();
   }
 
-  void initControllers() {
-    stageNameController.text = context.read<BusTravelCubit>().getStageName(
-      widget.trip.fStageNo,
+  Future<void> initData() async {
+    await Future.wait([
+      context.read<BusTravelCubit>().getTripsByStage(
+        widget.trip.fCenterNo,
+        widget.trip.fStageNo,
+      ),
+      context.read<BusTravelCubit>().getTrackTrip(),
+      context.read<GuidesCubit>().getGuideByCriteria(widget.trip.fCenterNo),
+      context.read<BusesCubit>().getAllBuses(),
+    ]);
+    final trackStates = context.read<BusTravelCubit>().state;
+
+    trackTrip =
+        trackStates.track.where((track) {
+          final trackName = track.fTrackName;
+          return trackName != null && trackName.isNotEmpty;
+        }).toList();
+    selectedTrack = trackTrip.firstWhere(
+      (track) => track.fTrackNo == widget.trip.fTrackNo,
+      orElse: TrackModel.new,
     );
-    centerNoController.text = widget.trip.fCenterNo;
-    seasonIdController.text = widget.trip.fSeasonId;
-    tripStatusController.text = 'لدى الإنطلاق';
-    pilgrimsAcoController.text = widget.trip.fPilgrimsAco;
-    tripNoController.text = widget.trip.fTripNo;
-    tripTimeController.text = DateFormat(
-      'hh:mm a', // صيغة 12 ساعة مع AM/PM
-    ).format(DateTime.parse(widget.trip.fTripTime));
 
-    dateController.text = widget.trip.fTripDate.padLeft(8, '0');
-    busNoController.text = widget.trip.fBusId;
-    companyNoController.text = widget.trip.company.fCompanyName;
+    final busesState = context.read<BusesCubit>().state;
+    busesList =
+        busesState.allBuses.where((bus) {
+          final fBusNo = bus.fBusNo;
+          return fBusNo != null && fBusNo.isNotEmpty;
+        }).toList();
+
+    selectedBus = busesList.firstWhereOrNull(
+      (bus) => bus.fBusNo == widget.trip.fBus.fBusNo,
+    );
+
+    ///
+    final guidesState = context.read<GuidesCubit>().state;
+    guidesList =
+        guidesState.guidesByCriteria
+            .where((emp) => emp.employee?.fEmpName.isNotEmpty ?? false)
+            .toList();
+    if (guidesState.isLoadingGetByCriteria && guidesList.isNotEmpty) {
+      selectedGuide = guidesList.firstWhereOrNull(
+        (guide) => guide.fEmpNo == widget.trip.fEmpNo,
+      );
+    }
   }
 
-  final pilgrimsAcoController = TextEditingController();
-  final tripNoController = TextEditingController();
-  final centerNoController = TextEditingController();
-  final seasonIdController = TextEditingController();
-  final tripTimeController = TextEditingController();
-  final tripStatusController = TextEditingController();
-  final stageNameController = TextEditingController();
-  final dateController = TextEditingController();
-  final busNoController = TextEditingController();
-  final companyNoController = TextEditingController();
-  @override
-  void dispose() {
-    tripNoController.dispose();
-    pilgrimsAcoController.dispose();
-    dateController.dispose();
-    centerNoController.dispose();
-    seasonIdController.dispose();
-    tripTimeController.dispose();
-    tripStatusController.dispose();
-    stageNameController.dispose();
-    busNoController.dispose();
-    companyNoController.dispose();
-    super.dispose();
-  }
-
+  TrackModel? selectedTrack;
+  List<TrackModel> trackTrip = [];
+  GetAllBusesModel? selectedBus;
+  List<GetAllBusesModel> busesList = [];
+  AssignmentModel? selectedGuide;
+  List<AssignmentModel> guidesList = [];
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'رحلة: ${widget.trip.fTripNo}',
-          style: TextStyle(
-            color: kMainColor,
-            fontSize: 18.sp,
-            fontWeight: FontWeight.w700,
-            height: 1.20.h,
-          ),
-        ),
-
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new),
-          onPressed: () => Navigator.pop(context),
-        ),
-      ),
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16.w),
-        child: Column(
-          spacing: 16.h,
-          children: [
-            const H(h: 0),
-            Row(
-              spacing: 12.w,
-              children: [
-                Expanded(
-                  child: CustomTextFieldWithLabel(
-                    controller: seasonIdController,
-                    text: 'موسم',
-                    readOnly: true,
-                    enabled: false,
+    return BlocBuilder<BusTravelCubit, BusesTravelState>(
+      builder: (context, state) {
+        final busTravelState = context.read<BusTravelCubit>().state;
+        return BlocBuilder<BusesCubit, BusesState>(
+          builder: (context, state) {
+            final busesState = context.read<BusesCubit>().state;
+            return BlocBuilder<GuidesCubit, GuidesState>(
+              builder: (context, state) {
+                return Scaffold(
+                  appBar: AppBar(
+                    leading: const LeadingIcon(),
+                    title: TitleAppBar(title: 'رحلة: ${widget.trip.fTripNo}'),
                   ),
-                ),
-                Expanded(
-                  child: CustomTextFieldWithLabel(
-                    controller: centerNoController,
-                    text: 'مركز',
-                    readOnly: true,
-                    enabled: false,
-                  ),
-                ),
-              ],
-            ),
+                  body:
+                      busTravelState.isAddingTripByStage ||
+                              busTravelState.isLoadingTripsByStage ||
+                              busesState.isLoadingAllBuses
+                          ? const AppIndicator()
+                          : Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 16.w),
+                            child: Column(
+                              spacing: 16.h,
+                              children: [
+                                const H(h: 0),
+                                Row(
+                                  spacing: 12.w,
+                                  children: [
+                                    Expanded(
+                                      child: CustomTextFieldWithLabel(
+                                        controller: TextEditingController(
+                                          text: widget.trip.fSeasonId,
+                                        ),
+                                        text: 'الموسم',
+                                        readOnly: true,
+                                        enabled: false,
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: CustomTextFieldWithLabel(
+                                        controller: TextEditingController(
+                                          text: widget.trip.fCenterNo,
+                                        ),
+                                        text: 'المركز',
+                                        readOnly: true,
+                                        enabled: false,
+                                      ),
+                                    ),
+                                  ],
+                                ),
 
-            CustomTextFieldWithLabel(
-              readOnly: true,
-              controller: stageNameController,
-              text: 'المرحلة',
-              enabled: false,
-            ),
-            CustomTextFieldWithLabel(
-              readOnly: true,
-              controller: companyNoController,
+                                CustomTextFieldWithLabel(
+                                  readOnly: true,
+                                  controller: TextEditingController(
+                                    text: context
+                                        .read<BusTravelCubit>()
+                                        .getStageName(widget.trip.fStageNo),
+                                  ),
+                                  text: 'المرحلة',
+                                  enabled: false,
+                                ),
+                                CustomTextFieldWithLabel(
+                                  readOnly: true,
+                                  text: 'رقم الحافلة',
+                                  controller: TextEditingController(
+                                    text: widget.trip.fBusId,
+                                  ),
+                                  enabled: false,
+                                ),
+                                CustomTextFieldWithLabel(
+                                  readOnly: true,
+                                  controller: TextEditingController(
+                                    text:
+                                        widget
+                                            .trip
+                                            .fBus
+                                            .transport
+                                            ?.fTransportName,
+                                  ),
+                                  text: 'الشركة الناقلة',
+                                  enabled: false,
+                                ),
+                                Row(
+                                  spacing: 12.w,
+                                  children: [
+                                    Expanded(
+                                      child: CustomTextFieldWithLabel(
+                                        enabled: false,
+                                        readOnly: true,
+                                        text: 'أمر التشغيل',
+                                        controller: TextEditingController(
+                                          text: widget.trip.fBus.fOperatingNo,
+                                        ),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: CustomTextFieldWithLabel(
+                                        enabled: false,
+                                        readOnly: true,
+                                        text: 'عدد الحجاج',
+                                        controller: TextEditingController(
+                                          text: widget.trip.fPilgrimsAco,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
 
-              text: 'الشركة الناقلة',
-              enabled: false,
-            ),
-
-            Row(
-              spacing: 12.w,
-              children: [
-                Expanded(
-                  child: CustomTextFieldWithLabel(
-                    readOnly: true,
-                    controller: tripNoController,
-                    text: 'رقم الرحلة',
-                    enabled: false,
-                  ),
-                ),
-                Expanded(
-                  child: CustomTextFieldWithLabel(
-                    readOnly: true,
-                    text: 'رقم الحافلة',
-                    controller: busNoController,
-                    enabled: false,
-                  ),
-                ),
-              ],
-            ),
-
-            Row(
-              spacing: 12.w,
-              children: [
-                Expanded(
-                  child: CustomTextFieldWithLabel(
-                    enabled: false,
-                    readOnly: true,
-                    controller: dateController,
-                    text: 'تاريخ الرحلة',
-                    passwordIcon: const Icon(Icons.calendar_today),
-                  ),
-                ),
-                Expanded(
-                  child: CustomTextFieldWithLabel(
-                    enabled: false,
-                    readOnly: true,
-                    controller: tripTimeController,
-                    text: 'وقت الرحلة',
-                    passwordIcon: const Icon(Icons.access_time),
-                  ),
-                ),
-              ],
-            ),
-            CustomTextFieldWithLabel(
-              enabled: false,
-              readOnly: true,
-              text: 'عدد الحجاج',
-              controller: pilgrimsAcoController,
-            ),
-
-            CustomTextFieldWithLabel(
-              enabled: false,
-              text: 'حالة الرحلة',
-              controller: tripStatusController,
-            ),
-            const H(h: 40),
-          ],
-        ),
-      ),
+                                CustomTextFieldWithLabel(
+                                  enabled: false,
+                                  text: 'المسار',
+                                  controller: TextEditingController(
+                                    text:
+                                        trackTrip.contains(selectedTrack)
+                                            ? selectedTrack?.fTrackName
+                                            : 'لم يتم تحديد مسار',
+                                  ),
+                                ),
+                                CustomTextFieldWithLabel(
+                                  enabled: false,
+                                  text: 'المرشد',
+                                  controller: TextEditingController(
+                                    text:
+                                        guidesList.contains(selectedGuide)
+                                            ? selectedGuide!.employee?.fEmpName
+                                            : 'لم يتم اختيار مرشد',
+                                  ),
+                                ),
+                                const H(h: 40),
+                              ],
+                            ),
+                          ),
+                );
+              },
+            );
+          },
+        );
+      },
     );
   }
 }

@@ -19,13 +19,13 @@ class _WelcomeToUserState extends State<WelcomeToUser> {
   }
 
   Future<void> init() async {
-    phoneNo = await CacheHelper.getData(key: 'phoneNo');
+    fUserName = await CacheHelper.getData(key: 'fUserName');
     if (mounted) {
       setState(() {});
     }
   }
 
-  String? phoneNo;
+  String? fUserName;
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -38,9 +38,9 @@ class _WelcomeToUserState extends State<WelcomeToUser> {
             color: Colors.white,
             borderRadius: BorderRadius.circular(320.r),
           ),
-          child: Image.asset('assets/images/user.jpg', fit: BoxFit.cover),
+          child: const Icon(Icons.person, color: kMainColor),
         ),
-        W(w: 10.w),
+        W(w: 12.w),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -57,7 +57,7 @@ class _WelcomeToUserState extends State<WelcomeToUser> {
             SizedBox(
               height: 16.h,
               child: Text(
-                phoneNo ?? '',
+                fUserName ?? '',
                 style: TextStyle(
                   color: kTextColor,
                   fontSize: 14.sp,

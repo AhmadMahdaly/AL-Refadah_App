@@ -6,12 +6,12 @@ class AddBusFormData {
   final TextEditingController _pilgrimsQtyController = TextEditingController();
   final TextEditingController _tripsQtyController = TextEditingController();
   final TextEditingController _notesController = TextEditingController();
-
+  final GlobalKey<FormState> _formKey = GlobalKey();
   TextEditingController get busNoController => _busNoController;
   TextEditingController get pilgrimsQtyController => _pilgrimsQtyController;
   TextEditingController get tripsQtyController => _tripsQtyController;
   TextEditingController get notesController => _notesController;
-
+  GlobalKey<FormState> get formKey => _formKey;
   void dispose() {
     _busNoController.dispose();
     _pilgrimsQtyController.dispose();
@@ -20,7 +20,7 @@ class AddBusFormData {
   }
 
   BusesGetAllTransportsModel? selectedTransport;
-  String pilgrimsCount = '';
-  String tripsCount = '';
+  String? pilgrimsCount;
+  String? tripsCount;
   String note = '';
 }

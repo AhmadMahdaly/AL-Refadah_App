@@ -24,36 +24,51 @@ class ShowTransferStageHeadTitle extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            'المرحلة',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 14.sp,
-              fontWeight: FontWeight.w800,
+          /// المرحلة
+          SizedBox(
+            child: Text(
+              'المرحلة',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w800,
+              ),
             ),
           ),
-          Text(
-            'الحجاج',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 14.sp,
-              fontWeight: FontWeight.w800,
+
+          /// الحجاج
+          SizedBox(
+            child: Text(
+              'الحجاج',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w800,
+              ),
             ),
           ),
-          Text(
-            'الحافلات',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 14.sp,
-              fontWeight: FontWeight.w800,
+
+          /// الحافلات
+          SizedBox(
+            child: Text(
+              'الحافلات',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w800,
+              ),
             ),
           ),
-          Text(
-            'الردود',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 14.sp,
-              fontWeight: FontWeight.w800,
+
+          /// الردود
+          SizedBox(
+            child: Text(
+              'الردود',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w800,
+              ),
             ),
           ),
         ],

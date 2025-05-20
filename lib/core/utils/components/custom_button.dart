@@ -5,12 +5,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class CustomButton extends StatelessWidget {
   const CustomButton({
     required this.text,
+
     this.onTap,
     super.key,
     this.padding = 0,
   });
 
   final String text;
+
   final void Function()? onTap;
   final int padding;
   @override

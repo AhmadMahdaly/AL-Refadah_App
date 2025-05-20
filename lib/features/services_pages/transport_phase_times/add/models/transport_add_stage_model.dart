@@ -12,22 +12,6 @@ class AddTransportStageModel {
     required this.fBusesAco,
     required this.fTripsAco,
   });
-
-  factory AddTransportStageModel.fromJson(Map<String, dynamic> json) {
-    return AddTransportStageModel(
-      fLastUpdate: DateTime.parse(json['fLastUpdate'].toString()),
-      fLastUpdateUser: json['fLastUpdateUser'] as int,
-      fLastUpdateSum: json['fLastUpdateSum'] as int,
-      fLastUpdateOper: json['fLastUpdateOper'] as int,
-      fCompanyId: json['fCompanyId'] as int,
-      fSeasonId: json['fSeasonId'] as int,
-      fCenterNo: json['fCenterNo'] as int,
-      fStageNo: json['fStageNo'] as int,
-      fPilgrimsAco: json['fPilgrimsAco'] as int,
-      fBusesAco: json['fBusesAco'] as int,
-      fTripsAco: json['fTripsAco'] as int,
-    );
-  }
   final DateTime fLastUpdate;
   final int fLastUpdateUser;
   final int fLastUpdateSum;

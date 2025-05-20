@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:alrefadah/features/services_pages/oprating_commands/main/cubit/oprating_command_states.dart';
 import 'package:alrefadah/features/services_pages/oprating_commands/main/models/add_transport_operating_model.dart';
 import 'package:alrefadah/features/services_pages/oprating_commands/main/models/get_all_operatings_model.dart';
@@ -75,6 +77,50 @@ class OpratingCommandsCubit extends Cubit<OperatingCommandState> {
       );
     } catch (e) {
       emit(state.copyWith(isLoadingEditOperating: false, error: 'حدث خطأ'));
+    }
+  }
+
+  Future<void> deleteOperating(String centerNo, String operNo) async {
+    emit(
+      state.copyWith(
+        isLoadingDeleteOperating: true,
+        isSuccessDeleteOperating: false,
+        showDeleteErrorDialog: false,
+      ),
+    );
+    try {
+      final statusCode = await repository.deleteOperating(
+        selectedSeasonId!,
+        centerNo,
+        operNo,
+      );
+
+      if (statusCode! >= 200 && statusCode < 300) {
+        emit(
+          state.copyWith(
+            isLoadingDeleteOperating: false,
+            isSuccessDeleteOperating: true,
+            showDeleteErrorDialog: false,
+          ),
+        );
+      } else {
+        emit(
+          state.copyWith(
+            isLoadingDeleteOperating: false,
+            showDeleteErrorDialog: true,
+            isSuccessDeleteOperating: false,
+          ),
+        );
+      }
+    } catch (e) {
+      log('Delete failed: $e');
+      emit(
+        state.copyWith(
+          isLoadingDeleteOperating: false,
+          showDeleteErrorDialog: true,
+          isSuccessDeleteOperating: false,
+        ),
+      );
     }
   }
 }

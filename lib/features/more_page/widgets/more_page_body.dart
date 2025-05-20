@@ -1,12 +1,18 @@
+import 'package:alrefadah/core/services/permissions_manager.dart';
 import 'package:alrefadah/core/themes/colors_constants.dart';
 import 'package:alrefadah/core/utils/components/custom_loading_indicator.dart';
 import 'package:alrefadah/core/utils/components/space.dart';
+import 'package:alrefadah/features/home_page/cubit/home_cubit.dart';
 import 'package:alrefadah/features/more_page/widgets/services_tab_widget.dart';
 import 'package:alrefadah/features/services_pages/buses/main/cubit/buses_cubit.dart';
 import 'package:alrefadah/features/services_pages/buses/main/cubit/buses_states.dart';
 import 'package:alrefadah/features/services_pages/buses/main/screens/buses_page.dart';
+import 'package:alrefadah/features/services_pages/buses_travel/approval/views/approval_main.dart';
+import 'package:alrefadah/features/services_pages/buses_travel/incoming/views/incoming_main.dart';
+import 'package:alrefadah/features/services_pages/buses_travel/launch/views/launch_main.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/main/cubit/bus_travel_cubit.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/main/screens/buses_travel_page.dart';
+import 'package:alrefadah/features/services_pages/complaint/views/all_complaint_page.dart';
 import 'package:alrefadah/features/services_pages/guides/main/screens/guides_page.dart';
 import 'package:alrefadah/features/services_pages/oprating_commands/main/cubit/oprating_command_cubit.dart';
 import 'package:alrefadah/features/services_pages/oprating_commands/main/screens/oprating_command_page.dart';
@@ -25,18 +31,29 @@ class MorePageBody extends StatefulWidget {
 }
 
 class _MorePageBodyState extends State<MorePageBody> {
+  /// init
   @override
   void initState() {
+    super.initState();
     initBusesData();
     initBusTravelData();
     initOpratingCommandData();
-    super.initState();
+    _checkPermissions();
   }
 
+  /// get permissions
+  Future<void> _checkPermissions() async {
+    fPermNo = context.read<HomeCubit>().fPermNo;
+  }
+
+  int? fPermNo;
+
+  ///
   void initBusTravelData() {
     final busTravelSeasonsCubit = BlocProvider.of<BusTravelCubit>(context)
       ..getSeasons();
     busTravelSeasonsCubit.stream.listen((state) {
+      if (!mounted) return;
       if (state.seasons != null) {
         final sessions = state.seasons.map((e) => e.fSeasonId.toString());
         if (sessions.isNotEmpty) {
@@ -47,6 +64,7 @@ class _MorePageBodyState extends State<MorePageBody> {
     final busTravelCentersCubit = BlocProvider.of<BusTravelCubit>(context)
       ..getCenters();
     busTravelCentersCubit.stream.listen((state) {
+      if (!mounted) return;
       if (state.centers != null) {
         final centers = state.centers.map((e) => e.fCenterNo.toString());
         if (centers.isNotEmpty) {
@@ -54,26 +72,26 @@ class _MorePageBodyState extends State<MorePageBody> {
         }
       }
     });
-    context.read<BusTravelCubit>().getTrips();
   }
 
   void initBusesData() {
     final busesCubit = BlocProvider.of<BusesCubit>(context)..getSeasons();
     busesCubit.stream.listen((state) {
+      if (!mounted) return;
       if (state.seasons != null) {
-        final sessions = state.seasons.map((e) => e.fSeasonId.toString());
+        final sessions = state.seasons.map((e) => e.fSeasonId);
         if (sessions.isNotEmpty) {
           busesCubit.selectedSeason = sessions.last;
         }
       }
     });
-
     context.read<BusesCubit>().getAllBuses();
   }
 
   void initOpratingCommandData() {
     final cubit = BlocProvider.of<OpratingCommandsCubit>(context)..getSeasons();
     cubit.stream.listen((state) {
+      if (!mounted) return;
       if (state.seasons != null) {
         final sessions = state.seasons.map((e) => e.fSeasonId.toString());
         if (sessions.isNotEmpty) {
@@ -94,119 +112,224 @@ class _MorePageBodyState extends State<MorePageBody> {
           padding: EdgeInsets.all(16.sp),
           child: SingleChildScrollView(
             child: Column(
-              spacing: 12.h,
+              spacing: 14.h,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  'خدمات النقل',
-                  style: TextStyle(
-                    color: kMainColor,
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w500,
-                    height: 1.25.h,
+                /// Title
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    'خدمات النقل',
+                    style: TextStyle(
+                      color: kMainColor,
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w500,
+                      height: 1.25.h,
+                    ),
                   ),
                 ),
                 const H(h: 5),
-                ServicesTabWidget(
-                  icon: SvgPicture.asset(
-                    'assets/svg/place_location.svg',
-                    colorFilter: const ColorFilter.mode(
-                      kMainColor,
-                      BlendMode.srcIn,
-                    ),
-                  ),
-                  text: 'مراحل النقل',
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const StagePage(),
-                      ),
-                    );
-                  },
-                ),
-                ServicesTabWidget(
-                  icon: const Icon(Icons.menu, color: kMainColor),
-                  text: 'حصص مراحل النقل',
-                  onTap:
-                      () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const TransferStagePage(),
-                        ),
-                      ),
-                ),
-                ServicesTabWidget(
-                  icon: SvgPicture.asset(
-                    'assets/svg/driver-outline.svg',
-                    colorFilter: const ColorFilter.mode(
-                      kMainColor,
-                      BlendMode.srcIn,
-                    ),
-                  ),
-                  text: 'المرشدين',
 
-                  onTap:
-                      () => Navigator.push(
+                /// Pages
+                /// مراحل النقل
+                if (fPermNo == PermNo.transMan || fPermNo == PermNo.systemMan)
+                  ServicesTabWidget(
+                    icon: SvgPicture.asset(
+                      'assets/svg/place_location.svg',
+                      width: 20.sp,
+                      colorFilter: const ColorFilter.mode(
+                        kMainColor,
+                        BlendMode.srcIn,
+                      ),
+                    ),
+                    text: 'مراحل النقل',
+                    onTap: () {
+                      Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const GuidesPage(),
+                          builder: (context) => const StagePage(),
                         ),
-                      ),
-                ),
-                ServicesTabWidget(
-                  icon: SvgPicture.asset(
-                    'assets/svg/Document.svg',
-                    colorFilter: const ColorFilter.mode(
-                      kMainColor,
-                      BlendMode.srcIn,
-                    ),
+                      );
+                    },
                   ),
-                  text: 'أوامر التشغيل',
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const OprationgCommandPage(),
-                      ),
-                    );
-                  },
-                ),
-                ServicesTabWidget(
-                  icon: SvgPicture.asset(
-                    'assets/svg/ion_bus-outline.svg',
-                    colorFilter: const ColorFilter.mode(
-                      kMainColor,
-                      BlendMode.srcIn,
-                    ),
+
+                /// حصص مراحل النقل
+                if (fPermNo == PermNo.transMan || fPermNo == PermNo.systemMan)
+                  ServicesTabWidget(
+                    icon: const Icon(Icons.menu, color: kMainColor),
+                    text: 'حصص مراحل النقل',
+                    onTap:
+                        () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const TransferStagePage(),
+                          ),
+                        ),
                   ),
-                  text: 'الحافلات',
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const BusesPage(),
+
+                /// المرشدين
+                if (fPermNo == PermNo.transMan || fPermNo == PermNo.systemMan)
+                  ServicesTabWidget(
+                    icon: SvgPicture.asset(
+                      'assets/svg/driver-outline.svg',
+                      width: 20.sp,
+                      colorFilter: const ColorFilter.mode(
+                        kMainColor,
+                        BlendMode.srcIn,
                       ),
-                    );
-                  },
-                ),
-                ServicesTabWidget(
-                  icon: SvgPicture.asset(
-                    'assets/svg/refresh_02.svg',
-                    colorFilter: const ColorFilter.mode(
-                      kMainColor,
-                      BlendMode.srcIn,
                     ),
+                    text: 'المرشدين',
+
+                    onTap:
+                        () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const GuidesPage(),
+                          ),
+                        ),
                   ),
-                  text: 'حركة الحافلات',
-                  onTap:
-                      () => Navigator.push(
+
+                /// أوامر التشغيل
+                if (fPermNo == PermNo.transMan || fPermNo == PermNo.systemMan)
+                  ServicesTabWidget(
+                    icon: SvgPicture.asset(
+                      'assets/svg/Document.svg',
+                      width: 20.sp,
+                      colorFilter: const ColorFilter.mode(
+                        kMainColor,
+                        BlendMode.srcIn,
+                      ),
+                    ),
+                    text: 'أوامر التشغيل',
+                    onTap: () {
+                      Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const BusesMovesPage(),
+                          builder: (context) => const OprationgCommandPage(),
                         ),
+                      );
+                    },
+                  ),
+
+                /// الحافلات
+                if (fPermNo == PermNo.transMan || fPermNo == PermNo.systemMan)
+                  ServicesTabWidget(
+                    icon: const Icon(
+                      Icons.directions_bus_outlined,
+                      color: kMainColor,
+                    ),
+                    text: 'الحافلات',
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const BusesPage(),
+                        ),
+                      );
+                    },
+                  ),
+
+                /// حركة الحافلات
+                if (fPermNo == PermNo.transMan || fPermNo == PermNo.systemMan)
+                  ServicesTabWidget(
+                    icon: const Icon(
+                      Icons.autorenew_rounded,
+                      color: kMainColor,
+                    ),
+                    text: 'حركة الحافلات',
+                    onTap:
+                        () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const BusesMovesPage(),
+                          ),
+                        ),
+                  ),
+
+                /// إطلاق الحافلات
+                if (fPermNo == PermNo.transMan ||
+                    fPermNo == PermNo.systemMan ||
+                    fPermNo == PermNo.centerMember ||
+                    fPermNo == PermNo.storeWatcher)
+                  ServicesTabWidget(
+                    icon: Icon(Icons.logout, color: kMainColor, size: 20.sp),
+                    text: 'إطلاق الحافلات',
+                    onTap:
+                        () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const BusesTravelLaunchPage(),
+                          ),
+                        ),
+                  ),
+
+                /// الحافلات القادمة
+                if (fPermNo == PermNo.transMan ||
+                    fPermNo == PermNo.systemMan ||
+                    fPermNo == PermNo.trackWatcher ||
+                    fPermNo == PermNo.centerMember)
+                  ServicesTabWidget(
+                    icon: RotatedBox(
+                      quarterTurns: 2,
+                      child: Icon(
+                        Icons.login_outlined,
+                        size: 20.sp,
+                        color: kMainColor,
                       ),
-                ),
+                    ),
+                    text: 'الحافلات القادمة',
+                    onTap:
+                        () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const BusesTravelIncomePage(),
+                          ),
+                        ),
+                  ),
+
+                /// الحافلات الواصلة
+                if (fPermNo == PermNo.transMan ||
+                    fPermNo == PermNo.systemMan ||
+                    fPermNo == PermNo.centerMember ||
+                    fPermNo == PermNo.trackWatcher)
+                  ServicesTabWidget(
+                    icon: SvgPicture.asset(
+                      'assets/svg/map-marker.svg',
+                      width: 20.sp,
+                      colorFilter: const ColorFilter.mode(
+                        kMainColor,
+                        BlendMode.srcIn,
+                      ),
+                    ),
+                    text: 'الحافلات الواصلة',
+                    onTap:
+                        () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder:
+                                (context) => const BusesTravelApprovalPage(),
+                          ),
+                        ),
+                  ),
+
+                /// البلاغات
+                if (fPermNo == PermNo.transMan || fPermNo == PermNo.systemMan)
+                  ServicesTabWidget(
+                    icon: Icon(
+                      Icons.report_problem_outlined,
+                      size: 22.sp,
+                      color: kMainColor,
+                    ),
+                    text: 'البلاغات',
+                    onTap:
+                        () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const AllComplaintPage(),
+                          ),
+                        ),
+                  ),
+                const H(h: 20),
               ],
             ),
           ),

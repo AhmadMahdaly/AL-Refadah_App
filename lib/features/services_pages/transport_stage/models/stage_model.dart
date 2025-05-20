@@ -10,6 +10,7 @@ class StageModel {
     required this.fStageNameTo,
     required this.fStageDayNo,
     required this.fStageStatus,
+    required this.fStageTimeLimit,
     this.fStageNameE,
     this.fStageNameFromE,
     this.fStageNameToE,
@@ -30,25 +31,28 @@ class StageModel {
       fStageNameToE: json['fStageNameToE'].toString(),
       fStageDayNo: json['fStageDayNo'] as int,
       fStageStatus: json['fStageStatus'] as int,
+      fStageTimeLimit: json['fStageTimeLimit'] as int,
     );
   }
-  final DateTime fLastUpdate;
-  final int fLastUpdateUser;
-  final int fLastUpdateSum;
-  final int fLastUpdateOper;
-  final int fStageNo;
-  final String fStageName;
-  final String fStageNameFrom;
-  final String fStageNameTo;
+
+  final DateTime? fLastUpdate;
+  final int? fLastUpdateUser;
+  final int? fLastUpdateSum;
+  final int? fLastUpdateOper;
+  final int? fStageNo;
+  final String? fStageName;
+  final String? fStageNameFrom;
+  final String? fStageNameTo;
   final String? fStageNameE;
   final String? fStageNameFromE;
   final String? fStageNameToE;
-  final int fStageDayNo;
-  int fStageStatus;
+  final int? fStageDayNo;
+  int? fStageStatus;
+  int? fStageTimeLimit;
 
   Map<String, dynamic> toJson() {
     return {
-      'fLastUpdate': fLastUpdate.toIso8601String(),
+      'fLastUpdate': fLastUpdate?.toIso8601String(),
       'fLastUpdateUser': fLastUpdateUser,
       'fLastUpdateSum': fLastUpdateSum,
       'fLastUpdateOper': fLastUpdateOper,
@@ -61,6 +65,7 @@ class StageModel {
       'fStageNameToE': fStageNameToE,
       'fStageDayNo': fStageDayNo,
       'fStageStatus': fStageStatus,
+      'fStageTimeLimit': fStageTimeLimit,
     };
   }
 }

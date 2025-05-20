@@ -1,6 +1,6 @@
 import 'package:alrefadah/core/utils/components/custom_button.dart';
 import 'package:alrefadah/features/auth/cubit/auth_cubit.dart';
-import 'package:alrefadah/features/auth/screans/confirm_login_screen.dart';
+import 'package:alrefadah/features/auth/screens/confirm_login_screen.dart';
 import 'package:flutter/material.dart';
 
 class ConfirmButton extends StatelessWidget {

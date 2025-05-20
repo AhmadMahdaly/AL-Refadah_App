@@ -1,4 +1,6 @@
 import 'package:alrefadah/core/themes/colors_constants.dart';
+import 'package:alrefadah/core/utils/components/space.dart';
+import 'package:alrefadah/core/utils/components/text_fields/custom_number_textfield.dart';
 import 'package:alrefadah/features/services_pages/transport_stage/models/stage_model.dart';
 import 'package:alrefadah/features/services_pages/transport_stage/widgets/stage_card_text.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +15,22 @@ class StageCard extends StatefulWidget {
 }
 
 class _StageCardState extends State<StageCard> {
+  late TextEditingController controller = TextEditingController();
+
+  @override
+  void initState() {
+    controller = TextEditingController(
+      text: widget.stage.fStageTimeLimit.toString(),
+    );
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -22,28 +40,49 @@ class _StageCardState extends State<StageCard> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+              /// اسم المرحلة
               StageCardText(
-                text: widget.stage.fStageNo.toString(),
-                width: 40.w,
-              ),
-              StageCardText(
-                text: widget.stage.fStageName,
-                width: 120.w,
+                text: widget.stage.fStageName ?? '',
+                width: 100.w,
                 align: TextAlign.start,
               ),
+
+              /// من
               StageCardText(
-                text: widget.stage.fStageNameFrom,
+                text: widget.stage.fStageNameFrom ?? '',
                 width: 60.w,
                 align: TextAlign.center,
               ),
+
+              /// إلى
               StageCardText(
-                text: widget.stage.fStageNameTo,
+                text: widget.stage.fStageNameTo ?? '',
                 width: 60.w,
                 align: TextAlign.center,
+              ),
+              W(w: 8.sp),
+
+              /// الزمن المتوقع للرحلة
+              SizedBox(
+                width: 50.w,
+                child: CustomNumberTextformfield(
+                  textAlign: TextAlign.center,
+                  controller: controller,
+                  onChanged: (value) {
+                    controller.text = value;
+                    if (value.isNotEmpty && int.tryParse(value) != null) {
+                      widget.stage.fStageTimeLimit = int.parse(value);
+                    } else {
+                      widget.stage.fStageTimeLimit = 0;
+                    }
+                  },
+                ),
               ),
               const Spacer(),
+
+              /// الحالة
               Transform.scale(
-                scale: 0.8, // جرب 0.8 للتصغير أو 2.0 للتكبير
+                scale: 0.8, // استخدام 0.8 للتصغير أو 2.0 للتكبير
                 child: Switch(
                   value: widget.stage.fStageStatus == 1,
                   activeColor: kSecondaryColor,

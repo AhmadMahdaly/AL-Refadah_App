@@ -10,7 +10,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class AddBusCubit extends Cubit<AddBusState> {
   AddBusCubit(this.repository) : super(AddBusState());
   final BusesRepo repository;
-  String? selectedSeason;
+  int? selectedSeason;
 
   /// Loads the list of centers from the repository
   Future<void> loadCenters() async {

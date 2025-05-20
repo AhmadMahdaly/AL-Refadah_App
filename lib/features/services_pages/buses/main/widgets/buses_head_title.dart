@@ -10,8 +10,9 @@ class GetBusTableHeadTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
+      alignment: Alignment.center,
       margin: EdgeInsets.only(top: 12.h, left: 16.w, right: 16.w),
-      height: 60.h,
+      height: 80.h,
       padding: EdgeInsets.all(10.sp),
       decoration: ShapeDecoration(
         color: kMainColor,
@@ -23,14 +24,18 @@ class GetBusTableHeadTitle extends StatelessWidget {
         ),
       ),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.end,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            'المركز',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 14.sp,
-              fontWeight: FontWeight.w800,
+          SizedBox(
+            child: Text(
+              'المركز',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w800,
+              ),
             ),
           ),
 
@@ -51,12 +56,12 @@ class GetBusTableHeadTitle extends StatelessWidget {
             child: Text(
               'رقم الحافلة',
               overflow: TextOverflow.fade,
-              textAlign: TextAlign.start,
+              textAlign: TextAlign.center,
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 14.sp,
                 fontWeight: FontWeight.w800,
-                height: 1.h,
+                height: 1.5.h,
               ),
             ),
           ),
@@ -65,15 +70,16 @@ class GetBusTableHeadTitle extends StatelessWidget {
             child: Text(
               'الشركة الناقلة',
               overflow: TextOverflow.fade,
+              textAlign: TextAlign.center,
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 14.sp,
                 fontWeight: FontWeight.w800,
-                height: 1.h,
+                height: 1.5.h,
               ),
             ),
           ),
-          W(w: 12.w),
+          W(w: 35.w),
         ],
       ),
     );

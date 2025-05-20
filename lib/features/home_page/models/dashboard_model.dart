@@ -1,3 +1,5 @@
+import 'package:alrefadah/features/home_page/models/delayed_trip_model.dart';
+
 class DashboardModel {
   DashboardModel({
     required this.totalStageBuses,
@@ -12,6 +14,8 @@ class DashboardModel {
     required this.totalRemainingPilgrims,
     required this.totalFinishedCenters,
     required this.totalRemainingCenterPilgrims,
+    required this.totalDelayedTrips,
+    required this.delayedTrip,
   });
 
   factory DashboardModel.fromJson(Map<String, dynamic> json) {
@@ -28,21 +32,29 @@ class DashboardModel {
       totalRemainingPilgrims: json['totalRemainigPilgrims'] as int,
       totalFinishedCenters: json['totalFinishedCenters'] as int,
       totalRemainingCenterPilgrims: json['totalRemainingCenterPilgrims'] as int,
+      totalDelayedTrips: json['totalDelayedTrips'] as int,
+
+      delayedTrip:
+          (json['delayedTrip'] as List<dynamic>)
+              .map((e) => DelayedTripModel.fromJson(e as Map<String, dynamic>))
+              .toList(),
     );
   }
 
-  final int totalStageBuses;
-  final int totalStageTrips;
-  final int totalDepartingBuses;
-  final int totalTrips;
-  final int totalFinishedBuses;
-  final int totalPilgrims;
-  final int totalStagePilgrims;
-  final int totalEvacueesPilgrims;
-  final int totalArrivedPilgrims;
-  final int totalRemainingPilgrims;
-  final int totalFinishedCenters;
-  final int totalRemainingCenterPilgrims;
+  final int? totalStageBuses;
+  final int? totalStageTrips;
+  final int? totalDepartingBuses;
+  final int? totalTrips;
+  final int? totalFinishedBuses;
+  final int? totalPilgrims;
+  final int? totalStagePilgrims;
+  final int? totalEvacueesPilgrims;
+  final int? totalArrivedPilgrims;
+  final int? totalRemainingPilgrims;
+  final int? totalFinishedCenters;
+  final int? totalRemainingCenterPilgrims;
+  final int? totalDelayedTrips;
+  final List<DelayedTripModel>? delayedTrip;
 
   Map<String, dynamic> toJson() {
     return {
@@ -58,6 +70,8 @@ class DashboardModel {
       'totalRemainigPilgrims': totalRemainingPilgrims,
       'totalFinishedCenters': totalFinishedCenters,
       'totalRemainingCenterPilgrims': totalRemainingCenterPilgrims,
+      'totalDelayedTrips': totalDelayedTrips,
+      'delayedTrip': delayedTrip,
     };
   }
 }

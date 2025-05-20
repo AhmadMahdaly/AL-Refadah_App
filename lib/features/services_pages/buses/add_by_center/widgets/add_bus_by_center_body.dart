@@ -15,8 +15,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AddBusPageByCenterBody extends StatefulWidget {
-  const AddBusPageByCenterBody({required this.bus, super.key});
+  const AddBusPageByCenterBody({
+    required this.bus,
+    required this.formKey,
+    super.key,
+  });
   final GetAllBusesModel bus;
+  final GlobalKey<FormState> formKey;
+
   @override
   State<AddBusPageByCenterBody> createState() => _AddBusPageByCenterBodyState();
 }
@@ -33,7 +39,7 @@ class _AddBusPageByCenterBodyState extends State<AddBusPageByCenterBody> {
     final addBusCubit = BlocProvider.of<AddBusCubit>(context);
     busesCubit.stream.listen((state) {
       if (state.seasons != null) {
-        final session = state.seasons.map((e) => e.fSeasonId.toString());
+        final session = state.seasons.map((e) => e.fSeasonId);
         if (session.isNotEmpty) {
           busesCubit.selectedSeason = session.last;
         }
@@ -62,7 +68,7 @@ class _AddBusPageByCenterBodyState extends State<AddBusPageByCenterBody> {
     return BlocBuilder<AddBusCubit, AddBusState>(
       builder: (context, state) {
         final cubit = context.read<AddBusCubit>();
-        return state is AddBusLoadingState
+        return state is AddBusLoadingState || state.centers.isEmpty
             ? const AppIndicator()
             : SingleChildScrollView(
               child: Column(
@@ -83,18 +89,10 @@ class _AddBusPageByCenterBodyState extends State<AddBusPageByCenterBody> {
                       spacing: 10.h,
                       children: [
                         const H(h: 12),
+
+                        /// centers dropdown
                         DropdownButtonFormField<int>(
                           borderRadius: BorderRadius.circular(10.r),
-                          hint: Text(
-                            'المركز',
-                            style: TextStyle(
-                              color: kMainColor,
-                              fontSize: 15.sp,
-                              fontFamily: 'GE SS Two',
-                              fontWeight: FontWeight.w300,
-                              height: 1.43.h,
-                            ),
-                          ),
                           decoration: InputDecoration(
                             fillColor: kScaffoldBackgroundColor,
                             filled: true,
@@ -106,7 +104,15 @@ class _AddBusPageByCenterBodyState extends State<AddBusPageByCenterBody> {
                               kMainColorLightColor,
                             ),
                             focusedErrorBorder: textfieldBorderRadius(
-                              kErrorColor,
+                              Colors.red,
+                            ),
+                            label: Text(
+                              'المركز',
+                              style: TextStyle(
+                                fontSize: 13.sp,
+                                color: const Color(0xFFA2A2A2),
+                                fontWeight: FontWeight.w300,
+                              ),
                             ),
                           ),
                           icon: const Icon(Icons.keyboard_arrow_down_rounded),
@@ -129,21 +135,11 @@ class _AddBusPageByCenterBodyState extends State<AddBusPageByCenterBody> {
                           onChanged: null,
                         ),
 
-                        /// Stages
+                        /// Stages dropdown
                         if (state.selectedCenter != null)
                           DropdownButtonFormField<BusesGetStageModel>(
                             borderRadius: BorderRadius.circular(10.r),
                             isExpanded: true,
-                            hint: Text(
-                              'المرحلة',
-                              style: TextStyle(
-                                color: kMainColor,
-                                fontSize: 15.sp,
-                                fontFamily: 'GE SS Two',
-                                fontWeight: FontWeight.w300,
-                                height: 1.43.h,
-                              ),
-                            ),
                             decoration: InputDecoration(
                               fillColor: kScaffoldBackgroundColor,
                               filled: true,
@@ -158,6 +154,16 @@ class _AddBusPageByCenterBodyState extends State<AddBusPageByCenterBody> {
                               ),
                               focusedErrorBorder: textfieldBorderRadius(
                                 Colors.red,
+                              ),
+                              label: Text(
+                                'المرحلة',
+                                style: TextStyle(
+                                  color: kMainColor,
+                                  fontSize: 15.sp,
+                                  fontFamily: 'GE SS Two',
+                                  fontWeight: FontWeight.w300,
+                                  height: 1.43.h,
+                                ),
                               ),
                             ),
                             icon: const Icon(
@@ -186,21 +192,11 @@ class _AddBusPageByCenterBodyState extends State<AddBusPageByCenterBody> {
                             value: state.selectedStage,
                           ),
 
-                        /// Oprating Command
+                        /// Oprating Command dropdown
                         if (state.selectedStage != null)
                           DropdownButtonFormField<BusesGetOperatingModel>(
                             borderRadius: BorderRadius.circular(10.r),
                             isExpanded: true,
-                            hint: Text(
-                              'أمر التشغيل',
-                              style: TextStyle(
-                                color: kMainColor,
-                                fontSize: 15.sp,
-                                fontFamily: 'GE SS Two',
-                                fontWeight: FontWeight.w300,
-                                height: 1.43.h,
-                              ),
-                            ),
                             decoration: InputDecoration(
                               fillColor: kScaffoldBackgroundColor,
                               filled: true,
@@ -214,7 +210,17 @@ class _AddBusPageByCenterBodyState extends State<AddBusPageByCenterBody> {
                                 kMainColorLightColor,
                               ),
                               focusedErrorBorder: textfieldBorderRadius(
-                                kErrorColor,
+                                Colors.red,
+                              ),
+                              label: Text(
+                                'أمر التشغيل',
+                                style: TextStyle(
+                                  color: kMainColor,
+                                  fontSize: 15.sp,
+                                  fontFamily: 'GE SS Two',
+                                  fontWeight: FontWeight.w300,
+                                  height: 1.43.h,
+                                ),
                               ),
                             ),
                             icon: const Icon(
@@ -256,10 +262,15 @@ class _AddBusPageByCenterBodyState extends State<AddBusPageByCenterBody> {
                       physics: const NeverScrollableScrollPhysics(),
                       itemCount: state.busForms.length,
                       itemBuilder: (context, index) {
-                        return AddBusDetailsCard(index: index);
+                        /// Bus Card
+                        return AddBusDetailsCard(
+                          index: index,
+                          formKey: widget.formKey,
+                        );
                       },
                     ),
 
+                    /// Add new bus card
                     ElevatedButton(
                       onPressed: cubit.addNewBusForm,
                       child: const Text('إضافة حافلة جديد'),

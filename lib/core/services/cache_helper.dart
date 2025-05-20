@@ -3,8 +3,6 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 class CacheHelper {
   static FlutterSecureStorage storage = const FlutterSecureStorage();
 
-  static Future<void> init() async {}
-
   /// حفظ قيمة
   static Future<void> saveData({
     required String key,
@@ -24,7 +22,21 @@ class CacheHelper {
   }
 
   /// حذف كل الذاكرة
-  static Future<void> removeAllData() async {
+  static Future<void> clearAll() async {
     await storage.deleteAll();
+  }
+
+  ///  دالة خاصة لجلب fPermNo كـ int
+  static Future<int?> getUserId() async {
+    final value = await storage.read(key: 'userId');
+    if (value == null) return null;
+    return int.tryParse(value);
+  }
+
+  ///  دالة خاصة لجلب fPermNo كـ int
+  static Future<int?> getPermNo() async {
+    final value = await storage.read(key: 'fPermNo');
+    if (value == null) return null;
+    return int.tryParse(value);
   }
 }

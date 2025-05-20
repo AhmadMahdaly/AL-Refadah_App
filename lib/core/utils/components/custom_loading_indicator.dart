@@ -8,8 +8,14 @@ class AppIndicator extends StatelessWidget {
   final double size;
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: SpinKitFadingCube(size: size.sp, color: kMainColor.withAlpha(70)),
+    return PopScope(
+      canPop: false,
+      child: Center(
+        child: SpinKitSpinningLines(
+          size: size.sp,
+          color: kMainColor.withAlpha(70),
+        ),
+      ),
     );
   }
 }

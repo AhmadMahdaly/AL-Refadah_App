@@ -5,10 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ConfirmCardLoginNumberWidget extends StatefulWidget {
-  const ConfirmCardLoginNumberWidget({
-    // required this.phoneNumber,
-    super.key,
-  });
+  const ConfirmCardLoginNumberWidget({super.key});
 
   @override
   State<ConfirmCardLoginNumberWidget> createState() =>

@@ -3,13 +3,13 @@ import 'dart:developer';
 import 'package:alrefadah/core/themes/colors_constants.dart';
 import 'package:alrefadah/core/utils/components/custom_button.dart';
 import 'package:alrefadah/core/utils/components/custom_loading_indicator.dart';
+import 'package:alrefadah/core/widgets/custom_dialog/show_success_dialog.dart';
 import 'package:alrefadah/data/constants_variable.dart';
 import 'package:alrefadah/features/services_pages/guides/add/models/add_guide_model.dart';
 import 'package:alrefadah/features/services_pages/guides/main/cubit/guides_cubit.dart';
 import 'package:alrefadah/features/services_pages/guides/main/cubit/guides_states.dart';
 import 'package:alrefadah/features/services_pages/guides/main/models/get_centers_model.dart';
 import 'package:alrefadah/features/services_pages/guides/main/models/get_guide_model.dart';
-import 'package:alrefadah/presentation/app/shared_widgets/custom_dialog/show_success_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -237,17 +237,13 @@ class _GuideSelectorBodyState extends State<GuideSelectorBody> {
                                       : null;
 
                               if (duplicateEmpNo != null) {
-                                log(
-                                  'الموظف رقم $duplicateEmpNo موجود مسبقًا، تم تجاهله.',
-                                );
-                                continue; // تجاهل هذا الموظف
+                                continue;
                               } else {
                                 log('خطأ غير متوقع: $e');
                               }
                             }
                           }
 
-                          // في حالة تمت إضافة أحد الموظفين بنجاح
                           if (successfullyAdded.isNotEmpty) {
                             await BlocProvider.of<GuidesCubit>(
                               context,

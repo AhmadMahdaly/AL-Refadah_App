@@ -3,15 +3,16 @@ import 'package:alrefadah/core/utils/components/custom_button.dart';
 import 'package:alrefadah/core/utils/components/custom_loading_indicator.dart';
 import 'package:alrefadah/core/utils/components/space.dart';
 import 'package:alrefadah/core/utils/components/text_fields/custom_number_textfield.dart';
+import 'package:alrefadah/core/widgets/custom_dialog/error_dialog.dart';
+import 'package:alrefadah/core/widgets/custom_dialog/show_success_dialog.dart';
 import 'package:alrefadah/data/constants_variable.dart';
+import 'package:alrefadah/features/home_page/cubit/home_cubit.dart';
 import 'package:alrefadah/features/services_pages/transport_phase_times/add/models/transport_add_stage_model.dart';
 import 'package:alrefadah/features/services_pages/transport_phase_times/main/cubit/transfer_stage_shares_cubit.dart';
 import 'package:alrefadah/features/services_pages/transport_phase_times/main/cubit/transfer_stage_shares_states.dart';
-import 'package:alrefadah/features/services_pages/transport_phase_times/main/models/transfer_get_centers_model.dart';
-import 'package:alrefadah/features/services_pages/transport_phase_times/main/models/transfer_get_stages_model.dart';
+import 'package:alrefadah/features/services_pages/transport_phase_times/main/models/transfer_stage_get_centers_model.dart';
+import 'package:alrefadah/features/services_pages/transport_phase_times/main/models/transfer_stage_get_stages_model.dart';
 import 'package:alrefadah/features/services_pages/transport_phase_times/show/widgets/show_transfer_stage_head_title.dart';
-import 'package:alrefadah/presentation/app/shared_widgets/custom_dialog/error_dialog.dart';
-import 'package:alrefadah/presentation/app/shared_widgets/custom_dialog/show_success_dialog.dart';
 import 'package:alrefadah/presentation/app/shared_widgets/no_data_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,7 +20,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AddTransferStageBody extends StatefulWidget {
   const AddTransferStageBody({required this.center, super.key});
-  final TransferStageSharesGetCenterModel center;
+  final TransferStageGetCenterModel center;
   @override
   State<AddTransferStageBody> createState() => _AddTransferStageBodyState();
 }
@@ -33,6 +34,7 @@ class _AddTransferStageBodyState extends State<AddTransferStageBody> {
 
   final formKey = GlobalKey<FormState>();
 
+  /// controllers
   List<TextEditingController> _pilgrimsControllers = [];
   List<TextEditingController> _busesControllers = [];
   List<TextEditingController> _tripsControllers = [];
@@ -52,22 +54,32 @@ class _AddTransferStageBodyState extends State<AddTransferStageBody> {
 
   @override
   Widget build(BuildContext context) {
+    /// padding keyboard
     final isKeyboardVisible = MediaQuery.of(context).viewInsets.bottom > 16;
     return BlocBuilder<TransferStageSharesCubit, TransferStageSharesState>(
       builder: (context, state) {
+        /// Loading proccess
         if (state.isLoadingAddTransportStage ||
+            context.read<HomeCubit>().state.isLoadingAllData ||
             state.isLoadingTransportStages ||
             state.isLoadingTransportStagesByCriteria) {
           return const AppIndicator();
+
+          /// fetch data
         } else if (state.transportStages != null) {
           final stagesName = state.transportStages;
+
+          /// Body Data
           return Stack(
             fit: StackFit.expand,
             children: [
               const H(h: 12),
               Column(
                 children: [
+                  /// Body Head
                   const ShowTransferStageHeadTitle(),
+
+                  /// Body cards
                   Expanded(
                     child: ListView.builder(
                       padding: EdgeInsets.all(16.sp),
@@ -96,15 +108,17 @@ class _AddTransferStageBodyState extends State<AddTransferStageBody> {
                                 )
                                 .toList();
                         if (matchedStages.isNotEmpty) {
-                          return _createStageCard(stageName, index);
+                          /// Cards
+                          return _stageCard(stageName, index);
                         }
-                        return _createStageCard(stageName, index);
+                        return _stageCard(stageName, index);
                       },
                     ),
                   ),
                 ],
               ),
 
+              /// Saved Button
               Positioned(
                 bottom: isKeyboardVisible ? -260 : 16,
                 child: SizedBox(
@@ -148,13 +162,17 @@ class _AddTransferStageBodyState extends State<AddTransferStageBody> {
                         await context
                             .read<TransferStageSharesCubit>()
                             .addTransportStage(stageInputs);
-                        showSuccessDialog(context);
-                        Future.delayed(const Duration(seconds: 2), () {
+                        await context.read<HomeCubit>().getDashboardData();
+                        showSuccessDialog(context, seconds: 1);
+                        Future.delayed(const Duration(seconds: 1), () {
                           if (context.mounted) {
                             Navigator.pop(
                               context,
                               state.isLoadingTransportStages,
                             );
+                            context
+                                .read<TransferStageSharesCubit>()
+                                .getCenters();
                           }
                         });
                       } catch (e) {
@@ -171,6 +189,8 @@ class _AddTransferStageBodyState extends State<AddTransferStageBody> {
             ],
           );
         }
+
+        /// when fetch data failed
         return NoDataWidget(
           onPressed:
               () =>
@@ -180,10 +200,8 @@ class _AddTransferStageBodyState extends State<AddTransferStageBody> {
     );
   }
 
-  Column _createStageCard(
-    TransferStageSharesGetStageModel stageName,
-    int index,
-  ) {
+  /// Cards
+  Column _stageCard(TransferStageGetStageModel stageName, int index) {
     return Column(
       children: [
         Padding(
@@ -191,6 +209,7 @@ class _AddTransferStageBodyState extends State<AddTransferStageBody> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+              /// اسم المرحلة
               SizedBox(
                 width: 100.w,
                 child: Text(
@@ -204,16 +223,18 @@ class _AddTransferStageBodyState extends State<AddTransferStageBody> {
                   ),
                 ),
               ),
+
+              /// خانة عدد الحجاج
               SizedBox(
                 width: 80.w,
-                height: 38.h,
+                height: 42.h,
                 child: CustomNumberTextformfield(
                   textAlign: TextAlign.center,
                   onChanged: (value) {
                     _pilgrimsControllers[index].text = value;
                   },
                   controller: _pilgrimsControllers[index],
-                  fontSize: 11,
+                  fontSize: 14,
                   contentPadding: EdgeInsets.symmetric(
                     horizontal: 8.w,
                     vertical: 0,
@@ -221,16 +242,18 @@ class _AddTransferStageBodyState extends State<AddTransferStageBody> {
                   text: 'العدد',
                 ),
               ),
+
+              /// خانة عدد الحافلات
               SizedBox(
                 width: 80.w,
-                height: 38.h,
+                height: 42.h,
                 child: CustomNumberTextformfield(
                   textAlign: TextAlign.center,
                   onChanged: (value) {
                     _busesControllers[index].text = value;
                   },
                   controller: _busesControllers[index],
-                  fontSize: 11,
+                  fontSize: 14,
                   contentPadding: EdgeInsets.symmetric(
                     horizontal: 8.w,
                     vertical: 0,
@@ -238,16 +261,18 @@ class _AddTransferStageBodyState extends State<AddTransferStageBody> {
                   text: 'العدد',
                 ),
               ),
+
+              /// خانة عدد الردود
               SizedBox(
                 width: 80.w,
-                height: 38.h,
+                height: 42.h,
                 child: CustomNumberTextformfield(
                   textAlign: TextAlign.center,
                   onChanged: (value) {
                     _tripsControllers[index].text = value;
                   },
                   controller: _tripsControllers[index],
-                  fontSize: 11,
+                  fontSize: 14,
                   contentPadding: EdgeInsets.symmetric(
                     horizontal: 8.w,
                     vertical: 0,

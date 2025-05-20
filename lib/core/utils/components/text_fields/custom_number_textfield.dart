@@ -112,7 +112,7 @@ class CustomNumberTextformfield extends StatelessWidget {
             enabled
                 ? textfieldBorderRadius(kMainColorLightColor)
                 : textfieldBorderRadius(kMainExtrimeLightColor),
-        focusedErrorBorder: textfieldBorderRadius(kErrorColor),
+        focusedErrorBorder: textfieldBorderRadius(Colors.red),
       ),
     );
   }

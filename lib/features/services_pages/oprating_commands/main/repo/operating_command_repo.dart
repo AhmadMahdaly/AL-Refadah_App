@@ -1,4 +1,5 @@
-import 'package:alrefadah/data/base_api_url.dart';
+import 'package:alrefadah/core/services/dio_helper.dart';
+import 'package:alrefadah/data/constants_variable.dart';
 import 'package:alrefadah/features/services_pages/oprating_commands/main/models/add_transport_operating_model.dart';
 import 'package:alrefadah/features/services_pages/oprating_commands/main/models/get_all_operatings_model.dart';
 import 'package:alrefadah/features/services_pages/oprating_commands/main/models/operating_command_get_centers_model.dart';
@@ -6,11 +7,10 @@ import 'package:alrefadah/features/services_pages/oprating_commands/main/models/
 import 'package:dio/dio.dart';
 
 class OperatingCommandsRepo {
-  final Dio dio = Dio();
   Future<List<OperatingCommandsGetSeasonsModel>> getSeasons() async {
     try {
-      final response = await dio.get<List<dynamic>>(
-        '$baseUrl/OperatingCommands/GetSeasons',
+      final response = await DioHelper.dio.get<List<dynamic>>(
+        '/OperatingCommands/GetSeasons',
       );
       final data = response.data!;
       return data
@@ -27,8 +27,8 @@ class OperatingCommandsRepo {
 
   Future<List<OperatindCommandGetCentersModel>> getCenters() async {
     try {
-      final response = await dio.get<List<dynamic>>(
-        '$baseUrl/OperatingCommands/GetCenters',
+      final response = await DioHelper.dio.get<List<dynamic>>(
+        '/OperatingCommands/GetCenters',
       );
       final data = response.data!;
       return data
@@ -46,8 +46,8 @@ class OperatingCommandsRepo {
   Future<List<GetAllOperatingsModel>> fetchOperatingList(
     String seasonId,
   ) async {
-    final response = await dio.get<List<dynamic>>(
-      '$baseUrl/OperatingCommands/GetAllHajTransportOperatings?SeasonId=$seasonId',
+    final response = await DioHelper.dio.get<List<dynamic>>(
+      '/OperatingCommands/GetAllHajTransportOperatings?SeasonId=$seasonId',
     );
     final data = response.data!;
 
@@ -60,8 +60,8 @@ class OperatingCommandsRepo {
   }
 
   Future<void> addOperating(GetAllOperatingsModel model) async {
-    final response = await dio.post<Map<String, dynamic>>(
-      '$baseUrl/OperatingCommands/AddHajTransportOperating',
+    final response = await DioHelper.dio.post<Map<String, dynamic>>(
+      '/OperatingCommands/AddHajTransportOperating',
       data: [model.toJson()],
     );
     if (response.statusCode != 200) {
@@ -70,12 +70,23 @@ class OperatingCommandsRepo {
   }
 
   Future<void> editOperating(AddTransportOperatingModel model) async {
-    final response = await dio.put<Map<String, dynamic>>(
-      '$baseUrl/OperatingCommands/UpdateHajTransportOperating',
+    final response = await DioHelper.dio.put<Map<String, dynamic>>(
+      '/OperatingCommands/UpdateHajTransportOperating',
       data: [model.toJson()],
     );
     if (response.statusCode != 200) {
       throw Exception('فشل الإرسال: ${response.statusCode}');
     }
+  }
+
+  Future<int?> deleteOperating(
+    String seasonId,
+    String centerNo,
+    String operNo,
+  ) async {
+    final response = await DioHelper.dio.delete<String>(
+      '/OperatingCommands/DeleteHajTransportOperating?OperNo=$operNo&centerNo=$centerNo&companyId=$companyId&SeasonId=$seasonId',
+    );
+    return response.statusCode;
   }
 }

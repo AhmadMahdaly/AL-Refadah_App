@@ -1,4 +1,5 @@
-import 'package:alrefadah/data/base_api_url.dart';
+import 'package:alrefadah/core/services/dio_helper.dart';
+import 'package:alrefadah/data/constants_variable.dart';
 import 'package:alrefadah/features/services_pages/buses/add/models/add_bus_model.dart';
 import 'package:alrefadah/features/services_pages/buses/edit/models/edit_bus_model.dart';
 import 'package:alrefadah/features/services_pages/buses/main/models/buses_get_all_transports_model.dart';
@@ -10,12 +11,10 @@ import 'package:alrefadah/features/services_pages/buses/main/models/get_all_buse
 import 'package:dio/dio.dart';
 
 class BusesRepo {
-  final Dio dio = Dio();
-
   Future<List<BusesGetSeasonModel>> getSeasons() async {
     try {
-      final response = await dio.get<List<dynamic>>(
-        '$baseUrl/Buses/GetSeasons',
+      final response = await DioHelper.dio.get<List<dynamic>>(
+        '/Buses/GetSeasons',
       );
       final data = response.data!;
 
@@ -32,8 +31,8 @@ class BusesRepo {
 
   Future<List<BusesGetCenterModel>> getCenters() async {
     try {
-      final response = await dio.get<List<dynamic>>(
-        '$baseUrl/Buses/GetCenters',
+      final response = await DioHelper.dio.get<List<dynamic>>(
+        '/Buses/GetCenters',
       );
       final data = response.data!;
       return data
@@ -49,8 +48,8 @@ class BusesRepo {
 
   Future<List<BusesGetStageModel>> getStages() async {
     try {
-      final response = await dio.get<List<dynamic>>(
-        '$baseUrl/Buses/GetTransportStages',
+      final response = await DioHelper.dio.get<List<dynamic>>(
+        '/Buses/GetTransportStages',
       );
       final data = response.data!;
       return data
@@ -64,12 +63,12 @@ class BusesRepo {
   }
 
   Future<List<BusesGetOperatingModel>> getTransportOperting(
-    String seasonId,
+    int seasonId,
     String centerNo,
   ) async {
     try {
-      final response = await dio.get<List<dynamic>>(
-        '$baseUrl/Buses/GetHajTransportOperating?SeasonId=$seasonId&CenterNo=$centerNo',
+      final response = await DioHelper.dio.get<List<dynamic>>(
+        '/Buses/GetHajTransportOperating?SeasonId=$seasonId&CenterNo=$centerNo',
       );
       final data = response.data!;
       return data
@@ -85,8 +84,8 @@ class BusesRepo {
 
   Future<List<BusesGetAllTransportsModel>> getAllTransports() async {
     try {
-      final response = await dio.get<List<dynamic>>(
-        '$baseUrl/Buses/GetAllTransports',
+      final response = await DioHelper.dio.get<List<dynamic>>(
+        '/Buses/GetAllTransports',
       );
       final data = response.data!;
       return data
@@ -103,8 +102,8 @@ class BusesRepo {
 
   Future<void> addTransportBus(List<AddBusModel> inputs) async {
     try {
-      await dio.post<Map<String, dynamic>>(
-        '$baseUrl/Buses/AddHajTransportBus',
+      await DioHelper.dio.post<Map<String, dynamic>>(
+        '/Buses/AddHajTransportBus',
         data: inputs.map((e) => e.toJson()).toList(),
         options: Options(
           headers: {
@@ -120,8 +119,8 @@ class BusesRepo {
 
   Future<void> editTransportBus(List<EditBusModel> inputs) async {
     try {
-      await dio.put<Map<String, dynamic>>(
-        '$baseUrl/Buses/UpdateHajTransportBus',
+      await DioHelper.dio.put<Map<String, dynamic>>(
+        '/Buses/UpdateHajTransportBus',
         data: inputs.map((e) => e.toJson()).toList(),
         options: Options(
           headers: {
@@ -135,10 +134,47 @@ class BusesRepo {
     }
   }
 
-  Future<List<GetAllBusesModel>> getAllBuses(String selectedSeason) async {
+  Future<List<GetAllBusesModel>> getAllBuses(int selectedSeason) async {
     try {
-      final response = await dio.get<List<dynamic>>(
-        '$baseUrl/Buses/GetAllHajTransportBuses?SeasonId=$selectedSeason',
+      final response = await DioHelper.dio.get<List<dynamic>>(
+        '/Buses/GetAllHajTransportBuses?SeasonId=$selectedSeason',
+      );
+
+      final data = response.data!;
+      return data
+          .map(
+            (item) => GetAllBusesModel.fromJson(item as Map<String, dynamic>),
+          )
+          .toList();
+    } on DioException catch (e) {
+      throw Exception('خطأ: ${e.response?.data}');
+    }
+  }
+
+  Future<Response<String>> deleteBus(
+    int selectedSeason,
+    int centerNo,
+    int stageNo,
+    String busNo,
+    int busId,
+  ) async {
+    try {
+      final response = await DioHelper.dio.delete<String>(
+        '/Buses/DeleteHajTransportBus?busId=$busId&busNo=$busNo&stageNo=$stageNo&centerNo=$centerNo&companyId=$companyId&SeasonId=$selectedSeason',
+      );
+      return response;
+    } on DioException catch (e) {
+      throw Exception('خطأ: $e');
+    }
+  }
+
+  Future<List<GetAllBusesModel>> getAllBusesByCriatia(
+    int selectedSeason,
+    String selectCenter,
+  ) async {
+    try {
+      final response = await DioHelper.dio.get<List<dynamic>>(
+        '/Buses/GetHajTransportBusByCriteria/by-criteria?seasonId=$selectedSeason&centerNo=$selectCenter',
       );
 
       final data = response.data!;

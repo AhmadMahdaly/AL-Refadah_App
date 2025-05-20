@@ -1,3 +1,5 @@
+import 'package:alrefadah/features/services_pages/transport_stage/models/stage_model.dart';
+
 class BusesTravelGetTripModel {
   BusesTravelGetTripModel({
     required this.fCompanyId,
@@ -42,7 +44,9 @@ class BusesTravelGetTripModel {
       fSeasonId: json['fSeasonId'].toString(),
       fCenterNo: json['fCenterNo'].toString(),
       fStageNo: json['fStageNo'].toString(),
-      transportStage: json['transportStage']?.toString() ?? '',
+      transportStage: StageModel.fromJson(
+        json['transportStage'] as Map<String, dynamic>,
+      ),
       fTripNo: json['fTripNo'].toString(),
       fTripDate: parseDate(json['fTripDate']?.toString()) ?? DateTime(2000),
       fTripTime: parseDate(json['fTripTime']?.toString()) ?? DateTime(2000),
@@ -74,7 +78,7 @@ class BusesTravelGetTripModel {
   final String fSeasonId;
   final String fCenterNo;
   final String fStageNo;
-  final String transportStage;
+  final StageModel transportStage;
   final String fTripNo;
   final DateTime fTripDate;
   final DateTime fTripTime;

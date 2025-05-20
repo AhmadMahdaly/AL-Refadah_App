@@ -10,7 +10,7 @@ class StageHeadTitle extends StatelessWidget {
     return Container(
       width: double.infinity,
       margin: EdgeInsets.only(top: 12.h, left: 16.w, right: 16.w),
-      height: 60.h,
+      height: 90.h,
       padding: EdgeInsets.all(10.sp),
       decoration: ShapeDecoration(
         color: kMainColor,
@@ -25,22 +25,9 @@ class StageHeadTitle extends StatelessWidget {
         spacing: 12.w,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
+          /// اسم المرحلة
           SizedBox(
-            width: 46.w,
-            child: Text(
-              'رقم المرحلة',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                overflow: TextOverflow.fade,
-                color: Colors.white,
-                fontSize: 13.sp,
-                fontWeight: FontWeight.w500,
-                height: 1.h,
-              ),
-            ),
-          ),
-          SizedBox(
-            width: 60.w,
+            width: 80.w,
             child: Text(
               'اسم المرحلة',
               textAlign: TextAlign.center,
@@ -49,10 +36,12 @@ class StageHeadTitle extends StatelessWidget {
                 color: Colors.white,
                 fontSize: 13.sp,
                 fontWeight: FontWeight.w500,
-                height: 1.h,
+                height: 1.5.h,
               ),
             ),
           ),
+
+          /// من
           SizedBox(
             width: 40.w,
             child: Text(
@@ -67,11 +56,13 @@ class StageHeadTitle extends StatelessWidget {
               ),
             ),
           ),
+
+          /// إلى
           SizedBox(
             width: 40.w,
             child: Text(
               'إلى',
-              textAlign: TextAlign.start,
+              textAlign: TextAlign.center,
               overflow: TextOverflow.fade,
               style: TextStyle(
                 color: Colors.white,
@@ -81,6 +72,24 @@ class StageHeadTitle extends StatelessWidget {
               ),
             ),
           ),
+
+          /// الزمن المتوقع للرحلة
+          SizedBox(
+            width: 50.w,
+            child: Text(
+              'الزمن المتوقع بالدقائق',
+              textAlign: TextAlign.center,
+              overflow: TextOverflow.fade,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 13.sp,
+                fontWeight: FontWeight.w500,
+                height: 1.5.h,
+              ),
+            ),
+          ),
+
+          /// الحالة
           SizedBox(
             width: 40.w,
             child: Text(

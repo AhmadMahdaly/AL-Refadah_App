@@ -25,17 +25,6 @@ class LoginButton extends StatelessWidget {
       text: 'تسجيل الدخول',
       onTap: () async {
         if (formKey.currentState!.validate() && isChecked) {
-          //   ///
-          //   if (_userNameController.text == 'ahmed' &&
-          //       _passwordController.text == '123456') {
-          //     await Navigator.pushAndRemoveUntil(
-          //       context,
-          //       MaterialPageRoute(builder: (context) => const AppNavigationBar()),
-          //       (route) => false,
-          //     );
-          //   }
-
-          ///
           await authCubit.login(
             phoneNo: _userNameController.text,
             password: _passwordController.text,

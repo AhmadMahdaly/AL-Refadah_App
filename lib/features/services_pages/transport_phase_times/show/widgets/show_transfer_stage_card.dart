@@ -1,6 +1,6 @@
 import 'package:alrefadah/core/themes/colors_constants.dart';
-import 'package:alrefadah/features/services_pages/transport_phase_times/main/models/transfer_get_stages_model.dart';
-import 'package:alrefadah/features/services_pages/transport_phase_times/main/models/transport_get_by_criteria_model.dart';
+import 'package:alrefadah/features/services_pages/transport_phase_times/main/models/transfer_stage_get_stages_model.dart';
+import 'package:alrefadah/features/services_pages/transport_phase_times/main/models/transfer_stage_get_transport_by_criteria_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -10,8 +10,8 @@ class ShowTransferStageCard extends StatelessWidget {
     required this.stageData,
     super.key,
   });
-  final TransferStageSharesGetStageModel stageName;
-  final TransferStageSharesGetByCriteriaModel stageData;
+  final TransferStageGetStageModel stageName;
+  final TransferStageGetTransportByCriteriaModel stageData;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -21,7 +21,7 @@ class ShowTransferStageCard extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              /// المرحلة
+              /// اسم المرحلة
               SizedBox(
                 width: 100.w,
                 child: Text(

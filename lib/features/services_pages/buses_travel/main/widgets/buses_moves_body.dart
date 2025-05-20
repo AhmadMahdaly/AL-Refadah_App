@@ -1,8 +1,12 @@
 import 'dart:async';
 
 import 'package:alrefadah/core/themes/colors_constants.dart';
+import 'package:alrefadah/core/utils/components/custom_search_bar.dart';
 import 'package:alrefadah/core/utils/components/space.dart';
-import 'package:alrefadah/core/utils/components/text_fields/textfield_border_radius.dart';
+import 'package:alrefadah/core/widgets/custom_download_button.dart';
+import 'package:alrefadah/core/widgets/custom_help_button.dart';
+import 'package:alrefadah/core/widgets/leading_icon.dart';
+import 'package:alrefadah/core/widgets/title_appbar.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/main/cubit/bus_travel_cubit.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/main/widgets/buses_moves_head_title.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/main/widgets/dropdowns/centers_dropdown.dart';
@@ -10,12 +14,9 @@ import 'package:alrefadah/features/services_pages/buses_travel/main/widgets/drop
 import 'package:alrefadah/features/services_pages/buses_travel/main/widgets/tabs_and_cards/buses/buses_tab.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/main/widgets/tabs_and_cards/pilgrims/pilgrims_tab.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/main/widgets/tabs_and_cards/trips/trips_tab.dart';
-import 'package:alrefadah/presentation/app/shared_widgets/custom_download_button.dart';
-import 'package:alrefadah/presentation/app/shared_widgets/custom_help_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 
 class BusesMovesBody extends StatefulWidget {
   const BusesMovesBody({super.key});
@@ -60,15 +61,6 @@ class _BusesMovesBodyState extends State<BusesMovesBody>
     }
   }
 
-  void _clearSearch() {
-    if (mounted) {
-      setState(() {
-        searchText = '';
-      });
-    }
-    _searchController.clear();
-  }
-
   @override
   void dispose() {
     _tabController.dispose();
@@ -89,19 +81,8 @@ class _BusesMovesBodyState extends State<BusesMovesBody>
   AppBar _appBar(BuildContext context) {
     return AppBar(
       toolbarHeight: 120.h,
-      leading: IconButton(
-        icon: const Icon(Icons.arrow_back_ios_new),
-        onPressed: () => Navigator.pop(context),
-      ),
-      title: Text(
-        'حركة الحافلات',
-        style: TextStyle(
-          color: kMainColor,
-          fontSize: 18.sp,
-          fontWeight: FontWeight.w700,
-          height: 1.20.h,
-        ),
-      ),
+      leading: const LeadingIcon(),
+      title: const TitleAppBar(title: 'حركة الحافلات'),
       actions: const [CustomHelpButton()],
 
       bottom: PreferredSize(
@@ -129,48 +110,19 @@ class _BusesMovesBodyState extends State<BusesMovesBody>
                 children: [
                   W(w: 4.w),
                   Expanded(
-                    child: TextFormField(
-                      style: TextStyle(
-                        fontSize: 15.sp,
-                        color: const Color(0xFF494949),
-                        fontWeight: FontWeight.w300,
-                        fontFamily: 'FF Shamel Family',
-                      ),
-                      cursorWidth: 1.sp,
-                      cursorColor: kMainColor,
-                      minLines: 1,
+                    child: CustomSearchBar(
                       controller: _searchController,
-                      decoration: InputDecoration(
-                        hintText: 'ابحث هنا',
-                        hintStyle: TextStyle(
-                          fontSize: 14.sp,
-                          color: const Color(0xFFA2A2A2),
-                          fontWeight: FontWeight.w300,
-                        ),
-                        suffixIcon:
-                            _searchController.text.isNotEmpty
-                                ? IconButton(
-                                  icon: const Icon(Icons.clear),
-                                  onPressed: _clearSearch,
-                                )
-                                : null,
-                        border: textfieldBorderRadius(const Color(0xFFD6D6D6)),
-                        focusedBorder: textfieldBorderRadius(kMainColor),
-                        enabledBorder: textfieldBorderRadius(
-                          const Color(0xFFD6D6D6),
-                        ),
-                        focusedErrorBorder: textfieldBorderRadius(Colors.red),
-                        prefixIcon: SvgPicture.asset(
-                          'assets/svg/search.svg',
-                          fit: BoxFit.none,
-                          colorFilter: const ColorFilter.mode(
-                            kMainColor,
-                            BlendMode.srcIn,
-                          ),
-                        ),
+                      clearIcon: IconButton(
+                        icon: const Icon(Icons.clear),
+                        onPressed: () {
+                          _searchController.clear();
+                          setState(() => searchText = '');
+                        },
                       ),
                     ),
                   ),
+
+                  /// Download button
                   const CustomDownloadButton(),
                   W(w: 4.w),
                 ],

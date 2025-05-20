@@ -1,14 +1,12 @@
-import 'package:alrefadah/data/base_api_url.dart';
+import 'package:alrefadah/core/services/dio_helper.dart';
 import 'package:alrefadah/features/services_pages/transport_stage/models/stage_model.dart';
 import 'package:dio/dio.dart';
 
 class StageRepo {
-  final Dio dio = Dio();
-
   Future<List<StageModel>> getStages() async {
     try {
-      final response = await dio.get<List<dynamic>>(
-        '$baseUrl/TransportStage/GetTransportStages',
+      final response = await DioHelper.dio.get<List<dynamic>>(
+        '/TransportStage/GetTransportStages',
       );
       final data = response.data!;
       return data
@@ -21,8 +19,8 @@ class StageRepo {
 
   Future<void> updateStages(List<StageModel> inputs) async {
     try {
-      await dio.put<Map<String, dynamic>>(
-        '$baseUrl/TransportStage/UpdateHajTransportStage',
+      await DioHelper.dio.put<Map<String, dynamic>>(
+        '/TransportStage/UpdateHajTransportStage',
         data: inputs.map((e) => e.toJson()).toList(),
         options: Options(
           headers: {

@@ -1,6 +1,7 @@
 import 'package:alrefadah/core/themes/colors_constants.dart';
 import 'package:alrefadah/core/utils/components/space.dart';
 import 'package:alrefadah/features/services_pages/guides/add/widgets/add_guide_body.dart';
+import 'package:alrefadah/features/services_pages/guides/delete/screens/delete_guide_page.dart';
 import 'package:alrefadah/features/services_pages/guides/main/cubit/guides_cubit.dart';
 import 'package:alrefadah/features/services_pages/guides/main/models/get_centers_model.dart';
 import 'package:alrefadah/features/services_pages/guides/show_all/screens/show_all_guides_page.dart';
@@ -34,16 +35,14 @@ PopupMenuButton<String> guidesPopupMenuButton(
             builder: (context) => ShowAllGuidesPages(center: center),
           ),
         );
-        // } else if (value == 'edit') {
-        //   context.read<GuidesCubit>().selectedSeasonId =
-        //       center.fSeasonId.toString();
-        //   context.read<GuidesCubit>().selectedCenterId =
-        //       center.fCenterNo.toString();
-        // Navigator.push(
-        //   context,
-        //   MaterialPageRoute(builder: (context) => const EditStationPage()),
-        // );
-      } else {
+      } else if (value == 'delete') {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => DeleteGuidePage(center: center),
+          ),
+        );
+      } else if (value == 'add') {
         context.read<GuidesCubit>().fetchCenters();
         context.read<GuidesCubit>().selectedSeason =
             center.fSeasonId.toString();
@@ -149,6 +148,33 @@ PopupMenuButton<String> guidesPopupMenuButton(
         //     ],
         //   ),
         // ),
+        if (center.fCountEmp != 0)
+          PopupMenuItem(
+            height: 40.h,
+            value: 'delete',
+            child: Row(
+              children: [
+                SvgPicture.asset(
+                  'assets/svg/trash_full.svg',
+                  colorFilter: const ColorFilter.mode(
+                    kErrorColor,
+                    BlendMode.srcIn,
+                  ),
+                ),
+                W(w: 8.w),
+                Text(
+                  'حذف مرشد',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: kErrorColor,
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w300,
+                    height: 1.67.h,
+                  ),
+                ),
+              ],
+            ),
+          ),
       ];
     },
   );

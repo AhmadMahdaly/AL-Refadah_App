@@ -91,3 +91,12 @@ final class VerifyLoginErrorState extends AuthStates {
   VerifyLoginErrorState(this.message);
   final String message;
 }
+
+class AuthStateStatus extends AuthStates {
+  AuthStateStatus(this.status);
+  final AuthStatus status;
+}
+
+enum AuthStatus { authenticated, unauthenticated }
+
+class AuthStateShowLogoutDialog extends AuthStates {}

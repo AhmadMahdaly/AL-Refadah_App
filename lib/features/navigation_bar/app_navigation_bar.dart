@@ -35,7 +35,9 @@ class _AppNavigationBarState extends State<AppNavigationBar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: pages.elementAt(_currentIndex),
+      body:
+      /// pages.elementAt(_currentIndex),
+      IndexedStack(index: _currentIndex, children: pages),
       bottomNavigationBar: BottomNavigationBar(
         landscapeLayout: BottomNavigationBarLandscapeLayout.spread,
         backgroundColor: kScaffoldBackgroundColor,

@@ -3,6 +3,7 @@ import 'package:alrefadah/core/utils/components/space.dart';
 import 'package:alrefadah/features/services_pages/oprating_commands/add/screens/add_oprating_commands_page.dart';
 import 'package:alrefadah/features/services_pages/oprating_commands/edit/screens/edit_oprating_commands.dart';
 import 'package:alrefadah/features/services_pages/oprating_commands/main/models/get_all_operatings_model.dart';
+import 'package:alrefadah/features/services_pages/oprating_commands/main/widgets/delete_oprating_command_method.dart';
 import 'package:alrefadah/features/services_pages/oprating_commands/show/screens/show_oprating_commands_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -35,6 +36,8 @@ PopupMenuButton<String> showOprationOpratingPopupMenuButton(
             builder: (context) => EditOpratingCommands(data: item),
           ),
         );
+      } else if (value == 'delete') {
+        await deleteOpertionCommandsMethod(context, item);
       } else {
         await Navigator.push(
           context,
@@ -91,6 +94,32 @@ PopupMenuButton<String> showOprationOpratingPopupMenuButton(
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: kMainColor,
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.w300,
+                  height: 1.67.h,
+                ),
+              ),
+            ],
+          ),
+        ),
+        PopupMenuItem(
+          height: 40.h,
+          value: 'delete',
+          child: Row(
+            children: [
+              SvgPicture.asset(
+                'assets/svg/trash_full.svg',
+                colorFilter: const ColorFilter.mode(
+                  kErrorColor,
+                  BlendMode.srcIn,
+                ),
+              ),
+              W(w: 8.w),
+              Text(
+                'حذف',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: kErrorColor,
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w300,
                   height: 1.67.h,

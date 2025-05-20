@@ -1,17 +1,15 @@
-import 'package:alrefadah/data/base_api_url.dart';
+import 'package:alrefadah/core/services/dio_helper.dart';
 import 'package:alrefadah/features/home_page/models/dashboard_model.dart';
 import 'package:alrefadah/features/home_page/models/home_season_model.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/main/models/get_buses_travel_centers_model.dart';
 import 'package:alrefadah/features/services_pages/transport_stage/models/stage_model.dart';
 import 'package:dio/dio.dart';
 
-class GetHomePageRepo {
-  final Dio dio = Dio();
-
+class HomeRepo {
   Future<List<HomeSeasonModel>> fetchSeasons() async {
     try {
-      final response = await dio.get<List<dynamic>>(
-        '$baseUrl/Buses/GetSeasons',
+      final response = await DioHelper.dio.get<List<dynamic>>(
+        '/Buses/GetSeasons',
       );
       final data = response.data!;
 
@@ -25,8 +23,8 @@ class GetHomePageRepo {
 
   Future<List<BusesTravelGetCenterModel>> getCenters() async {
     try {
-      final response = await dio.get<List<dynamic>>(
-        '$baseUrl/Guides/GetCenters',
+      final response = await DioHelper.dio.get<List<dynamic>>(
+        '/Buses/GetCenters',
       );
       final data = response.data!;
       return data
@@ -43,8 +41,8 @@ class GetHomePageRepo {
 
   Future<List<StageModel>> getStages() async {
     try {
-      final response = await dio.get<List<dynamic>>(
-        '$baseUrl/TransportStage/GetTransportStages',
+      final response = await DioHelper.dio.get<List<dynamic>>(
+        '/TransportStage/GetTransportStages',
       );
       final data = response.data!;
       return data
@@ -61,12 +59,26 @@ class GetHomePageRepo {
     String stageNo,
   ) async {
     try {
-      final response = await dio.get<Map<String, dynamic>>(
-        '$baseUrl/Dashboard/DashboardReport?SeasonId=$seasonId&CenterNo=$centerNo&StageNo=$stageNo',
+      final response = await DioHelper.dio.get<Map<String, dynamic>>(
+        '/Dashboard/DashboardReportNew?SeasonId=$seasonId&CenterNo=$centerNo&StageNo=$stageNo',
       );
+
+      if (response.data == null) {
+        throw Exception('فشل في تحميل البيانات: الاستجابة كانت فارغة.');
+      }
+
       return DashboardModel.fromJson(response.data!);
     } on DioException catch (e) {
-      throw Exception('خطأ: ${e.response?.data}');
+      final errorMessage =
+          (e.response?.data is Map<String, dynamic> &&
+                  (e.response?.data as Map<String, dynamic>).containsKey(
+                    'message',
+                  ))
+              ? (e.response?.data as Map<String, dynamic>)['message']
+              : e.response?.data.toString();
+      throw Exception('خطأ: $errorMessage');
+    } catch (e) {
+      throw Exception('خطأ غير متوقع: $e');
     }
   }
 }

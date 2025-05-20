@@ -1,8 +1,8 @@
 import 'package:alrefadah/core/themes/colors_constants.dart';
+import 'package:alrefadah/core/widgets/custom_dropdown/custom_dropdown.dart';
+import 'package:alrefadah/core/widgets/empty_dropdown.dart';
 import 'package:alrefadah/features/services_pages/guides/main/cubit/guides_cubit.dart';
 import 'package:alrefadah/features/services_pages/guides/main/cubit/guides_states.dart';
-import 'package:alrefadah/presentation/app/shared_widgets/custom_dropdown/custom_dropdown.dart';
-import 'package:alrefadah/presentation/app/shared_widgets/empty_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -127,7 +127,6 @@ class _GuidesSeasonDropdownState extends State<GuidesSeasonDropdown> {
         BlocProvider.of<GuidesCubit>(context).selectedSeason = value;
         context.read<GuidesCubit>()
           ..fetchCenters()
-          ..getGuideByCriteria()
           ..fetchGuides();
       });
     }

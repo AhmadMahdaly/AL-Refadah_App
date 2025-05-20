@@ -57,7 +57,7 @@ class EditBusModel {
     'fAdditionDate': DateTime.now().toIso8601String(),
     'fAdditionUser': 1,
     'fReceiptDate': DateTime.now().toIso8601String(),
-    'fReceiptUser': 1,
+    'fReceiptUser': 0,
   };
 }
 

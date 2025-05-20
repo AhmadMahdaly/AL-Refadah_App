@@ -1,9 +1,9 @@
 import 'package:alrefadah/core/themes/colors_constants.dart';
 import 'package:alrefadah/core/utils/components/text_fields/textfield_border_radius.dart';
+import 'package:alrefadah/core/widgets/empty_dropdown.dart';
 import 'package:alrefadah/features/services_pages/buses/main/cubit/buses_cubit.dart';
 import 'package:alrefadah/features/services_pages/buses/main/cubit/buses_states.dart';
 import 'package:alrefadah/features/services_pages/buses/main/models/buses_get_season_model.dart';
-import 'package:alrefadah/presentation/app/shared_widgets/empty_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -29,7 +29,7 @@ class _GetBusSeasonDropdownState extends State<GetBusSeasonDropdown> {
       if (state.seasons != null) {
         sessions
           ..clear()
-          ..addAll(state.seasons.map((e) => e.fSeasonId.toString()));
+          ..addAll(state.seasons.map((e) => e.fSeasonId));
         if (sessions.isNotEmpty) {
           busesCubit.selectedSeason = sessions.last;
         }
@@ -37,60 +37,62 @@ class _GetBusSeasonDropdownState extends State<GetBusSeasonDropdown> {
     });
   }
 
-  final List<String> sessions = [];
+  final List<int> sessions = [];
   @override
   Widget build(BuildContext context) {
-    return BlocListener<BusesCubit, BusesState>(
+    return BlocConsumer<BusesCubit, BusesState>(
       listener: (context, state) {
         if (state.seasons != null) {
           sessions
             ..clear()
-            ..addAll(state.seasons.map((e) => e.fSeasonId.toString()));
+            ..addAll(state.seasons.map((e) => e.fSeasonId));
           if (sessions.isNotEmpty) {
             BlocProvider.of<BusesCubit>(context).selectedSeason = sessions.last;
           }
         }
       },
-      child: BlocBuilder<BusesCubit, BusesState>(
-        builder: (context, state) {
-          if (state.isLoadingSeasons) {
-            return const EmptyDropdown(title: 'موسم حج');
-          }
 
-          if (state.seasons != null) {
-            return SizedBox(
-              height: 60.h,
-              child: DropdownButtonFormField<String>(
-                isExpanded: true,
-                dropdownColor: kScaffoldBackgroundColor,
-                hint: _buildDropdownItem(state.seasons.last.fSeasonName),
-                decoration: InputDecoration(
-                  border: dropdownBorderRadius(kMainColorLightColor),
-                  focusedBorder: dropdownBorderRadius(kMainColorLightColor),
-                  enabledBorder: dropdownBorderRadius(kMainColorLightColor),
-                  focusedErrorBorder: dropdownBorderRadius(kErrorColor),
-                ),
-                icon: const Icon(
-                  Icons.keyboard_arrow_down_rounded,
-                  color: kMainColor,
-                ),
-                style: TextStyle(
-                  color: kMainColor,
-                  fontSize: 15.sp,
-                  fontFamily: 'GE SS Two',
-                  fontWeight: FontWeight.w300,
-                  height: 1.43.h,
-                ),
-                items: _buildDropdownItems(state.seasons),
-                value: BlocProvider.of<BusesCubit>(context).selectedSeason,
-                onChanged: _onSeasonChanged,
-              ),
-            );
-          }
-
+      builder: (context, state) {
+        if (state.isLoadingSeasons) {
           return const EmptyDropdown(title: 'موسم حج');
-        },
-      ),
+        }
+
+        if (state.seasons != null && state.seasons.isNotEmpty) {
+          return SizedBox(
+            height: 60.h,
+            child: DropdownButtonFormField<String>(
+              isExpanded: true,
+              dropdownColor: kScaffoldBackgroundColor,
+              hint: _buildDropdownItem(state.seasons.last.fSeasonName),
+              decoration: InputDecoration(
+                border: dropdownBorderRadius(kMainColorLightColor),
+                focusedBorder: dropdownBorderRadius(kMainColorLightColor),
+                enabledBorder: dropdownBorderRadius(kMainColorLightColor),
+                focusedErrorBorder: dropdownBorderRadius(Colors.red),
+              ),
+              icon: const Icon(
+                Icons.keyboard_arrow_down_rounded,
+                color: kMainColor,
+              ),
+              style: TextStyle(
+                color: kMainColor,
+                fontSize: 15.sp,
+                fontFamily: 'GE SS Two',
+                fontWeight: FontWeight.w300,
+                height: 1.43.h,
+              ),
+              items: _buildDropdownItems(state.seasons),
+              value:
+                  BlocProvider.of<BusesCubit>(
+                    context,
+                  ).selectedSeason.toString(),
+              onChanged: _onSeasonChanged,
+            ),
+          );
+        }
+
+        return const EmptyDropdown(title: 'موسم حج');
+      },
     );
   }
 
@@ -132,7 +134,7 @@ class _GetBusSeasonDropdownState extends State<GetBusSeasonDropdown> {
   void _onSeasonChanged(String? value) {
     if (value != null) {
       setState(() {
-        BlocProvider.of<BusesCubit>(context).selectedSeason = value;
+        BlocProvider.of<BusesCubit>(context).selectedSeason = int.parse(value);
         context.read<BusesCubit>().getAllBuses();
       });
     }

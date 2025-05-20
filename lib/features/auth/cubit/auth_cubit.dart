@@ -1,9 +1,11 @@
 import 'dart:async';
 
+import 'package:alrefadah/core/manager/auth_manager.dart';
 import 'package:alrefadah/core/services/cache_helper.dart';
 import 'package:alrefadah/core/services/dio_helper.dart';
 import 'package:alrefadah/data/constants_variable.dart';
 import 'package:alrefadah/features/auth/cubit/auth_states.dart';
+import 'package:alrefadah/features/auth/models/user_login_model.dart';
 import 'package:alrefadah/features/auth/models/user_register_model.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,7 +22,6 @@ class AuthCubit extends Cubit<AuthStates> {
     try {
       emit(LoginLoadingState());
       await CacheHelper.saveData(key: 'phoneNo', value: phoneNo);
-      await CacheHelper.saveData(key: 'password', value: password);
       final response = await DioHelper.dio.post<Map<String, dynamic>>(
         '/Authentication/login',
         data: {
@@ -29,12 +30,9 @@ class AuthCubit extends Cubit<AuthStates> {
           'companyId': companyId,
         },
       );
-      await CacheHelper.saveData(key: 'phoneNo', value: phoneNo);
-      await CacheHelper.saveData(key: 'password', value: password);
       if (response.statusCode == 200 && response.data!['success'] == true) {
         final userId = response.data!['userId'];
         await CacheHelper.saveData(key: 'userId', value: userId);
-
         emit(LoginSuccessState());
       } else {
         emit(LoginErrorState('فشل تسجيل الدخول'));
@@ -57,15 +55,18 @@ class AuthCubit extends Cubit<AuthStates> {
         '/Authentication/loginWithCode',
         data: {'code': code, 'userId': userId},
       );
+      final loginData = LoginResponse.fromJson(response.data!);
 
-      if (response.statusCode == 200 && response.data!['success'] == true) {
-        final accessToken = response.data!['accessToken'];
-        // final refreshToken = response.data!['refreshToken'];
-
+      if (response.statusCode == 200 && loginData.success == true) {
+        final accessToken = loginData.accessToken;
         await CacheHelper.saveData(key: 'accessToken', value: accessToken);
-        // await CacheHelper.saveData(key: 'refreshToken', value: refreshToken);
+        final fPermName = loginData.role.fPermName;
+        await CacheHelper.saveData(key: 'fPermName', value: fPermName);
+        final fPermNo = loginData.role.fPermNo;
+        await CacheHelper.saveData(key: 'fPermNo', value: fPermNo);
+        final fUserName = loginData.user.fUserName;
+        await CacheHelper.saveData(key: 'fUserName', value: fUserName);
         await DioHelper.init();
-
         emit(LoginWithCodeSuccessState());
       } else {
         emit(LoginWithCodeErrorState('فشل تسجيل الدخول'));
@@ -78,11 +79,6 @@ class AuthCubit extends Cubit<AuthStates> {
     } catch (e) {
       emit(LoginWithCodeErrorState('حدث خطأ غير متوقع'));
     }
-  }
-
-  Future<void> logout() async {
-    await storage.deleteAll();
-    emit(LogoutSuccessState());
   }
 
   Future<void> register(UserRegisterModel userRegisterModel) async {
@@ -121,7 +117,6 @@ class AuthCubit extends Cubit<AuthStates> {
         '/Authentication/verifyRegister',
         data: {'userId': userId, 'code': code},
       );
-
       if (response.statusCode == 200) {
         emit(VerifyRegisterSuccessState());
       } else {
@@ -145,7 +140,6 @@ class AuthCubit extends Cubit<AuthStates> {
           'companyId': companyId,
         },
       );
-
       if (response.statusCode == 200) {
         final userId = response.data!['userId'];
         await CacheHelper.saveData(key: 'userId', value: userId);
@@ -165,7 +159,6 @@ class AuthCubit extends Cubit<AuthStates> {
       final response = await DioHelper.dio.post<Map<String, dynamic>>(
         '/Authentication/ConfirmLogin?userId=$code&companyId=$companyId',
       );
-
       if (response.statusCode == 200) {
         emit(VerifyLoginSuccessState());
       } else {
@@ -174,5 +167,19 @@ class AuthCubit extends Cubit<AuthStates> {
     } catch (e) {
       emit(VerifyLoginErrorState('حدث خطأ غير متوقع'));
     }
+  }
+
+  Future<void> checkAuth() async {
+    if (await AuthManager.isLoggedIn()) {
+      emit(AuthStateStatus(AuthStatus.authenticated));
+    } else {
+      emit(AuthStateStatus(AuthStatus.unauthenticated));
+    }
+  }
+
+  /// تسجيل خروج حقيقي
+  Future<void> logout() async {
+    await AuthManager.logout();
+    emit(AuthStateStatus(AuthStatus.unauthenticated));
   }
 }

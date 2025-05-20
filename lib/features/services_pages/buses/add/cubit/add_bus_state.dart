@@ -51,8 +51,3 @@ class AddBusState {
 class AddBusLoadingState extends AddBusState {}
 
 class AddBusErrorState extends AddBusState {}
-
-class MsgBusData extends AddBusState {
-  MsgBusData({required this.msg});
-  final String msg;
-}

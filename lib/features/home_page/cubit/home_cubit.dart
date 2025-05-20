@@ -1,13 +1,15 @@
+import 'package:alrefadah/core/services/cache_helper.dart';
 import 'package:alrefadah/features/home_page/cubit/home_states.dart';
 import 'package:alrefadah/features/home_page/repo/home_repo.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeCubit extends Cubit<HomeState> {
   HomeCubit(this.repository) : super(HomeState());
-  final GetHomePageRepo repository;
+  final HomeRepo repository;
   String? selectedSeason;
   String? selectedCenter;
   String? selectedStage;
+  int? fPermNo;
 
   Future<void> getHomeSeasons() async {
     emit(state.copyWith(isLoadingSeasons: true));
@@ -47,6 +49,18 @@ class HomeCubit extends Cubit<HomeState> {
 
   Future<void> getDashboardData() async {
     emit(state.copyWith(isLoadingAllData: true));
+    if (selectedSeason == null ||
+        selectedCenter == null ||
+        selectedStage == null) {
+      emit(
+        state.copyWith(
+          isLoadingAllData: false,
+          allData: null,
+          error: 'Missing selection data.',
+        ),
+      );
+      return;
+    }
     try {
       final dashboardData = await repository.getDashboardData(
         selectedSeason!,
@@ -55,9 +69,63 @@ class HomeCubit extends Cubit<HomeState> {
       );
       if (isClosed) return;
       emit(state.copyWith(isLoadingAllData: false, allData: dashboardData));
-    } catch (e) {
+    } catch (e, stackTrace) {
       if (isClosed) return;
-      emit(state.copyWith(isLoadingAllData: false, error: e.toString()));
+
+      emit(
+        state.copyWith(
+          isLoadingAllData: false,
+          error: '$stackTrace $e',
+          allData: null,
+        ),
+      );
+    }
+  }
+
+  Future<void> initHomeData() async {
+    emit(state.copyWith(isLoadingAllData: true, allData: null));
+    try {
+      fPermNo = await CacheHelper.getPermNo();
+      final seasons = await repository.fetchSeasons();
+      final centers = await repository.getCenters();
+      final stages = await repository.getStages();
+
+      selectedSeason =
+          seasons.isNotEmpty ? seasons.last.fSeasonId.toString() : null;
+      selectedCenter =
+          centers.isNotEmpty ? centers.first.fCenterNo.toString() : null;
+      selectedStage =
+          stages.isNotEmpty ? stages.first.fStageNo.toString() : null;
+
+      emit(
+        state.copyWith(
+          isLoadingAllData: false,
+          seasons: seasons,
+          centers: centers,
+          stages: stages,
+        ),
+      );
+
+      if (selectedSeason != null &&
+          selectedCenter != null &&
+          selectedStage != null) {
+        final dashboardData = await repository.getDashboardData(
+          selectedSeason!,
+          selectedCenter!,
+          selectedStage!,
+        );
+        emit(state.copyWith(isLoadingAllData: false, allData: dashboardData));
+      }
+
+      emit(state.copyWith(isLoadingAllData: false, allData: null));
+    } catch (e, stackTrace) {
+      emit(
+        state.copyWith(
+          isLoadingAllData: false,
+          error: '$stackTrace $e',
+          allData: null,
+        ),
+      );
     }
   }
 }

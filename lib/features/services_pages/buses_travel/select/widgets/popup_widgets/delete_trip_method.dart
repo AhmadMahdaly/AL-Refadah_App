@@ -1,10 +1,10 @@
 import 'package:alrefadah/core/themes/colors_constants.dart';
 import 'package:alrefadah/core/utils/components/custom_loading_indicator.dart';
-import 'package:alrefadah/features/services_pages/buses_travel/add/models/bus_travel_trip_model_by_stage_model.dart';
+import 'package:alrefadah/core/widgets/custom_dialog/error_dialog.dart';
+import 'package:alrefadah/core/widgets/custom_dialog/show_success_dialog.dart';
+import 'package:alrefadah/features/services_pages/buses_travel/add/models/trip_model.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/main/cubit/bus_travel_cubit.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/main/cubit/bus_travel_state.dart';
-import 'package:alrefadah/presentation/app/shared_widgets/custom_dialog/error_dialog.dart';
-import 'package:alrefadah/presentation/app/shared_widgets/custom_dialog/show_success_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -81,7 +81,7 @@ Future<String?> deleteTripMethod(BuildContext context, TripModel trip) {
                               showErrorDialog(
                                 isBack: true,
                                 context,
-                                message: 'هناك خطأ في إضافة الرحلة',
+                                message: 'هناك خطأ في حذف الرحلة',
                                 icon: Icons.error_outline_rounded,
                                 color: kErrorColor,
                               );

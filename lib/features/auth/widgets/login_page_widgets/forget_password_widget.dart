@@ -1,5 +1,5 @@
 import 'package:alrefadah/core/themes/colors_constants.dart';
-import 'package:alrefadah/features/auth/screans/forget_password_screens/get_user_code_forget_password_screen.dart';
+import 'package:alrefadah/features/auth/screens/forget_password_screens/get_user_code_forget_password_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 

@@ -24,36 +24,51 @@ class AddTransferStageTableHeadTitle extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            'اسم المرحلة',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 13.sp,
-              fontWeight: FontWeight.w500,
+          /// اسم المرحلة
+          SizedBox(
+            child: Text(
+              'اسم المرحلة',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 13.sp,
+                fontWeight: FontWeight.w500,
+              ),
             ),
           ),
-          Text(
-            'عدد الحجاج',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 13.sp,
-              fontWeight: FontWeight.w500,
+
+          /// عدد الحجاج
+          SizedBox(
+            child: Text(
+              'عدد الحجاج',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 13.sp,
+                fontWeight: FontWeight.w500,
+              ),
             ),
           ),
-          Text(
-            'عدد الحافلات',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 13.sp,
-              fontWeight: FontWeight.w500,
+
+          /// عدد الحافلات
+          SizedBox(
+            child: Text(
+              'عدد الحافلات',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 13.sp,
+                fontWeight: FontWeight.w500,
+              ),
             ),
           ),
-          Text(
-            'عدد الردود',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 13.sp,
-              fontWeight: FontWeight.w500,
+
+          /// عدد الردود
+          SizedBox(
+            child: Text(
+              'عدد الردود',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 13.sp,
+                fontWeight: FontWeight.w500,
+              ),
             ),
           ),
         ],

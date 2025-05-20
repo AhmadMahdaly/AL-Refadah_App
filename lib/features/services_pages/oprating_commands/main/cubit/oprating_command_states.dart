@@ -11,11 +11,15 @@ class OperatingCommandState {
     this.isLoadingEditOperating = false,
     this.isSuccessAddTransportOperating = false,
     this.isSuccessEditTransportOperating = false,
+    this.isLoadingDeleteOperating = false,
+    this.isSuccessDeleteOperating = false,
+    this.showDeleteErrorDialog = false,
     this.centers = const [],
     this.seasons = const [],
     this.operatingList = const [],
     this.error,
   });
+  final bool showDeleteErrorDialog;
   final bool isLoadingCenters;
   final bool isLoadingSeasons;
   final bool isLoadingTransportOprating;
@@ -23,6 +27,8 @@ class OperatingCommandState {
   final bool isLoadingEditOperating;
   final bool isSuccessAddTransportOperating;
   final bool isSuccessEditTransportOperating;
+  final bool isLoadingDeleteOperating;
+  final bool isSuccessDeleteOperating;
   final List<OperatindCommandGetCentersModel> centers;
   final List<OperatingCommandsGetSeasonsModel> seasons;
   final List<GetAllOperatingsModel> operatingList;
@@ -35,6 +41,9 @@ class OperatingCommandState {
     bool? isLoadingEditOperating,
     bool? isSuccessAddTransportOperating,
     bool? isSuccessEditTransportOperating,
+    bool? isLoadingDeleteOperating,
+    bool? isSuccessDeleteOperating,
+    bool? showDeleteErrorDialog,
     List<OperatindCommandGetCentersModel>? centers,
     List<OperatingCommandsGetSeasonsModel>? seasons,
     List<GetAllOperatingsModel>? operatingList,
@@ -58,6 +67,12 @@ class OperatingCommandState {
       seasons: seasons ?? this.seasons,
       operatingList: operatingList ?? this.operatingList,
       error: error ?? this.error,
+      isLoadingDeleteOperating:
+          isLoadingDeleteOperating ?? this.isLoadingDeleteOperating,
+      isSuccessDeleteOperating:
+          isSuccessDeleteOperating ?? this.isSuccessDeleteOperating,
+      showDeleteErrorDialog:
+          showDeleteErrorDialog ?? this.showDeleteErrorDialog,
     );
   }
 }

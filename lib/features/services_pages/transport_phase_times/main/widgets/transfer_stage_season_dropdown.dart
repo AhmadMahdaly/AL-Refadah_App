@@ -1,8 +1,8 @@
 import 'package:alrefadah/core/themes/colors_constants.dart';
+import 'package:alrefadah/core/widgets/custom_dropdown/custom_dropdown.dart';
+import 'package:alrefadah/core/widgets/empty_dropdown.dart';
 import 'package:alrefadah/features/services_pages/transport_phase_times/main/cubit/transfer_stage_shares_cubit.dart';
 import 'package:alrefadah/features/services_pages/transport_phase_times/main/cubit/transfer_stage_shares_states.dart';
-import 'package:alrefadah/presentation/app/shared_widgets/custom_dropdown/custom_dropdown.dart';
-import 'package:alrefadah/presentation/app/shared_widgets/empty_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -40,7 +40,6 @@ class _TransferStageSeasonDropdownState
   }
 
   final List<String> sessions = [];
-
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<TransferStageSharesCubit, TransferStageSharesState>(
@@ -121,22 +120,20 @@ class _TransferStageSeasonDropdownState
                     context,
                   ).selectedSeasonId ??
                   '',
-              onChanged: _onSeasonChanged,
+              onChanged: (String? value) {
+                if (value != null) {
+                  setState(() {
+                    BlocProvider.of<TransferStageSharesCubit>(context)
+                        .selectedSeasonId = value;
+                    context.read<TransferStageSharesCubit>().getCenters();
+                  });
+                }
+              },
             ),
           );
         }
         return const EmptyDropdown(title: 'موسم حج');
       },
     );
-  }
-
-  void _onSeasonChanged(String? value) {
-    if (value != null) {
-      setState(() {
-        BlocProvider.of<TransferStageSharesCubit>(context).selectedSeasonId =
-            value;
-        context.read<TransferStageSharesCubit>().getCenters();
-      });
-    }
   }
 }

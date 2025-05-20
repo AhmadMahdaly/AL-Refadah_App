@@ -22,15 +22,15 @@ class TransferStageHeadTitle extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          _buildHeaderText('اسم المركز'),
-          _buildHeaderText('رقم المركز'),
+          headerText('اسم المركز'),
+          headerText('رقم المركز'),
           W(w: 70.w),
         ],
       ),
     );
   }
 
-  Widget _buildHeaderText(String text) {
+  Widget headerText(String text) {
     return Text(
       text,
       style: TextStyle(

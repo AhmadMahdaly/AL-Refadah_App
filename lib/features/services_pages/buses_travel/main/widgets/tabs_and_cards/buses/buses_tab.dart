@@ -38,7 +38,7 @@ class BusesMovesBusesTab extends StatelessWidget {
                 right: 16.w,
                 left: 16.w,
                 bottom: 16.h,
-                top: 85.h,
+                top: 90.h,
               ),
               itemCount: uniqueFilteredTrips.length,
               itemBuilder: (context, index) {

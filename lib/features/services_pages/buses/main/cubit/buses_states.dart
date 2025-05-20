@@ -15,6 +15,10 @@ class BusesState {
     this.isLoadingAddTransportBus = false,
     this.isLoadingEditTransportBus = false,
     this.isLoadingAllBuses = false,
+    this.isLoadingAddBus = false,
+    this.isSuccessAddBus = false,
+    this.isLoadingDeleteBus = false,
+    this.isDeletedBus = false,
     this.centers = const [],
     this.seasons = const [],
     this.stages = const [],
@@ -22,6 +26,10 @@ class BusesState {
     this.alltransports = const [],
     this.allBuses = const [],
     this.error,
+    this.showDeleteErrorDialog = false,
+    this.selectedCenter,
+    this.isLoadingAllBusesByCrietia = false,
+    this.allBusesByCrietia = const [],
   });
   final bool isLoadingCenters;
   final bool isLoadingSeasons;
@@ -31,14 +39,20 @@ class BusesState {
   final bool isLoadingAddTransportBus;
   final bool isLoadingEditTransportBus;
   final bool isLoadingAllBuses;
-
+  final bool isLoadingAddBus;
+  final bool isSuccessAddBus;
+  final bool isLoadingDeleteBus;
+  final bool isDeletedBus;
+  final bool isLoadingAllBusesByCrietia;
   final List<BusesGetCenterModel> centers;
   final List<BusesGetSeasonModel> seasons;
   final List<BusesGetStageModel> stages;
   final List<BusesGetOperatingModel> transportOperating;
   final List<BusesGetAllTransportsModel> alltransports;
   final List<GetAllBusesModel> allBuses;
-
+  final bool showDeleteErrorDialog;
+  final String? selectedCenter;
+  final List<GetAllBusesModel> allBusesByCrietia;
   final String? error;
 
   BusesState copyWith({
@@ -50,7 +64,10 @@ class BusesState {
     bool? isLoadingAddTransportBus,
     bool? isLoadingEditTransportBus,
     bool? isLoadingAllBuses,
-
+    bool? isLoadingAddBus,
+    bool? isSuccessAddBus,
+    bool? isLoadingDeleteBus,
+    bool? isDeletedBus,
     List<BusesGetCenterModel>? centers,
     List<BusesGetSeasonModel>? seasons,
     List<BusesGetStageModel>? stages,
@@ -58,6 +75,10 @@ class BusesState {
     List<BusesGetAllTransportsModel>? alltransports,
     List<GetAllBusesModel>? allBuses,
     String? error,
+    bool? showDeleteErrorDialog,
+    String? selectedCenter,
+    bool? isLoadingAllBusesByCrietia,
+    List<GetAllBusesModel>? allBusesByCrietia,
   }) {
     return BusesState(
       isLoadingCenters: isLoadingCenters ?? this.isLoadingCenters,
@@ -79,6 +100,16 @@ class BusesState {
       alltransports: alltransports ?? this.alltransports,
       allBuses: allBuses ?? this.allBuses,
       error: error ?? this.error,
+      isLoadingAddBus: isLoadingAddBus ?? this.isLoadingAddBus,
+      isSuccessAddBus: isSuccessAddBus ?? this.isSuccessAddBus,
+      isLoadingDeleteBus: isLoadingDeleteBus ?? this.isLoadingDeleteBus,
+      isDeletedBus: isDeletedBus ?? this.isDeletedBus,
+      showDeleteErrorDialog:
+          showDeleteErrorDialog ?? this.showDeleteErrorDialog,
+      selectedCenter: selectedCenter ?? this.selectedCenter,
+      isLoadingAllBusesByCrietia:
+          isLoadingAllBusesByCrietia ?? this.isLoadingAllBusesByCrietia,
+      allBusesByCrietia: allBusesByCrietia ?? this.allBusesByCrietia,
     );
   }
 }

@@ -1,18 +1,23 @@
 import 'package:alrefadah/core/themes/colors_constants.dart';
 import 'package:alrefadah/core/utils/components/custom_loading_indicator.dart';
-import 'package:alrefadah/features/services_pages/buses_travel/add/models/add_buses_travel_trip_by_stage_model.dart';
-import 'package:alrefadah/features/services_pages/buses_travel/add/models/bus_travel_trip_model_by_stage_model.dart';
+import 'package:alrefadah/core/widgets/custom_dialog/error_dialog.dart';
+import 'package:alrefadah/core/widgets/custom_dialog/show_success_dialog.dart';
+import 'package:alrefadah/data/constants_variable.dart';
+import 'package:alrefadah/features/services_pages/buses_travel/add/models/add_trip_model.dart';
+import 'package:alrefadah/features/services_pages/buses_travel/add/models/trip_model.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/main/cubit/bus_travel_cubit.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/main/cubit/bus_travel_state.dart';
 import 'package:alrefadah/presentation/app/shared_cubit/get_current_location_cubit/get_current_location_cubit.dart';
-import 'package:alrefadah/presentation/app/shared_widgets/custom_dialog/error_dialog.dart';
-import 'package:alrefadah/presentation/app/shared_widgets/custom_dialog/show_success_dialog.dart';
 import 'package:alrefadah/presentation/app/shared_widgets/no_data_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-Future<String?> confirmReceiveTripMethod(BuildContext context, TripModel trip) {
+Future<String?> confirmReceiveTripMethod(
+  BuildContext context,
+  TripModel trip,
+  int userId,
+) {
   return showDialog<String>(
     context: context,
     builder: (context) {
@@ -36,8 +41,8 @@ Future<String?> confirmReceiveTripMethod(BuildContext context, TripModel trip) {
                     return const AppIndicator();
                   }
                   if (state is GetCurrentLocationSuccess) {
-                    final receiptLatitude = state.position.latitude.toString();
-                    final receiptLongitude =
+                    final approvalLatitude = state.position.latitude.toString();
+                    final approvalLongitude =
                         state.position.longitude.toString();
                     return BlocBuilder<BusTravelCubit, BusesTravelState>(
                       builder: (context, state) {
@@ -56,19 +61,20 @@ Future<String?> confirmReceiveTripMethod(BuildContext context, TripModel trip) {
                                     if (context.mounted) {
                                       final inputs = AddTripModel(
                                         /// أخر تحديث
-                                        fLastUpdate: DateTime.now(),
+                                        fLastUpdate:
+                                            DateTime.now().toIso8601String(),
 
                                         /// أخر تحديث
                                         fLastUpdateUser: 1,
 
                                         /// أخر تحديث
-                                        fLastUpdateSum: 1,
+                                        fLastUpdateSum: 2,
 
                                         /// أخر تحديث
-                                        fLastUpdateOper: 1,
+                                        fLastUpdateOper: 0,
 
                                         /// الشركة الناقلة
-                                        fCompanyId: int.parse(trip.fCompanyId),
+                                        fCompanyId: companyId,
 
                                         /// الموسم
                                         fSeasonId: int.parse(trip.fSeasonId),
@@ -92,7 +98,7 @@ Future<String?> confirmReceiveTripMethod(BuildContext context, TripModel trip) {
                                         fTripTime: trip.fTripTime,
 
                                         /// رقم الحافلة
-                                        fBusId: int.parse(trip.fBusId),
+                                        fBusId: trip.fBusId,
 
                                         /// عدد الحجاج
                                         fPilgrimsAco: int.parse(
@@ -100,13 +106,13 @@ Future<String?> confirmReceiveTripMethod(BuildContext context, TripModel trip) {
                                         ),
 
                                         /// تاريخ الإضافة
-                                        fAdditionDate: trip.fAdditionDate,
+                                        fAdditionDate:
+                                            trip.fAdditionDate
+                                                .toIso8601String(),
 
                                         /// المستخدم
-                                        fAdditionUser: 1,
-                                        //  int.parse(
-                                        //   trip.additionUser.fUserId,
-                                        // ),
+                                        fAdditionUser:
+                                            trip.additionUser.fUserId,
 
                                         /// خط العرض
                                         fAdditionLatitude:
@@ -117,16 +123,27 @@ Future<String?> confirmReceiveTripMethod(BuildContext context, TripModel trip) {
                                             trip.fAdditionLongitude,
 
                                         /// تاريخ الوصول
-                                        fReceiptDate: DateTime.now(),
+                                        fReceiptDate:
+                                            DateTime.now().toIso8601String(),
 
                                         /// المستلم
-                                        fReceiptUser: 1,
+                                        fReceiptUser: userId,
 
                                         /// خط العرض
-                                        fReceiptLatitude: receiptLatitude,
+                                        fReceiptLatitude: trip.fReceiptLatitude,
 
                                         /// خط الطول
-                                        fReceiptLongitude: receiptLongitude,
+                                        fReceiptLongitude:
+                                            trip.fReceiptLongitude,
+                                        fApprovalDate:
+                                            DateTime.now().toIso8601String(),
+                                        fApprovalUser: int.parse(
+                                          trip.fAdditionUser,
+                                        ),
+                                        fApprovalLatitude: approvalLatitude,
+                                        fApprovalLongitude: approvalLongitude,
+                                        fEmpNo: trip.fEmpNo ?? 0,
+                                        fTrackNo: trip.fTrackNo ?? 0,
                                       );
                                       try {
                                         await context
@@ -137,6 +154,12 @@ Future<String?> confirmReceiveTripMethod(BuildContext context, TripModel trip) {
                                             .read<BusTravelCubit>()
                                             .state
                                             .isEditingTripByStageSuccess) {
+                                          await context
+                                              .read<BusTravelCubit>()
+                                              .getTripsByStage(
+                                                trip.fCenterNo,
+                                                trip.fStageNo,
+                                              );
                                           showSuccessDialog(context);
 
                                           Future.delayed(
@@ -147,12 +170,6 @@ Future<String?> confirmReceiveTripMethod(BuildContext context, TripModel trip) {
                                               }
                                             },
                                           );
-                                          await context
-                                              .read<BusTravelCubit>()
-                                              .getTripsByStage(
-                                                trip.fCenterNo,
-                                                trip.fStageNo,
-                                              );
                                         } else {
                                           Navigator.pop(context);
                                           showErrorDialog(

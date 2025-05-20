@@ -1,9 +1,9 @@
 import 'package:alrefadah/core/themes/colors_constants.dart';
 import 'package:alrefadah/core/utils/components/text_fields/textfield_border_radius.dart';
+import 'package:alrefadah/core/widgets/empty_dropdown.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/main/cubit/bus_travel_cubit.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/main/cubit/bus_travel_state.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/main/models/get_buses_travel_centers_model.dart';
-import 'package:alrefadah/presentation/app/shared_widgets/empty_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -24,17 +24,21 @@ class _GetBusSeasonDropdownState extends State<GetBusTravelCentersDropdown> {
   }
 
   void initData() {
-    final cubit = BlocProvider.of<BusTravelCubit>(context)..getCenters();
-    cubit.stream.listen((state) {
-      if (state.centers != null) {
-        centers
-          ..clear()
-          ..addAll(state.centers.map((e) => e.fCenterNo.toString()));
-        if (centers.isNotEmpty) {
-          cubit.selectedCenter = centers.first;
+    try {
+      final cubit = BlocProvider.of<BusTravelCubit>(context)..getCenters();
+      cubit.stream.listen((state) {
+        if (state.centers != null) {
+          centers
+            ..clear()
+            ..addAll(state.centers.map((e) => e.fCenterNo.toString()));
+          if (centers.isNotEmpty) {
+            cubit.selectedCenter = centers.first;
+          }
         }
-      }
-    });
+      });
+    } catch (e) {
+      // Ignored: handle exception if needed
+    }
   }
 
   final List<String> centers = [];
@@ -42,7 +46,7 @@ class _GetBusSeasonDropdownState extends State<GetBusTravelCentersDropdown> {
   Widget build(BuildContext context) {
     return BlocListener<BusTravelCubit, BusesTravelState>(
       listener: (context, state) {
-        if (state.centers != null) {
+        if (state.centers != null && state.centers.isNotEmpty) {
           centers
             ..clear()
             ..addAll(state.centers.map((e) => e.fCenterNo.toString()));
@@ -57,7 +61,6 @@ class _GetBusSeasonDropdownState extends State<GetBusTravelCentersDropdown> {
           if (state.isLoadingCenters) {
             return const EmptyDropdown(title: 'مركز');
           }
-
           if (state.centers != null) {
             return SizedBox(
               height: 60.h,

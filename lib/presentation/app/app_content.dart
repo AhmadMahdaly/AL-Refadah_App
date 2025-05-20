@@ -1,6 +1,8 @@
 import 'package:alrefadah/core/init/build_bloc_providers.dart';
+import 'package:alrefadah/core/routes/global_variable.dart';
 import 'package:alrefadah/core/themes/app_theme.dart';
 import 'package:alrefadah/core/themes/unfocus_scope.dart';
+import 'package:alrefadah/data/constants_variable.dart';
 import 'package:alrefadah/features/splash_screen/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,9 +19,10 @@ class AppContent extends StatelessWidget {
       child: MultiBlocProvider(
         providers: buildBlocProviders(),
         child: MaterialApp(
+          navigatorKey: GlobalVariable.navigatorKey,
           debugShowCheckedModeBanner: false,
-          title: 'AL Rifadah',
           theme: appTheme(context),
+          title: appTitle,
           locale: const Locale('ar'), // هذا يحدد اللغة (والاتجاه rtl)
           supportedLocales: const [Locale('ar')],
           localizationsDelegates: const [

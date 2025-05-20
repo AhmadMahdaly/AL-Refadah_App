@@ -11,8 +11,8 @@ class BusesMovesHeadTitle extends StatelessWidget {
     return Container(
       width: double.infinity,
       margin: EdgeInsets.only(top: 2.h, left: 16.w, right: 16.w),
-      height: 60.h,
-      padding: EdgeInsets.all(10.sp),
+      height: 80.h,
+
       decoration: ShapeDecoration(
         color: kMainColor,
         shape: RoundedRectangleBorder(
@@ -25,44 +25,75 @@ class BusesMovesHeadTitle extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            'المرحلة',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 14.sp,
-              fontWeight: FontWeight.w800,
+          W(w: 0.w),
+          SizedBox(
+            width: 50.w,
+            child: Text(
+              'الحالة',
+              overflow: TextOverflow.fade,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 13.sp,
+                fontWeight: FontWeight.w800,
+                height: 1.5.h,
+              ),
+            ),
+          ),
+          SizedBox(
+            width: 70.w,
+            child: Text(
+              'المرحلة',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                overflow: TextOverflow.fade,
+                color: Colors.white,
+                fontSize: 13.sp,
+                fontWeight: FontWeight.w800,
+                height: 1.5.h,
+              ),
             ),
           ),
 
-          Text(
-            'المخصص',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 14.sp,
-              fontWeight: FontWeight.w800,
+          SizedBox(
+            width: 60.w,
+            child: Text(
+              'المخصص',
+              style: TextStyle(
+                overflow: TextOverflow.fade,
+                color: Colors.white,
+                fontSize: 13.sp,
+                fontWeight: FontWeight.w800,
+                height: 1.5.h,
+              ),
             ),
           ),
-          Text(
-            'المرحل',
-            overflow: TextOverflow.fade,
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 14.sp,
-              fontWeight: FontWeight.w800,
-              height: 1.h,
+          SizedBox(
+            width: 50.w,
+            child: Text(
+              'المرحل',
+              overflow: TextOverflow.fade,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 13.sp,
+                fontWeight: FontWeight.w800,
+                height: 1.5.h,
+              ),
             ),
           ),
-          Text(
-            'المتبقي',
-            overflow: TextOverflow.fade,
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 14.sp,
-              fontWeight: FontWeight.w800,
-              height: 1.h,
+          SizedBox(
+            width: 50.w,
+            child: Text(
+              'المتبقي',
+              overflow: TextOverflow.fade,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 13.sp,
+                fontWeight: FontWeight.w800,
+                height: 1.5.h,
+              ),
             ),
           ),
-          W(w: 12.w),
+          W(w: 40.w),
         ],
       ),
     );

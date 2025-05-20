@@ -26,3 +26,5 @@ String convertArabicToLatin(String input) {
   });
   return result;
 }
+
+const String appTitle = 'Al-Rifadah';

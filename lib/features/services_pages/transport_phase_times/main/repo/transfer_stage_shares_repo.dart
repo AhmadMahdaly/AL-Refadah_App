@@ -1,23 +1,22 @@
-import 'package:alrefadah/data/base_api_url.dart';
+import 'package:alrefadah/core/services/dio_helper.dart';
+import 'package:alrefadah/data/constants_variable.dart';
 import 'package:alrefadah/features/services_pages/transport_phase_times/add/models/transport_add_stage_model.dart';
-import 'package:alrefadah/features/services_pages/transport_phase_times/main/models/transfer_get_centers_model.dart';
-import 'package:alrefadah/features/services_pages/transport_phase_times/main/models/transfer_get_session_model.dart';
-import 'package:alrefadah/features/services_pages/transport_phase_times/main/models/transfer_get_stages_model.dart';
-import 'package:alrefadah/features/services_pages/transport_phase_times/main/models/transport_get_by_criteria_model.dart';
+import 'package:alrefadah/features/services_pages/transport_phase_times/main/models/transfer_stage_get_centers_model.dart';
+import 'package:alrefadah/features/services_pages/transport_phase_times/main/models/transfer_stage_get_session_model.dart';
+import 'package:alrefadah/features/services_pages/transport_phase_times/main/models/transfer_stage_get_stages_model.dart';
+import 'package:alrefadah/features/services_pages/transport_phase_times/main/models/transfer_stage_get_transport_by_criteria_model.dart';
 import 'package:dio/dio.dart';
 
 class TransferStageSharesRepo {
-  final Dio dio = Dio();
-
-  Future<List<TranferStageSharesGetSeasonsModel>> getSeasons() async {
+  Future<List<TranferStageGetSeasonsModel>> getSeasons() async {
     try {
-      final response = await dio.get<List<dynamic>>(
-        '$baseUrl/TransferStageShares/GetSeasons',
+      final response = await DioHelper.dio.get<List<dynamic>>(
+        '/TransferStageShares/GetSeasons',
       );
       final data = response.data!;
       return data
           .map(
-            (item) => TranferStageSharesGetSeasonsModel.fromJson(
+            (item) => TranferStageGetSeasonsModel.fromJson(
               item as Map<String, dynamic>,
             ),
           )
@@ -27,15 +26,15 @@ class TransferStageSharesRepo {
     }
   }
 
-  Future<List<TransferStageSharesGetCenterModel>> getCenters() async {
+  Future<List<TransferStageGetCenterModel>> getCenters() async {
     try {
-      final response = await dio.get<List<dynamic>>(
-        '$baseUrl/TransferStageShares/GetCenters',
+      final response = await DioHelper.dio.get<List<dynamic>>(
+        '/TransferStageShares/GetCenters',
       );
       final data = response.data!;
       return data
           .map(
-            (item) => TransferStageSharesGetCenterModel.fromJson(
+            (item) => TransferStageGetCenterModel.fromJson(
               item as Map<String, dynamic>,
             ),
           )
@@ -45,15 +44,15 @@ class TransferStageSharesRepo {
     }
   }
 
-  Future<List<TransferStageSharesGetStageModel>> getTransportStages() async {
+  Future<List<TransferStageGetStageModel>> getTransportStages() async {
     try {
-      final response = await dio.get<List<dynamic>>(
-        '$baseUrl/TransferStageShares/GetTransportStages',
+      final response = await DioHelper.dio.get<List<dynamic>>(
+        '/TransferStageShares/GetTransportStages',
       );
       final data = response.data!;
       return data
           .map(
-            (item) => TransferStageSharesGetStageModel.fromJson(
+            (item) => TransferStageGetStageModel.fromJson(
               item as Map<String, dynamic>,
             ),
           )
@@ -65,8 +64,8 @@ class TransferStageSharesRepo {
 
   Future<void> addTransportStage(List<AddTransportStageModel> inputs) async {
     try {
-      await dio.post<Map<String, dynamic>>(
-        '$baseUrl/TransferStageShares/AddHajTransportMax',
+      await DioHelper.dio.post<Map<String, dynamic>>(
+        '/TransferStageShares/AddHajTransportMax',
         data: inputs.map((e) => e.toJson()).toList(),
         options: Options(
           headers: {
@@ -82,8 +81,8 @@ class TransferStageSharesRepo {
 
   Future<void> editTransportStage(List<AddTransportStageModel> inputs) async {
     try {
-      await dio.put<Map<String, dynamic>>(
-        '$baseUrl/TransferStageShares/UpdateHajTransportMax',
+      await DioHelper.dio.put<Map<String, dynamic>>(
+        '/TransferStageShares/UpdateHajTransportMax',
         data: inputs.map((e) => e.toJson()).toList(),
         options: Options(
           headers: {
@@ -97,25 +96,37 @@ class TransferStageSharesRepo {
     }
   }
 
-  Future<List<TransferStageSharesGetByCriteriaModel>>
+  Future<List<TransferStageGetTransportByCriteriaModel>>
   getTransportStageByCriteria(
     String selectedSeasonId,
     String selectedCenterId,
   ) async {
     try {
-      final response = await dio.get<List<dynamic>>(
-        '$baseUrl/TransferStageShares/GetHajTransportMaxByCriteria/by-criteria?seasonId=$selectedSeasonId&centerNo=$selectedCenterId',
+      final response = await DioHelper.dio.get<List<dynamic>>(
+        '/TransferStageShares/GetHajTransportMaxByCriteria/by-criteria?seasonId=$selectedSeasonId&centerNo=$selectedCenterId',
       );
       final data = response.data!;
       return data
           .map(
-            (json) => TransferStageSharesGetByCriteriaModel.fromJson(
+            (json) => TransferStageGetTransportByCriteriaModel.fromJson(
               json as Map<String, dynamic>,
             ),
           )
           .toList();
     } on DioException catch (e) {
-      throw Exception('خطأ: ${e.response?.data}');
+      throw Exception('خطأ: ${e.response}');
     }
+  }
+
+  Future<String?> deleteTransportStage(
+    String stageNo,
+    String centerNo,
+    String selectedSeasonId,
+  ) async {
+    final data = await DioHelper.dio.delete<String>(
+      '/TransferStageShares/DeleteHajTransportMax?stageNo=$stageNo&centerNo=$centerNo&companyId=$companyId&SeasonId=$selectedSeasonId',
+    );
+
+    return data.data;
   }
 }

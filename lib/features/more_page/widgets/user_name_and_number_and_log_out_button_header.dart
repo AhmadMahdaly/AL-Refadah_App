@@ -1,11 +1,9 @@
 import 'package:alrefadah/core/services/cache_helper.dart';
 import 'package:alrefadah/core/themes/colors_constants.dart';
 import 'package:alrefadah/core/utils/components/space.dart';
-import 'package:alrefadah/features/auth/cubit/auth_cubit.dart';
-import 'package:alrefadah/features/auth/screans/login_screen.dart';
-import 'package:alrefadah/presentation/app/shared_widgets/custom_dialog/error_dialog.dart';
+import 'package:alrefadah/core/widgets/custom_dialog/error_dialog.dart';
+import 'package:alrefadah/features/auth/screens/login_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class UserNameAndNumberAndLogOutButtonHeader extends StatefulWidget {
@@ -25,15 +23,16 @@ class _UserNameAndNumberAndLogOutButtonHeaderState
   }
 
   Future<void> init() async {
-    userId = await CacheHelper.getData(key: 'userId');
-    phoneNo = await CacheHelper.getData(key: 'phoneNo');
+    fPermName = await CacheHelper.getData(key: 'fPermName');
+    fUserName = await CacheHelper.getData(key: 'fUserName');
+
     if (mounted) {
       setState(() {});
     }
   }
 
-  String? phoneNo;
-  String? userId;
+  String? fPermName;
+  String? fUserName;
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -46,16 +45,19 @@ class _UserNameAndNumberAndLogOutButtonHeaderState
             color: Colors.white,
             borderRadius: BorderRadius.circular(320.r),
           ),
-          child: Image.asset('assets/images/user.jpg', fit: BoxFit.cover),
+
+          /// Person Icon
+          child: const Icon(Icons.person, color: kMainColor),
         ),
         W(w: 10.w),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            /// user name
             SizedBox(
               height: 16.h,
               child: Text(
-                phoneNo ?? '',
+                fUserName ?? '',
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 14.sp,
@@ -65,10 +67,12 @@ class _UserNameAndNumberAndLogOutButtonHeaderState
               ),
             ),
             const H(h: 8),
+
+            /// permission name
             SizedBox(
               height: 16.h,
               child: Text(
-                userId ?? '',
+                fPermName ?? '',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Colors.white,
@@ -81,10 +85,12 @@ class _UserNameAndNumberAndLogOutButtonHeaderState
           ],
         ),
         const Spacer(),
+
+        /// log out button
         InkWell(
           onTap: () async {
             try {
-              await context.read<AuthCubit>().logout();
+              await CacheHelper.clearAll();
               await Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(builder: (context) => const LoginScreen()),

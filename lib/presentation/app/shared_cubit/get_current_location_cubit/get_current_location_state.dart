@@ -1,6 +1,5 @@
 part of 'get_current_location_cubit.dart';
 
-@immutable
 sealed class GetCurrentLocationState {}
 
 final class GetCurrentLocationInitial extends GetCurrentLocationState {}

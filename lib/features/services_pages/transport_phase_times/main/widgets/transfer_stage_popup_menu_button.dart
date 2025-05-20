@@ -1,24 +1,28 @@
 import 'package:alrefadah/core/themes/colors_constants.dart';
 import 'package:alrefadah/core/utils/components/space.dart';
 import 'package:alrefadah/features/services_pages/transport_phase_times/add/screens/add_transfer_stage_page.dart';
+import 'package:alrefadah/features/services_pages/transport_phase_times/delete/screens/delete_transport_stage_page.dart';
 import 'package:alrefadah/features/services_pages/transport_phase_times/edit/screens/edit_transfer_stage_page.dart';
-import 'package:alrefadah/features/services_pages/transport_phase_times/main/models/transfer_get_centers_model.dart';
+import 'package:alrefadah/features/services_pages/transport_phase_times/main/models/transfer_stage_get_centers_model.dart';
 import 'package:alrefadah/features/services_pages/transport_phase_times/show/screens/show_transfer_stage_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
+/// اجراءات حصص النقل
 PopupMenuButton<String> transferStagePopupMenuButton(
   BuildContext context,
-  TransferStageSharesGetCenterModel center,
+  TransferStageGetCenterModel center,
 ) {
-  void updateCubitAndNavigate(String route) {
+  void navigate(String route) {
     Widget page;
     switch (route) {
       case 'show':
         page = ShowTransferStagePage(center: center);
       case 'edit':
         page = EditTransferStagePage(center: center);
+      case 'delete':
+        page = DeleteTransferStagePage(center: center);
       default:
         page = AddTransferStagePage(center: center);
     }
@@ -26,11 +30,12 @@ PopupMenuButton<String> transferStagePopupMenuButton(
     Navigator.push(context, MaterialPageRoute(builder: (context) => page));
   }
 
-  PopupMenuEntry<String> buildMenuItem(
+  PopupMenuEntry<String> menuItem(
     String value,
     String iconPath,
-    String text,
-  ) {
+    String text, {
+    Color color = kMainColor,
+  }) {
     return PopupMenuItem<String>(
       height: 40.h,
       value: value,
@@ -38,14 +43,14 @@ PopupMenuButton<String> transferStagePopupMenuButton(
         children: [
           SvgPicture.asset(
             iconPath,
-            colorFilter: const ColorFilter.mode(kMainColor, BlendMode.srcIn),
+            colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
           ),
           W(w: 8.w),
           Text(
             text,
             textAlign: TextAlign.center,
             style: TextStyle(
-              color: kMainColor,
+              color: color,
               fontSize: 14.sp,
               fontWeight: FontWeight.w300,
               height: 1.67.h,
@@ -64,14 +69,20 @@ PopupMenuButton<String> transferStagePopupMenuButton(
       side: const BorderSide(color: kScaffoldBackgroundColor),
       borderRadius: BorderRadius.circular(12.r),
     ),
-    onSelected: updateCubitAndNavigate,
+    onSelected: navigate,
     itemBuilder: (context) {
       if (center.isAdded == 0) {
-        return [buildMenuItem('add', 'assets/svg/add-square.svg', 'إضافة')];
+        return [menuItem('add', 'assets/svg/add-square.svg', 'إضافة')];
       }
       return [
-        buildMenuItem('show', 'assets/svg/view.svg', 'مشاهدة'),
-        buildMenuItem('edit', 'assets/svg/edit-outline.svg', 'تعديل'),
+        menuItem('show', 'assets/svg/view.svg', 'مشاهدة'),
+        menuItem('edit', 'assets/svg/edit-outline.svg', 'تعديل'),
+        menuItem(
+          'delete',
+          'assets/svg/trash_full.svg',
+          'حذف',
+          color: kErrorColor,
+        ),
       ];
     },
   );

@@ -1,4 +1,5 @@
-import 'package:alrefadah/core/themes/colors_constants.dart';
+import 'package:alrefadah/core/widgets/leading_icon.dart';
+import 'package:alrefadah/core/widgets/title_appbar.dart';
 import 'package:alrefadah/features/services_pages/buses/add/cubit/add_bus_cubit.dart';
 import 'package:alrefadah/features/services_pages/buses/add/widgets/add_bus_button.dart';
 import 'package:alrefadah/features/services_pages/buses/add_by_center/widgets/add_bus_by_center_body.dart';
@@ -14,28 +15,18 @@ class AddBusPageByCenter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final formKey = GlobalKey<FormState>();
+
     return BlocProvider<AddBusCubit>(
       create: (context) => AddBusCubit(BusesRepo()),
       child: Scaffold(
         appBar: AppBar(
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back_ios_new),
-            onPressed: () => Navigator.pop(context),
-          ),
           toolbarHeight: 100.h,
-          title: Text(
-            'إضافة الحافلات',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: kMainColor,
-              fontSize: 14.sp,
-              fontWeight: FontWeight.w500,
-              height: 1.43.h,
-            ),
-          ),
+          leading: const LeadingIcon(),
+          title: const TitleAppBar(title: 'إضافة الحافلات'),
         ),
-        body: AddBusPageByCenterBody(bus: bus),
-        bottomNavigationBar: const AddBusButton(),
+        body: AddBusPageByCenterBody(bus: bus, formKey: formKey),
+        bottomNavigationBar: AddBusButton(formKey: formKey),
       ),
     );
   }

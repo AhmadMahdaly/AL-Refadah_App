@@ -62,18 +62,61 @@ class GuidesCubit extends Cubit<GuidesState> {
     }
   }
 
-  Future<void> getGuideByCriteria() async {
-    emit(state.copyWith(isLoadingGetByCriteria: true));
+  Future<void> getGuideByCriteria(String selectedCenter) async {
+    emit(
+      state.copyWith(
+        isLoadingGetByCriteria: true,
+        guidesByCriteria: [],
+        error: null,
+      ),
+    );
     try {
       final guides = await repository.getGuideByCriteria(
         selectedSeason!,
-        selectedCenter!,
+        selectedCenter,
       );
       emit(
-        state.copyWith(isLoadingGetByCriteria: false, guidesByCriteria: guides),
+        state.copyWith(
+          isLoadingGetByCriteria: false,
+          guidesByCriteria: guides,
+          error: null,
+        ),
       );
     } catch (e) {
-      emit(state.copyWith(isLoadingGetByCriteria: false, error: 'حدث خطأ'));
+      emit(
+        state.copyWith(
+          isLoadingGetByCriteria: false,
+          guidesByCriteria: [],
+          error: e.toString().replaceAll('Exception: ', ''),
+        ),
+      );
+    }
+  }
+
+  Future<void> deleteGuide(String selectedCenterId, String empNo) async {
+    emit(
+      state.copyWith(isLoadingdeleteGuide: true, isdeleteGuidesSuccess: false),
+    );
+    try {
+      await repository.deleteGuideByCriteria(
+        selectedSeason!,
+        selectedCenterId,
+        empNo,
+      );
+      emit(
+        state.copyWith(
+          isLoadingdeleteGuide: false,
+          isdeleteGuidesSuccess: true,
+        ),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          isLoadingdeleteGuide: false,
+          error: 'حدث خطأ',
+          isdeleteGuidesSuccess: false,
+        ),
+      );
     }
   }
 }

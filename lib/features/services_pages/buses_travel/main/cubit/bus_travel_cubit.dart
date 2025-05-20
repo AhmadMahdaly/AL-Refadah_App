@@ -1,6 +1,9 @@
-import 'package:alrefadah/features/services_pages/buses_travel/add/models/add_buses_travel_trip_by_stage_model.dart';
+import 'dart:developer';
+
+import 'package:alrefadah/features/services_pages/buses_travel/add/models/add_trip_model.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/main/cubit/bus_travel_state.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/main/repo/buses_travel_repo.dart';
+import 'package:alrefadah/features/services_pages/complaint/models/add_complaint_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class BusTravelCubit extends Cubit<BusesTravelState> {
@@ -59,6 +62,7 @@ class BusTravelCubit extends Cubit<BusesTravelState> {
       );
       emit(state.copyWith(isLoadingTripsByStage: false, tripsByStage: trips));
     } catch (e) {
+      log(e.toString());
       emit(state.copyWith(isLoadingTripsByStage: false, error: e.toString()));
     }
   }
@@ -90,6 +94,7 @@ class BusTravelCubit extends Cubit<BusesTravelState> {
       state.copyWith(
         isEditingTripByStage: true,
         isEditingTripByStageSuccess: false,
+        showEditErrorDialog: false,
       ),
     );
     try {
@@ -98,6 +103,7 @@ class BusTravelCubit extends Cubit<BusesTravelState> {
         state.copyWith(
           isEditingTripByStage: false,
           isEditingTripByStageSuccess: true,
+          showEditErrorDialog: false,
         ),
       );
     } catch (e) {
@@ -105,7 +111,7 @@ class BusTravelCubit extends Cubit<BusesTravelState> {
         state.copyWith(
           isEditingTripByStage: false,
           isEditingTripByStageSuccess: false,
-          error: e.toString(),
+          showEditErrorDialog: true,
         ),
       );
     }
@@ -163,6 +169,122 @@ class BusTravelCubit extends Cubit<BusesTravelState> {
           isDeleteTripByStage: false,
           isDeleteTripByStageSuccess: false,
           error: e.toString(),
+        ),
+      );
+    }
+  }
+
+  Future<void> getIncomingTripsByStage(String selectedStageId) async {
+    emit(state.copyWith(isLoadingIncomingTripByStage: true));
+    try {
+      if (selectedSeason != null || selectedCenter != null) {
+        final trips = await repository.getIncomingTrips(
+          selectedSeason!,
+          selectedCenter!,
+          selectedStageId,
+        );
+        emit(
+          state.copyWith(
+            isLoadingIncomingTripByStage: false,
+            incomingTripsByStage: trips,
+          ),
+        );
+      }
+    } catch (e) {
+      emit(
+        state.copyWith(
+          isLoadingIncomingTripByStage: false,
+          error: e.toString(),
+        ),
+      );
+    }
+  }
+
+  Future<void> getTripArrivingByStage(String selectedStageId) async {
+    emit(state.copyWith(isLoadingArrivingTripByStage: true));
+    try {
+      if (selectedSeason != null || selectedCenter != null) {
+        final trips = await repository.getTripArrivingByStage(
+          selectedSeason!,
+          selectedCenter!,
+          selectedStageId,
+        );
+        emit(
+          state.copyWith(
+            isLoadingArrivingTripByStage: false,
+            arrivingTripsByStage: trips,
+          ),
+        );
+      }
+    } catch (e) {
+      emit(
+        state.copyWith(
+          isLoadingArrivingTripByStage: false,
+          error: e.toString(),
+        ),
+      );
+    }
+  }
+
+  Future<void> getTrackTrip() async {
+    emit(state.copyWith(isLoadingTrackTrip: true));
+    try {
+      final trips = await repository.getTrackTrip();
+      emit(state.copyWith(isLoadingTrackTrip: false, track: trips));
+    } catch (e) {
+      emit(state.copyWith(isLoadingTrackTrip: false, error: e.toString()));
+    }
+  }
+
+  Future<void> getComplaintType() async {
+    emit(state.copyWith(isLoadingcomplaintType: true));
+    try {
+      final complaint = await repository.getComplaintType();
+      emit(
+        state.copyWith(isLoadingcomplaintType: false, complaintType: complaint),
+      );
+    } catch (e) {
+      emit(state.copyWith(isLoadingcomplaintType: false, error: e.toString()));
+    }
+  }
+
+  Future<void> addComplaint(AddComplaintModel complaint) async {
+    emit(
+      state.copyWith(isLoadingAddcomplaint: true, isSuccessAddcomplaint: false),
+    );
+    try {
+      await repository.addComplaint(complaint);
+      emit(
+        state.copyWith(
+          isLoadingAddcomplaint: false,
+          isSuccessAddcomplaint: true,
+        ),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          isLoadingAddcomplaint: false,
+          isSuccessAddcomplaint: false,
+          error: e.toString(),
+        ),
+      );
+    }
+  }
+
+  Future<void> getComplaint(String centerNo, String complaintStatus) async {
+    emit(state.copyWith(isLoadingcomplaint: true, complaint: null));
+    try {
+      final complaint = await repository.getComplaint(
+        centerNo,
+        complaintStatus,
+      );
+      emit(state.copyWith(isLoadingcomplaint: false, complaint: complaint));
+    } catch (e) {
+      emit(
+        state.copyWith(
+          isLoadingcomplaint: false,
+          error: e.toString(),
+          complaint: null,
         ),
       );
     }

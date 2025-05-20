@@ -17,7 +17,8 @@ class ServicesTabWidget extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Container(
-        width: double.infinity,
+        width: MediaQuery.of(context).size.width,
+        height: 65.h,
         padding: EdgeInsets.all(12.sp),
         decoration: ShapeDecoration(
           color: const Color(0xFFFCFCFC),
@@ -26,7 +27,11 @@ class ServicesTabWidget extends StatelessWidget {
             borderRadius: BorderRadius.circular(8.r),
           ),
           shadows: const [
-            BoxShadow(color: kShadowColor, blurRadius: 4, offset: Offset(2, 2)),
+            BoxShadow(
+              color: kMainColorLightColor,
+              blurRadius: 4,
+              offset: Offset(1, 2),
+            ),
           ],
         ),
         child: Row(

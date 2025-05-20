@@ -19,7 +19,7 @@ List<BlocProvider> buildBlocProviders() {
     BlocProvider<AuthCubit>(create: (context) => AuthCubit()),
 
     /// Home
-    BlocProvider<HomeCubit>(create: (context) => HomeCubit(GetHomePageRepo())),
+    BlocProvider<HomeCubit>(create: (context) => HomeCubit(HomeRepo())),
 
     /// Transport Phase Times
     BlocProvider<TransferStageSharesCubit>(
