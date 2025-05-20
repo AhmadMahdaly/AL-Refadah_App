@@ -111,26 +111,33 @@ class _BusesBodyState extends State<BusesBody> {
                             busNo.contains(_searchText) ||
                             operatingNo.contains(arabicSearch);
                       }).toList();
-              return Expanded(
-                child: ListView.builder(
-                  padding: EdgeInsets.only(
-                    left: 16.w,
-                    right: 16.w,
-                    bottom: 80.h,
-                    top: 10.h,
+              if (filteredCenters.isEmpty) {
+                return const SizedBox(
+                  height: 350,
+                  child: Center(child: Text('لا يوجد حافلات')),
+                );
+              }
+              if (filteredCenters.isNotEmpty) {
+                return Expanded(
+                  child: ListView.builder(
+                    padding: EdgeInsets.only(
+                      left: 16.w,
+                      right: 16.w,
+                      bottom: 80.h,
+                      top: 10.h,
+                    ),
+                    itemCount: filteredCenters.length,
+                    itemBuilder: (context, index) {
+                      final bus = filteredCenters[index];
+                      return BusCard(bus: bus);
+                    },
                   ),
-                  itemCount: filteredCenters.length,
-                  itemBuilder: (context, index) {
-                    final bus = filteredCenters[index];
-                    return BusCard(bus: bus);
-                  },
-                ),
-              );
-            } else {
-              return NoDataWidget(
-                onPressed: () => context.read<BusesCubit>().getAllBuses(),
-              );
+                );
+              }
             }
+            return NoDataWidget(
+              onPressed: () => context.read<BusesCubit>().getAllBuses(),
+            );
           },
         ),
       ],

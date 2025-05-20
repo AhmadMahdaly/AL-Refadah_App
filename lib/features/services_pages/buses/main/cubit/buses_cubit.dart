@@ -91,14 +91,14 @@ class BusesCubit extends Cubit<BusesState> {
     }
   }
 
-  Future<void> editTransportBus(List<EditBusModel> inputs) async {
-    emit(state.copyWith(isLoadingEditTransportBus: true));
+   Future<void> editTransportBus(List<EditBusModel> inputs) async {
+    emit(state.copyWith(isLoadingEditTransportBus: true, isEditDone:false));
     try {
       await repository.editTransportBus(inputs);
-      emit(state.copyWith(isLoadingEditTransportBus: false));
+      emit(state.copyWith(isLoadingEditTransportBus: false, isEditDone:true));
     } catch (e) {
       emit(
-        state.copyWith(isLoadingEditTransportBus: false, error: e.toString()),
+        state.copyWith(isLoadingEditTransportBus: false,isEditDone:false, error: e.toString()),
       );
     }
   }

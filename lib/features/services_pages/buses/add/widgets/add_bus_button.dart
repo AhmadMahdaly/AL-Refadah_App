@@ -41,7 +41,9 @@ class _AddBusButtonState extends State<AddBusButton> {
         return BlocBuilder<AddBusCubit, AddBusState>(
           builder: (context, state) {
             /// Loading
-            return state.centers.isEmpty || busesCubit.state.isLoadingAddBus
+            return state.centers.isEmpty ||
+                    busesCubit.state.isLoadingAddBus ||
+                    busesCubit.state.isLoadingAllBuses
                 ? const AppIndicator()
                 : Padding(
                   padding: EdgeInsets.only(

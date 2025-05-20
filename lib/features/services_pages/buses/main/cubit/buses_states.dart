@@ -30,6 +30,7 @@ class BusesState {
     this.selectedCenter,
     this.isLoadingAllBusesByCrietia = false,
     this.allBusesByCrietia = const [],
+    this.isEditDone = false,
   });
   final bool isLoadingCenters;
   final bool isLoadingSeasons;
@@ -54,7 +55,7 @@ class BusesState {
   final String? selectedCenter;
   final List<GetAllBusesModel> allBusesByCrietia;
   final String? error;
-
+  final bool isEditDone;
   BusesState copyWith({
     bool? isLoadingCenters,
     bool? isLoadingSeasons,
@@ -79,6 +80,7 @@ class BusesState {
     String? selectedCenter,
     bool? isLoadingAllBusesByCrietia,
     List<GetAllBusesModel>? allBusesByCrietia,
+    bool? isEditDone,
   }) {
     return BusesState(
       isLoadingCenters: isLoadingCenters ?? this.isLoadingCenters,
@@ -110,6 +112,7 @@ class BusesState {
       isLoadingAllBusesByCrietia:
           isLoadingAllBusesByCrietia ?? this.isLoadingAllBusesByCrietia,
       allBusesByCrietia: allBusesByCrietia ?? this.allBusesByCrietia,
+      isEditDone: isEditDone ?? this.isEditDone,
     );
   }
 }

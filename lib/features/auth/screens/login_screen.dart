@@ -140,7 +140,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               return null;
                             },
                             text: 'اسم المستخدم',
-                            icon: SvgPicture.asset(
+                            passwordIcon: SvgPicture.asset(
                               'assets/svg/user.svg',
                               fit: BoxFit.none,
                               width: 20.w,
@@ -173,7 +173,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               return null;
                             },
                             text: 'كلمة المرور',
-                            icon: SvgPicture.asset(
+                            passwordIcon: SvgPicture.asset(
                               'assets/svg/lock.svg',
                               fit: BoxFit.none,
                               width: 20.w,
@@ -186,7 +186,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
 
                             textInputAction: TextInputAction.done,
-                            passwordIcon: IconButton(
+                            icon: IconButton(
                               onPressed:
                                   () => setState(() {
                                     isHidenPassword = !isHidenPassword;

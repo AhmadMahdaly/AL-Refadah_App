@@ -4,6 +4,7 @@ import 'package:alrefadah/core/widgets/custom_dialog/error_dialog.dart';
 import 'package:alrefadah/features/services_pages/buses/add_by_center/screens/add_bus_by_center_page.dart';
 import 'package:alrefadah/features/services_pages/buses/edit/screens/edit_bus_page.dart';
 import 'package:alrefadah/features/services_pages/buses/main/models/get_all_buses_model.dart';
+import 'package:alrefadah/features/services_pages/buses/main/widgets/confirm_bus_receive_method.dart';
 import 'package:alrefadah/features/services_pages/buses/main/widgets/delete_bus_method.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -40,6 +41,10 @@ PopupMenuButton<String> showBusPopupMenuButton(
           context,
           MaterialPageRoute(builder: (context) => AddBusPageByCenter(bus: bus)),
         );
+      } else if (value == 'confirm') {
+        if (context.mounted) {
+          await confirmReceiveBusMethod(context, bus);
+        }
       } else if (value == 'delete') {
         try {
           if (context.mounted) {
@@ -117,32 +122,61 @@ PopupMenuButton<String> showBusPopupMenuButton(
         //     ],
         //   ),
         // ),
-        PopupMenuItem(
-          height: 40.h,
-          value: 'edit',
-          child: Row(
-            children: [
-              SvgPicture.asset(
-                'assets/svg/edit-outline.svg',
-                colorFilter: const ColorFilter.mode(
-                  kMainColor,
-                  BlendMode.srcIn,
+        if (bus.fBusStatus == 1)
+          PopupMenuItem(
+            height: 40.h,
+            value: 'edit',
+            child: Row(
+              children: [
+                SvgPicture.asset(
+                  'assets/svg/edit-outline.svg',
+                  colorFilter: const ColorFilter.mode(
+                    kMainColor,
+                    BlendMode.srcIn,
+                  ),
                 ),
-              ),
-              W(w: 8.w),
-              Text(
-                'تعديل',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: kMainColor,
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w300,
-                  height: 1.67.h,
+                W(w: 8.w),
+                Text(
+                  'تعديل',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: kMainColor,
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w300,
+                    height: 1.67.h,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
+        if (bus.fBusStatus == 1)
+          PopupMenuItem(
+            height: 40.h,
+            value: 'confirm',
+            child: Row(
+              children: [
+                SvgPicture.asset(
+                  'assets/svg/add-square.svg',
+                  colorFilter: const ColorFilter.mode(
+                    kGreenColor,
+                    BlendMode.srcIn,
+                  ),
+                ),
+                W(w: 8.w),
+                Text(
+                  'استلام الحافلة',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: kGreenColor,
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w300,
+                    height: 1.67.h,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        // if (bus.fBusStatus == 1)
         PopupMenuItem(
           height: 40.h,
           value: 'delete',

@@ -58,7 +58,7 @@ class _OpratingCommandBodyState extends State<OpratingCommandBody> {
       builder: (context, state) {
         if (state.isLoadingTransportOprating) {
           return const AppIndicator();
-        } else if (state.operatingList.isNotEmpty) {
+        } else if (state.operatingList != null) {
           final command = state.operatingList;
           final filteredCenters =
               _searchText.isEmpty
@@ -71,60 +71,70 @@ class _OpratingCommandBodyState extends State<OpratingCommandBody> {
                         centerName.contains(_searchText) ||
                         operatingNo.contains(arabicSearch);
                   }).toList();
-          return Column(
-            children: [
-              H(h: 10.h),
+          if (filteredCenters.isEmpty) {
+            return const SizedBox(
+              height: 370,
+              child: Center(child: Text('لا يوجد أوامر تشغيل')),
+            );
+          }
+          if (filteredCenters.isNotEmpty) {
+            return Column(
+              children: [
+                H(h: 10.h),
 
-              /// Search bar
-              SizedBox(
-                height: 46,
-                child: Row(
-                  spacing: 12.w,
-                  children: [
-                    W(w: 4.w),
-                    Expanded(
-                      child: CustomSearchBar(
-                        controller: _searchController,
-                        clearIcon: IconButton(
-                          icon: const Icon(Icons.clear),
-                          onPressed: () {
-                            if (mounted) {
-                              setState(() {
-                                _searchText = '';
-                              });
-                            }
-                          },
+                /// Search bar
+                SizedBox(
+                  height: 46,
+                  child: Row(
+                    spacing: 12.w,
+                    children: [
+                      W(w: 4.w),
+                      Expanded(
+                        child: CustomSearchBar(
+                          controller: _searchController,
+                          clearIcon: IconButton(
+                            icon: const Icon(Icons.clear),
+                            onPressed: () {
+                              if (mounted) {
+                                setState(() {
+                                  _searchText = '';
+                                });
+                              }
+                            },
+                          ),
                         ),
                       ),
-                    ),
-                    const CustomDownloadButton(),
-                    W(w: 4.w),
-                  ],
-                ),
-              ),
-              const OpratingCommandsTableHeadTitle(),
-              Expanded(
-                child: ListView.builder(
-                  padding: EdgeInsets.only(
-                    left: 16.w,
-                    right: 16.w,
-                    bottom: 80.h,
-                    top: 16.h,
+                      const CustomDownloadButton(),
+                      W(w: 4.w),
+                    ],
                   ),
-                  itemCount: filteredCenters.length,
-                  itemBuilder: (context, index) {
-                    final item = filteredCenters[index];
-                    return OpratingCommandsCard(item: item);
-                  },
                 ),
-              ),
-            ],
-          );
+                const OpratingCommandsTableHeadTitle(),
+                Expanded(
+                  child: ListView.builder(
+                    padding: EdgeInsets.only(
+                      left: 16.w,
+                      right: 16.w,
+                      bottom: 80.h,
+                      top: 16.h,
+                    ),
+                    itemCount: filteredCenters.length,
+                    itemBuilder: (context, index) {
+                      final item = filteredCenters[index];
+                      return OpratingCommandsCard(item: item);
+                    },
+                  ),
+                ),
+              ],
+            );
+          }
         }
         return NoDataWidget(
-          onPressed: () {
-            context.read<OpratingCommandsCubit>().getAllTransportOperating();
-          },
+          onPressed:
+              () =>
+                  context
+                      .read<OpratingCommandsCubit>()
+                      .getAllTransportOperating(),
         );
       },
     );
