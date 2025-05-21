@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:alrefadah/features/services_pages/buses/add/models/add_bus_form_data.dart';
 import 'package:alrefadah/features/services_pages/buses/main/models/buses_get_all_transports_model.dart';
 import 'package:alrefadah/features/services_pages/buses/main/models/buses_get_center_model.dart';
@@ -14,6 +15,7 @@ class AddBusState {
     this.operations = const [],
     this.selectedOperation,
     this.transports = const [],
+    this.formKeys = const [],
   });
   final List<BusesGetCenterModel> centers;
   final BusesGetCenterModel? selectedCenter;
@@ -23,6 +25,7 @@ class AddBusState {
   final BusesGetOperatingModel? selectedOperation;
   final List<BusesGetAllTransportsModel> transports;
   final List<AddBusFormData> busForms;
+  final List<GlobalKey<FormState>> formKeys;
 
   AddBusState copyWith({
     List<AddBusFormData>? busForms,
@@ -34,6 +37,7 @@ class AddBusState {
     BusesGetOperatingModel? selectedOperation,
     List<BusesGetAllTransportsModel>? transports,
     BusesGetAllTransportsModel? selectedTransport,
+    List<GlobalKey<FormState>>? formKeys,
   }) {
     return AddBusState(
       busForms: busForms ?? this.busForms,
@@ -44,6 +48,7 @@ class AddBusState {
       operations: operations ?? this.operations,
       selectedOperation: selectedOperation ?? this.selectedOperation,
       transports: transports ?? this.transports,
+      formKeys: formKeys ?? this.formKeys,
     );
   }
 }

@@ -1,11 +1,11 @@
 import 'dart:developer';
 
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:alrefadah/features/services_pages/buses/add/models/add_bus_model.dart';
 import 'package:alrefadah/features/services_pages/buses/add/repo/add_bus_repo.dart';
 import 'package:alrefadah/features/services_pages/buses/edit/models/edit_bus_model.dart';
 import 'package:alrefadah/features/services_pages/buses/main/cubit/buses_states.dart';
 import 'package:alrefadah/features/services_pages/buses/main/repo/buses_repo.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class BusesCubit extends Cubit<BusesState> {
   BusesCubit(this.repository) : super(BusesState());
@@ -91,25 +91,45 @@ class BusesCubit extends Cubit<BusesState> {
     }
   }
 
-   Future<void> editTransportBus(List<EditBusModel> inputs) async {
-    emit(state.copyWith(isLoadingEditTransportBus: true, isEditDone:false));
+  Future<void> editTransportBus(List<EditBusModel> inputs) async {
+    emit(state.copyWith(isLoadingEditTransportBus: true, isEditDone: false));
     try {
       await repository.editTransportBus(inputs);
-      emit(state.copyWith(isLoadingEditTransportBus: false, isEditDone:true));
+      emit(state.copyWith(isLoadingEditTransportBus: false, isEditDone: true));
     } catch (e) {
       emit(
-        state.copyWith(isLoadingEditTransportBus: false,isEditDone:false, error: e.toString()),
+        state.copyWith(
+          isLoadingEditTransportBus: false,
+          isEditDone: false,
+          error: e.toString(),
+        ),
       );
     }
   }
 
   Future<void> addBus(List<AddBusModel?> model) async {
-    emit(state.copyWith(isLoadingAddBus: true));
+    emit(state.copyWith(isLoadingAddBus: true, isSuccessAddBus: false));
     try {
-      await AddBusesRepo().addBusesData(model);
-      emit(state.copyWith(isLoadingAddBus: false, isSuccessAddBus: true));
+      final response = await AddBusesRepo().addBusesData(model);
+      if (response.toString().contains('Data inserted Successfully')) {
+        emit(state.copyWith(isLoadingAddBus: false, isSuccessAddBus: true));
+      } else if (response.toString().contains('An Error Occured ')) {
+        emit(
+          state.copyWith(
+            isLoadingAddBus: false,
+            error: 'خطأ',
+            isSuccessAddBus: false,
+          ),
+        );
+      }
     } catch (e) {
-      emit(state.copyWith(isLoadingAddBus: false, error: e.toString()));
+      emit(
+        state.copyWith(
+          isLoadingAddBus: false,
+          error: e.toString(),
+          isSuccessAddBus: false,
+        ),
+      );
     }
   }
 

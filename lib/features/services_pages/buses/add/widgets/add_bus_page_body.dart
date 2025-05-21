@@ -1,3 +1,6 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:alrefadah/core/themes/colors_constants.dart';
 import 'package:alrefadah/core/utils/components/custom_loading_indicator.dart';
 import 'package:alrefadah/core/utils/components/space.dart';
@@ -10,13 +13,9 @@ import 'package:alrefadah/features/services_pages/buses/main/cubit/buses_states.
 import 'package:alrefadah/features/services_pages/buses/main/models/buses_get_center_model.dart';
 import 'package:alrefadah/features/services_pages/buses/main/models/buses_get_operating_model.dart';
 import 'package:alrefadah/features/services_pages/buses/main/models/buses_get_stage_model.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AddBusPageBody extends StatefulWidget {
-  const AddBusPageBody({required this.formKey, super.key});
-  final GlobalKey<FormState> formKey;
+  const AddBusPageBody({super.key});
   @override
   State<AddBusPageBody> createState() => _AddBusPageBodyState();
 }
@@ -273,9 +272,14 @@ class _AddBusPageBodyState extends State<AddBusPageBody> {
                           physics: const NeverScrollableScrollPhysics(),
                           itemCount: state.busForms.length,
                           itemBuilder: (context, index) {
+                            if (state.busForms.length !=
+                                state.formKeys.length) {
+                              return const SizedBox();
+                            }
+
                             return AddBusDetailsCard(
                               index: index,
-                              formKey: widget.formKey,
+                              formKey: state.formKeys[index],
                             );
                           },
                         ),

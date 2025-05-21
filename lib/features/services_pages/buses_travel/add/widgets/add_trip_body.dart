@@ -1,3 +1,7 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 import 'package:alrefadah/core/services/cache_helper.dart';
 import 'package:alrefadah/core/themes/colors_constants.dart';
 import 'package:alrefadah/core/utils/components/custom_button.dart';
@@ -22,10 +26,6 @@ import 'package:alrefadah/features/services_pages/guides/main/cubit/guides_cubit
 import 'package:alrefadah/features/services_pages/guides/main/cubit/guides_states.dart';
 import 'package:alrefadah/features/services_pages/guides/main/models/by_criteria/assignment_model.dart';
 import 'package:alrefadah/presentation/app/shared_cubit/get_current_location_cubit/get_current_location_cubit.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:intl/intl.dart';
 
 class AddTripBody extends StatefulWidget {
   const AddTripBody({
@@ -105,9 +105,9 @@ class _AddTripBodyState extends State<AddTripBody> {
           builder: (context, state) {
             final busesState = context.read<BusesCubit>().state;
             final busItems =
-                state.allBusesByCrietia.where((bus) {
-                  final busNo = bus.fBusId;
-                  return busNo != null && busNo.isNotEmpty;
+                busesState.allBusesByCrietia.where((bus) {
+                  final fBusId = bus.fBusId;
+                  return fBusId != null && fBusId.isNotEmpty;
                 }).toList();
 
             return BlocBuilder<GuidesCubit, GuidesState>(
@@ -432,7 +432,7 @@ class _AddTripBodyState extends State<AddTripBody> {
 
                                             buildRadioOption(
                                               title: 'لا يوجد',
-                                              value: '2',
+                                              value: 'null',
                                             ),
                                           ],
                                         ),
@@ -499,7 +499,13 @@ class _AddTripBodyState extends State<AddTripBody> {
                                               fontWeight: FontWeight.w300,
                                               height: 1.25.h,
                                             ),
-                                            value: selectedGuide,
+                                            value:
+                                                selectedGuide != null &&
+                                                        centerGuides.contains(
+                                                          selectedGuide,
+                                                        )
+                                                    ? selectedGuide
+                                                    : null,
 
                                             items:
                                                 centerGuides.map((guide) {
@@ -638,7 +644,7 @@ class _AddTripBodyState extends State<AddTripBody> {
                                                 fApprovalLatitude: 'null',
                                                 fApprovalLongitude: 'null',
                                                 fEmpNo:
-                                                    transType == '2'
+                                                    transType == 'null'
                                                         ? null
                                                         : selectedGuide?.fEmpNo,
                                                 fApprovalDate:

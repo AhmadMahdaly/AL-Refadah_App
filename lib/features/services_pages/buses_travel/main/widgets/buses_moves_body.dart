@@ -1,5 +1,8 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:alrefadah/core/themes/colors_constants.dart';
 import 'package:alrefadah/core/utils/components/custom_search_bar.dart';
 import 'package:alrefadah/core/utils/components/space.dart';
@@ -14,9 +17,6 @@ import 'package:alrefadah/features/services_pages/buses_travel/main/widgets/drop
 import 'package:alrefadah/features/services_pages/buses_travel/main/widgets/tabs_and_cards/buses/buses_tab.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/main/widgets/tabs_and_cards/pilgrims/pilgrims_tab.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/main/widgets/tabs_and_cards/trips/trips_tab.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class BusesMovesBody extends StatefulWidget {
   const BusesMovesBody({super.key});

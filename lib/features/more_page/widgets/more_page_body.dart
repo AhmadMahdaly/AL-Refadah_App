@@ -46,7 +46,7 @@ class _MorePageBodyState extends State<MorePageBody> {
     fPermNo = context.read<HomeCubit>().fPermNo;
   }
 
-  int? fPermNo;
+  String? fPermNo;
 
   ///
   void initBusTravelData() {
@@ -136,7 +136,6 @@ class _MorePageBodyState extends State<MorePageBody> {
                   ServicesTabWidget(
                     icon: SvgPicture.asset(
                       'assets/svg/place_location.svg',
-                      width: 20.sp,
                       colorFilter: const ColorFilter.mode(
                         kMainColor,
                         BlendMode.srcIn,
@@ -172,7 +171,6 @@ class _MorePageBodyState extends State<MorePageBody> {
                   ServicesTabWidget(
                     icon: SvgPicture.asset(
                       'assets/svg/driver-outline.svg',
-                      width: 20.sp,
                       colorFilter: const ColorFilter.mode(
                         kMainColor,
                         BlendMode.srcIn,
@@ -194,7 +192,6 @@ class _MorePageBodyState extends State<MorePageBody> {
                   ServicesTabWidget(
                     icon: SvgPicture.asset(
                       'assets/svg/Document.svg',
-                      width: 20.sp,
                       colorFilter: const ColorFilter.mode(
                         kMainColor,
                         BlendMode.srcIn,

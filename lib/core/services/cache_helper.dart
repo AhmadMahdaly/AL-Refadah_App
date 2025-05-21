@@ -32,11 +32,4 @@ class CacheHelper {
     if (value == null) return null;
     return int.tryParse(value);
   }
-
-  ///  دالة خاصة لجلب fPermNo كـ int
-  static Future<int?> getPermNo() async {
-    final value = await storage.read(key: 'fPermNo');
-    if (value == null) return null;
-    return int.tryParse(value);
-  }
 }

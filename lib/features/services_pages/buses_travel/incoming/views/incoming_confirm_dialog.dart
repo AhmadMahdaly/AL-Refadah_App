@@ -1,3 +1,6 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:alrefadah/core/themes/colors_constants.dart';
 import 'package:alrefadah/core/utils/components/custom_loading_indicator.dart';
 import 'package:alrefadah/core/widgets/custom_dialog/error_dialog.dart';
@@ -9,9 +12,6 @@ import 'package:alrefadah/features/services_pages/buses_travel/main/cubit/bus_tr
 import 'package:alrefadah/features/services_pages/buses_travel/main/cubit/bus_travel_state.dart';
 import 'package:alrefadah/presentation/app/shared_cubit/get_current_location_cubit/get_current_location_cubit.dart';
 import 'package:alrefadah/presentation/app/shared_widgets/no_data_widget.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 Future<String?> confirmDialog(
   BuildContext context,
@@ -142,8 +142,8 @@ Future<String?> confirmDialog(
                                         ),
                                         fApprovalLatitude: approvalLatitude,
                                         fApprovalLongitude: approvalLongitude,
-                                        fEmpNo: trip.fEmpNo ?? 0,
-                                        fTrackNo: trip.fTrackNo ?? 0,
+                                        fEmpNo: trip.fEmpNo,
+                                        fTrackNo: trip.fTrackNo!,
                                       );
                                       try {
                                         await context

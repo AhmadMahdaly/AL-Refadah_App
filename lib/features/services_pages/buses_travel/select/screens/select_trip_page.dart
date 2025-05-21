@@ -1,5 +1,9 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:alrefadah/core/services/cache_helper.dart';
 import 'package:alrefadah/core/themes/colors_constants.dart';
 import 'package:alrefadah/core/utils/components/custom_loading_indicator.dart';
@@ -9,16 +13,13 @@ import 'package:alrefadah/core/widgets/custom_download_button.dart';
 import 'package:alrefadah/core/widgets/leading_icon.dart';
 import 'package:alrefadah/core/widgets/title_appbar.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/add/screens/add_trip_page.dart';
+import 'package:alrefadah/features/services_pages/buses_travel/approval/widgets/head_table_bus_trip.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/main/cubit/bus_travel_cubit.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/main/cubit/bus_travel_state.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/main/models/get_buses_travel_trip_model.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/select/widgets/popup_widgets/select_buses_travel_popup_button.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/select/widgets/select_buses_travel_head_table_in_card.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/select/widgets/select_buses_travel_title_head.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 
 class SelectTripPage extends StatefulWidget {
   const SelectTripPage({required this.trip, super.key});
@@ -194,6 +195,19 @@ class _SelectTripPageState extends State<SelectTripPage> {
                               itemCount: state.tripsByStage.length,
                               itemBuilder: (context, index) {
                                 final trip = state.tripsByStage[index];
+                                final tripAco = trip.fBus.fTripAco;
+
+                                final accuTrip = int.tryParse(
+                                  trip.busOccurrencesCount,
+                                );
+                                final remainingTripsCount =
+                                    tripAco - (accuTrip ?? 0) < 0
+                                        ? 0
+                                        : tripAco - (accuTrip ?? 0);
+                                final additionTrip =
+                                    (accuTrip ?? 0) - tripAco < 0
+                                        ? 0
+                                        : (accuTrip ?? 0) - tripAco;
                                 return Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -430,6 +444,66 @@ class _SelectTripPageState extends State<SelectTripPage> {
                                                 trip,
                                                 state.tripsByStage,
                                                 userId!,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        const H(h: 16),
+                                        const HeadTableInSelectBusTripCard(),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            SizedBox(
+                                              width: 60.w,
+                                              child: Text(
+                                                trip.fBus.fTripAco.toString(),
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                  fontFamily: 'Cairo',
+                                                  color: kDartTextColor,
+                                                  fontSize: 14.sp,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: 75.w,
+                                              child: Text(
+                                                trip.busOccurrencesCount,
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                  fontFamily: 'Cairo',
+                                                  color: kDartTextColor,
+                                                  fontSize: 14.sp,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: 80.w,
+                                              child: Text(
+                                                remainingTripsCount.toString(),
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                  fontFamily: 'Cairo',
+                                                  color: kDartTextColor,
+                                                  fontSize: 14.sp,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: 80.w,
+                                              child: Text(
+                                                additionTrip.toString(),
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                  fontFamily: 'Cairo',
+                                                  color: kDartTextColor,
+                                                  fontSize: 14.sp,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
                                               ),
                                             ),
                                           ],

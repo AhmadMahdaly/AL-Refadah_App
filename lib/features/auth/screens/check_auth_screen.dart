@@ -1,7 +1,7 @@
 import 'package:alrefadah/core/manager/auth_manager.dart';
 import 'package:alrefadah/core/utils/components/custom_loading_indicator.dart';
 import 'package:alrefadah/features/auth/screens/login_screen.dart';
-import 'package:alrefadah/presentation/app/shared_widgets/app_loader_page.dart';
+import 'package:alrefadah/presentation/app/app_loader_page.dart';
 import 'package:flutter/material.dart';
 
 class CheckAuthScreen extends StatelessWidget {

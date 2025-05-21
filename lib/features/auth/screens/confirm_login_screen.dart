@@ -9,7 +9,7 @@ import 'package:alrefadah/features/auth/widgets/confirm_login_widget/confirm_but
 import 'package:alrefadah/features/auth/widgets/confirm_login_widget/confirm_card_login_number_widget.dart';
 import 'package:alrefadah/features/auth/widgets/confirm_login_widget/custom_timer_widget.dart';
 import 'package:alrefadah/features/auth/widgets/confirm_login_widget/title_of_confirm_login_widget.dart';
-import 'package:alrefadah/presentation/app/shared_widgets/app_loader_page.dart';
+import 'package:alrefadah/presentation/app/app_loader_page.dart';
 import 'package:alrefadah/presentation/app/shared_widgets/end_of_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

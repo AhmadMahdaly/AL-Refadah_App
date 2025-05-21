@@ -1,5 +1,5 @@
-import 'package:alrefadah/features/services_pages/buses_travel/main/widgets/buses_moves_body.dart';
 import 'package:flutter/material.dart';
+import 'package:alrefadah/features/services_pages/buses_travel/main/widgets/buses_moves_body.dart';
 
 class BusesMovesPage extends StatelessWidget {
   const BusesMovesPage({super.key});

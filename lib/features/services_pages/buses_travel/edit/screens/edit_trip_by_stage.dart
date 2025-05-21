@@ -1,3 +1,8 @@
+import 'package:collection/collection.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 import 'package:alrefadah/core/services/cache_helper.dart';
 import 'package:alrefadah/core/themes/colors_constants.dart';
 import 'package:alrefadah/core/utils/components/custom_button.dart';
@@ -22,11 +27,6 @@ import 'package:alrefadah/features/services_pages/buses_travel/main/cubit/bus_tr
 import 'package:alrefadah/features/services_pages/guides/main/cubit/guides_cubit.dart';
 import 'package:alrefadah/features/services_pages/guides/main/cubit/guides_states.dart';
 import 'package:alrefadah/features/services_pages/guides/main/models/by_criteria/assignment_model.dart';
-import 'package:collection/collection.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:intl/intl.dart';
 
 class EditTripByStage extends StatefulWidget {
   const EditTripByStage({
@@ -78,12 +78,12 @@ class _EditTripByStageState extends State<EditTripByStage> {
     final busesState = context.read<BusesCubit>().state;
     busesList =
         busesState.allBusesByCrietia.where((bus) {
-          final fBusNo = bus.fBusNo;
-          return fBusNo != null && fBusNo.isNotEmpty;
+          final fBusId = bus.fBusId;
+          return fBusId != null && fBusId.isNotEmpty;
         }).toList();
 
     selectedBus = busesList.firstWhereOrNull(
-      (bus) => bus.fBusNo == widget.trip.fBusId,
+      (bus) => bus.fBusId == widget.trip.fBusId,
     );
 
     ///
@@ -475,12 +475,6 @@ class _EditTripByStageState extends State<EditTripByStage> {
                                             DropdownButtonFormField<
                                               AssignmentModel
                                             >(
-                                              validator: (value) {
-                                                if (value == null) {
-                                                  return 'الرجاء اختيار المرشد';
-                                                }
-                                                return null;
-                                              },
                                               isExpanded: true,
                                               dropdownColor:
                                                   kScaffoldBackgroundColor,
@@ -525,9 +519,10 @@ class _EditTripByStageState extends State<EditTripByStage> {
                                                 height: 1.25.h,
                                               ),
                                               value:
-                                                  guidesList.contains(
-                                                        selectedGuide,
-                                                      )
+                                                  selectedGuide != null &&
+                                                          guidesList.contains(
+                                                            selectedGuide,
+                                                          )
                                                       ? selectedGuide
                                                       : null,
 
@@ -692,7 +687,7 @@ class _EditTripByStageState extends State<EditTripByStage> {
                                                           .fApprovalLongitude,
 
                                                   /// رقم الموظف
-                                                  fEmpNo: selectedGuide!.fEmpNo,
+                                                  fEmpNo: selectedGuide?.fEmpNo,
                                                   fTrackNo:
                                                       selectedTrack!.fTrackNo!,
                                                 );

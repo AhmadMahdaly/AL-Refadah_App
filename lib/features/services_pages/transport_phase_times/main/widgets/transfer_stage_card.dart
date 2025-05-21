@@ -1,8 +1,8 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:alrefadah/core/themes/colors_constants.dart';
 import 'package:alrefadah/features/services_pages/transport_phase_times/main/models/transfer_stage_get_centers_model.dart';
 import 'package:alrefadah/features/services_pages/transport_phase_times/main/widgets/transfer_stage_popup_menu_button.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class TransferStageCard extends StatelessWidget {
   const TransferStageCard({required this.center, super.key});

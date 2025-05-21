@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:alrefadah/features/services_pages/buses/add/cubit/add_bus_state.dart';
 import 'package:alrefadah/features/services_pages/buses/add/models/add_bus_form_data.dart';
 import 'package:alrefadah/features/services_pages/buses/main/models/buses_get_all_transports_model.dart';
@@ -5,7 +7,6 @@ import 'package:alrefadah/features/services_pages/buses/main/models/buses_get_ce
 import 'package:alrefadah/features/services_pages/buses/main/models/buses_get_operating_model.dart';
 import 'package:alrefadah/features/services_pages/buses/main/models/buses_get_stage_model.dart';
 import 'package:alrefadah/features/services_pages/buses/main/repo/buses_repo.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AddBusCubit extends Cubit<AddBusState> {
   AddBusCubit(this.repository) : super(AddBusState());
@@ -48,11 +49,13 @@ class AddBusCubit extends Cubit<AddBusState> {
     }
   }
 
-  /// Adds a new bus form to the list
   void addNewBusForm() {
     final updatedForms = List<AddBusFormData>.from(state.busForms)
       ..add(AddBusFormData());
-    emit(state.copyWith(busForms: updatedForms));
+    final updatedKeys = List<GlobalKey<FormState>>.from(state.formKeys)
+      ..add(GlobalKey<FormState>());
+
+    emit(state.copyWith(busForms: updatedForms, formKeys: updatedKeys));
   }
 
   /// Selects a stage and resets subsequent selections
@@ -83,7 +86,9 @@ class AddBusCubit extends Cubit<AddBusState> {
   void removeBusForm(int index) {
     final updatedForms = List<AddBusFormData>.from(state.busForms)
       ..removeAt(index);
-    emit(state.copyWith(busForms: updatedForms));
+    final updatedKeys = List<GlobalKey<FormState>>.from(state.formKeys)
+      ..removeAt(index);
+    emit(state.copyWith(busForms: updatedForms, formKeys: updatedKeys));
   }
 
   void selectOperation(BusesGetOperatingModel operation) {

@@ -2,6 +2,7 @@ import 'package:alrefadah/core/services/cache_helper.dart';
 import 'package:alrefadah/features/home_page/cubit/home_states.dart';
 import 'package:alrefadah/features/home_page/repo/home_repo.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class HomeCubit extends Cubit<HomeState> {
   HomeCubit(this.repository) : super(HomeState());
@@ -9,7 +10,8 @@ class HomeCubit extends Cubit<HomeState> {
   String? selectedSeason;
   String? selectedCenter;
   String? selectedStage;
-  int? fPermNo;
+  String? fPermNo;
+  static FlutterSecureStorage storage = const FlutterSecureStorage();
 
   Future<void> getHomeSeasons() async {
     emit(state.copyWith(isLoadingSeasons: true));
@@ -85,7 +87,7 @@ class HomeCubit extends Cubit<HomeState> {
   Future<void> initHomeData() async {
     emit(state.copyWith(isLoadingAllData: true, allData: null));
     try {
-      fPermNo = await CacheHelper.getPermNo();
+      final permNo = await storage.read(key: 'fPermNo');
       final seasons = await repository.fetchSeasons();
       final centers = await repository.getCenters();
       final stages = await repository.getStages();
@@ -96,7 +98,7 @@ class HomeCubit extends Cubit<HomeState> {
           centers.isNotEmpty ? centers.first.fCenterNo.toString() : null;
       selectedStage =
           stages.isNotEmpty ? stages.first.fStageNo.toString() : null;
-
+      fPermNo = permNo;
       emit(
         state.copyWith(
           isLoadingAllData: false,

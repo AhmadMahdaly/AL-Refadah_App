@@ -1,3 +1,8 @@
+import 'dart:math';
+
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:alrefadah/core/services/cache_helper.dart';
 import 'package:alrefadah/core/utils/components/custom_button.dart';
 import 'package:alrefadah/core/utils/components/custom_loading_indicator.dart';
@@ -9,13 +14,15 @@ import 'package:alrefadah/features/services_pages/buses/add/cubit/add_bus_state.
 import 'package:alrefadah/features/services_pages/buses/add/models/add_bus_model.dart';
 import 'package:alrefadah/features/services_pages/buses/main/cubit/buses_cubit.dart';
 import 'package:alrefadah/features/services_pages/buses/main/cubit/buses_states.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+String generateRandom6DigitNumber() {
+  final random = Random();
+  final number = 100000 + random.nextInt(900000); // يضمن أن يكون من 6 أرقام
+  return number.toString();
+}
 
 class AddBusButton extends StatefulWidget {
-  const AddBusButton({required this.formKey, super.key});
-  final GlobalKey<FormState> formKey;
+  const AddBusButton({super.key});
   @override
   State<AddBusButton> createState() => _AddBusButtonState();
 }
@@ -71,8 +78,15 @@ class _AddBusButtonState extends State<AddBusButton> {
                           );
 
                           /// validate and handle data
-                        } else if (widget.formKey.currentState!.validate() &&
-                            state.busForms.isNotEmpty) {
+                        }
+                        var allValid = true;
+                        for (final formKey in state.formKeys) {
+                          if (!formKey.currentState!.validate()) {
+                            allValid = false;
+                          }
+                        }
+
+                        if (allValid && state.busForms.isNotEmpty) {
                           final buses =
                               state.busForms.map((form) {
                                 return AddBusModel(
@@ -102,8 +116,8 @@ class _AddBusButtonState extends State<AddBusButton> {
                                       0,
                                   fBusStatus: 1,
                                   fBusNote: form.notesController.text,
-                                  fBusIdTrip: '111111',
-                                  fBusId: '111111',
+                                  fBusIdTrip: generateRandom6DigitNumber(),
+                                  fBusId: generateRandom6DigitNumber(),
                                 );
                               }).toList();
                           try {
@@ -117,6 +131,13 @@ class _AddBusButtonState extends State<AddBusButton> {
                                   Navigator.pop(context);
                                 }
                               });
+                            } else {
+                              showErrorDialog(
+                                isBack: true,
+                                context,
+                                message: 'هناك خطأ في إضافة الحافلة',
+                                icon: Icons.error,
+                              );
                             }
 
                             /// if error
