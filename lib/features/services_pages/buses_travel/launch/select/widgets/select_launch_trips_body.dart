@@ -1,7 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:alrefadah/core/themes/colors_constants.dart';
 import 'package:alrefadah/core/utils/components/custom_loading_indicator.dart';
 import 'package:alrefadah/core/utils/components/space.dart';
@@ -14,6 +10,10 @@ import 'package:alrefadah/features/services_pages/buses_travel/main/cubit/bus_tr
 import 'package:alrefadah/features/services_pages/buses_travel/main/models/get_buses_travel_trip_model.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/select/widgets/get_trip_status_style.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/select/widgets/select_buses_travel_title_head.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 
 class SelectLaunchTripsBody extends StatelessWidget {
   const SelectLaunchTripsBody({

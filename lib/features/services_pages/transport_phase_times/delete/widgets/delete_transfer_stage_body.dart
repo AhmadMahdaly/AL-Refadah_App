@@ -1,6 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:alrefadah/core/utils/components/custom_loading_indicator.dart';
 import 'package:alrefadah/features/services_pages/transport_phase_times/delete/widgets/delete_transfer_stage_head_title.dart';
 import 'package:alrefadah/features/services_pages/transport_phase_times/delete/widgets/delete_transport_stage_card.dart';
@@ -8,6 +5,9 @@ import 'package:alrefadah/features/services_pages/transport_phase_times/main/cub
 import 'package:alrefadah/features/services_pages/transport_phase_times/main/cubit/transfer_stage_shares_states.dart';
 import 'package:alrefadah/features/services_pages/transport_phase_times/main/models/transfer_stage_get_centers_model.dart';
 import 'package:alrefadah/presentation/app/shared_widgets/no_data_widget.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class DeleteTransferStageBody extends StatefulWidget {
   const DeleteTransferStageBody({required this.center, super.key});

@@ -1,8 +1,8 @@
-import 'package:flutter/foundation.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/add/models/bus_model.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/add/models/company_model.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/add/models/user_model.dart';
 import 'package:alrefadah/features/services_pages/transport_stage/models/stage_model.dart';
+import 'package:flutter/foundation.dart';
 
 @immutable
 class TripModel {

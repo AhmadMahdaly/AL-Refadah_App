@@ -1,8 +1,3 @@
-import 'package:collection/collection.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:intl/intl.dart';
 import 'package:alrefadah/core/services/cache_helper.dart';
 import 'package:alrefadah/core/themes/colors_constants.dart';
 import 'package:alrefadah/core/utils/components/custom_button.dart';
@@ -27,6 +22,11 @@ import 'package:alrefadah/features/services_pages/buses_travel/main/cubit/bus_tr
 import 'package:alrefadah/features/services_pages/guides/main/cubit/guides_cubit.dart';
 import 'package:alrefadah/features/services_pages/guides/main/cubit/guides_states.dart';
 import 'package:alrefadah/features/services_pages/guides/main/models/by_criteria/assignment_model.dart';
+import 'package:collection/collection.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 
 class EditTripByStage extends StatefulWidget {
   const EditTripByStage({

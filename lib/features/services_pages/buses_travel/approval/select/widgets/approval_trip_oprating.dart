@@ -1,6 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:alrefadah/core/themes/colors_constants.dart';
 import 'package:alrefadah/core/utils/components/space.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/add/models/trip_model.dart';
@@ -8,6 +5,9 @@ import 'package:alrefadah/features/services_pages/buses_travel/approval/main/wid
 import 'package:alrefadah/features/services_pages/buses_travel/approval/main/widgets/confirm_arrivel_dialog.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/show/screens/show_trip.dart';
 import 'package:alrefadah/features/services_pages/complaint/add/views/add_complaint_page.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 
 class ApprovalTripOprating extends StatelessWidget {
   const ApprovalTripOprating({required this.trip, super.key});

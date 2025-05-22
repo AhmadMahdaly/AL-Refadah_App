@@ -1,10 +1,10 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:alrefadah/core/themes/colors_constants.dart';
 import 'package:alrefadah/core/utils/components/space.dart';
 import 'package:alrefadah/features/services_pages/buses/main/models/get_all_buses_model.dart';
 import 'package:alrefadah/features/services_pages/buses/main/widgets/buses_popup_button.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 
 class BusCard extends StatelessWidget {
   const BusCard({required this.bus, super.key});

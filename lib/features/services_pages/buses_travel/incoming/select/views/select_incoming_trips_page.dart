@@ -1,8 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:alrefadah/core/utils/components/custom_search_bar.dart';
 import 'package:alrefadah/core/utils/components/space.dart';
 import 'package:alrefadah/core/widgets/custom_download_button.dart';
@@ -12,6 +9,9 @@ import 'package:alrefadah/core/widgets/title_appbar.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/incoming/select/widgets/select_incoming_trips_body.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/main/cubit/bus_travel_cubit.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/main/models/get_buses_travel_trip_model.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SelectIncomingTripsPage extends StatefulWidget {
   const SelectIncomingTripsPage({required this.trip, super.key});

@@ -1,7 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:alrefadah/core/themes/colors_constants.dart';
 import 'package:alrefadah/core/utils/components/custom_loading_indicator.dart';
 import 'package:alrefadah/core/utils/components/space.dart';
@@ -13,6 +9,10 @@ import 'package:alrefadah/features/services_pages/buses_travel/select/widgets/ge
 import 'package:alrefadah/features/services_pages/buses_travel/select/widgets/select_buses_travel_head_table_in_card.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/select/widgets/select_buses_travel_title_head.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/show/screens/show_trip.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 
 class SelectIncomingTripsBody extends StatelessWidget {
   const SelectIncomingTripsBody({required this.searchText, super.key});

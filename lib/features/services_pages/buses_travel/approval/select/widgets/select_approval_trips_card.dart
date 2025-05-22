@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:alrefadah/core/themes/colors_constants.dart';
 import 'package:alrefadah/core/utils/components/space.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/add/models/trip_model.dart';
@@ -9,6 +7,8 @@ import 'package:alrefadah/features/services_pages/buses_travel/approval/select/w
 import 'package:alrefadah/features/services_pages/buses_travel/approval/select/widgets/select_approval_trips_in_card_trip_count.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/approval/select/widgets/trip_status.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/select/widgets/select_buses_travel_head_table_in_card.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SelectApprovalTripsCard extends StatelessWidget {
   const SelectApprovalTripsCard({

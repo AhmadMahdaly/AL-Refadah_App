@@ -1,6 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:alrefadah/core/utils/components/custom_button.dart';
 import 'package:alrefadah/core/utils/components/custom_loading_indicator.dart';
 import 'package:alrefadah/core/utils/components/space.dart';
@@ -16,6 +13,9 @@ import 'package:alrefadah/features/services_pages/transport_phase_times/main/mod
 import 'package:alrefadah/features/services_pages/transport_phase_times/main/models/transfer_stage_get_transport_by_criteria_model.dart';
 import 'package:alrefadah/features/services_pages/transport_phase_times/show/widgets/show_transfer_stage_head_title.dart';
 import 'package:alrefadah/presentation/app/shared_widgets/no_data_widget.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class EditTransferStageBody extends StatefulWidget {
   const EditTransferStageBody({required this.center, super.key});

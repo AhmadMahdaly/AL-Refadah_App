@@ -1,6 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:alrefadah/core/themes/colors_constants.dart';
 import 'package:alrefadah/core/utils/components/space.dart';
 import 'package:alrefadah/core/utils/components/text_fields/custom_number_textfield.dart';
@@ -9,6 +6,9 @@ import 'package:alrefadah/features/services_pages/buses/add/cubit/add_bus_cubit.
 import 'package:alrefadah/features/services_pages/buses/add/models/add_bus_form_data.dart';
 import 'package:alrefadah/features/services_pages/buses/add/widgets/dropdowns/transports_dropdown.dart';
 import 'package:alrefadah/features/services_pages/buses/main/models/buses_get_all_transports_model.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AddBusDetailsCard extends StatefulWidget {
   const AddBusDetailsCard({

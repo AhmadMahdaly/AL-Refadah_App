@@ -1,11 +1,11 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:alrefadah/core/themes/colors_constants.dart';
 import 'package:alrefadah/core/utils/components/space.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/main/cubit/bus_travel_cubit.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/main/models/get_buses_travel_trip_model.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/main/widgets/buses_moves_popup_button.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class BusesCard extends StatelessWidget {
   const BusesCard({required this.trip, super.key});

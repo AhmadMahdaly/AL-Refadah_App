@@ -1,6 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:alrefadah/core/themes/colors_constants.dart';
 import 'package:alrefadah/core/widgets/custom_help_button.dart';
 import 'package:alrefadah/core/widgets/leading_icon.dart';
@@ -8,6 +5,9 @@ import 'package:alrefadah/core/widgets/title_appbar.dart';
 import 'package:alrefadah/features/services_pages/guides/main/cubit/guides_cubit.dart';
 import 'package:alrefadah/features/services_pages/guides/main/widgets/guides_body.dart';
 import 'package:alrefadah/features/services_pages/guides/main/widgets/guides_season_dropdown.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class GuidesPage extends StatefulWidget {
   const GuidesPage({super.key});

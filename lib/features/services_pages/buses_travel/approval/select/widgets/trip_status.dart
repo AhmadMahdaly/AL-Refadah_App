@@ -1,10 +1,10 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:alrefadah/core/themes/colors_constants.dart';
 import 'package:alrefadah/core/utils/components/space.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/add/models/trip_model.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/select/widgets/get_trip_status_style.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 
 class TripStatus extends StatelessWidget {
   const TripStatus({required this.trip, super.key});

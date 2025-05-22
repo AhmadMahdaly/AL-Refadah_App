@@ -1,6 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:alrefadah/core/themes/colors_constants.dart';
 import 'package:alrefadah/core/utils/components/space.dart';
 import 'package:alrefadah/features/home_page/cubit/date_and_time_cubit/date_cubit.dart';
@@ -9,6 +6,9 @@ import 'package:alrefadah/features/home_page/cubit/home_cubit.dart';
 import 'package:alrefadah/features/home_page/widgets/date_and_time.dart';
 import 'package:alrefadah/features/home_page/widgets/home_body.dart';
 import 'package:alrefadah/features/home_page/widgets/welcome_to_user.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});

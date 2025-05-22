@@ -1,7 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:intl/intl.dart';
 import 'package:alrefadah/core/themes/colors_constants.dart';
 import 'package:alrefadah/core/utils/components/custom_button.dart';
 import 'package:alrefadah/core/utils/components/custom_loading_indicator.dart';
@@ -26,6 +22,10 @@ import 'package:alrefadah/features/services_pages/guides/main/cubit/guides_cubit
 import 'package:alrefadah/features/services_pages/guides/main/cubit/guides_states.dart';
 import 'package:alrefadah/features/services_pages/guides/main/models/by_criteria/assignment_model.dart';
 import 'package:alrefadah/presentation/app/shared_cubit/get_current_location_cubit/get_current_location_cubit.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 
 class AddTripBody extends StatefulWidget {
   const AddTripBody({

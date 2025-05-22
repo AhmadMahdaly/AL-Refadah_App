@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 void main() async {
@@ -6,7 +7,7 @@ void main() async {
   final libDir = Directory('lib');
 
   if (!libDir.existsSync()) {
-    print('❌ مجلد lib غير موجود.');
+    log('❌ مجلد lib غير موجود.');
     return;
   }
 
@@ -21,10 +22,11 @@ void main() async {
     if (content.contains(oldPackage)) {
       final newContent = content.replaceAll(oldPackage, newPackage);
       await file.writeAsString(newContent);
-      print('✅ تم التعديل في: ${file.path}');
+      log('✅ تم التعديل في: ${file.path}');
     }
   }
 
-  print('\n🎉 تم استبدال جميع imports من rifad إلى alrefadah بنجاح.');
+  log('\n🎉 تم استبدال جميع imports من rifad إلى alrefadah بنجاح.');
 }
+
 /// dart rename_imports.dart

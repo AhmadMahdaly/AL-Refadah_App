@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:alrefadah/core/services/dio_helper.dart';
 import 'package:alrefadah/data/constants_variable.dart';
 import 'package:alrefadah/features/services_pages/guides/add/models/add_guide_model.dart';
@@ -7,6 +6,7 @@ import 'package:alrefadah/features/services_pages/guides/main/models/get_centers
 import 'package:alrefadah/features/services_pages/guides/main/models/get_guide_model.dart';
 import 'package:alrefadah/features/services_pages/guides/main/models/get_seasons_model.dart';
 import 'package:alrefadah/features/services_pages/guides/update/models/update_guide_model.dart';
+import 'package:dio/dio.dart';
 
 class GuidesRepo {
   Future<List<GetGuidesSeasonsModel>> getSeasons() async {

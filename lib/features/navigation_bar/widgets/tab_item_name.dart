@@ -1,6 +1,6 @@
+import 'package:alrefadah/core/themes/colors_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:alrefadah/core/themes/colors_constants.dart';
 
 class TabItemName extends StatelessWidget {
   const TabItemName({required this.title, super.key});

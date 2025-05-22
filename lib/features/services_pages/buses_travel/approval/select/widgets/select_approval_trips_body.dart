@@ -1,12 +1,12 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:alrefadah/core/utils/components/custom_loading_indicator.dart';
 import 'package:alrefadah/data/constants_variable.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/approval/select/widgets/select_approval_trips_card.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/main/cubit/bus_travel_cubit.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/main/cubit/bus_travel_state.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/select/widgets/select_buses_travel_title_head.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SelectApprovalTripsBody extends StatelessWidget {
   const SelectApprovalTripsBody({required this.searchText, super.key});

@@ -1,8 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:alrefadah/core/utils/components/custom_loading_indicator.dart';
 import 'package:alrefadah/core/utils/components/custom_search_bar.dart';
 import 'package:alrefadah/core/utils/components/space.dart';
@@ -12,6 +9,9 @@ import 'package:alrefadah/features/services_pages/guides/main/cubit/guides_cubit
 import 'package:alrefadah/features/services_pages/guides/main/cubit/guides_states.dart';
 import 'package:alrefadah/features/services_pages/guides/main/widgets/guides_card.dart';
 import 'package:alrefadah/features/services_pages/guides/main/widgets/guides_table_head_title.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class GuidesBody extends StatefulWidget {
   const GuidesBody({super.key});

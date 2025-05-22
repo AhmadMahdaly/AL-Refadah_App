@@ -1,8 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:alrefadah/core/themes/colors_constants.dart';
 import 'package:alrefadah/core/utils/components/custom_loading_indicator.dart';
 import 'package:alrefadah/core/utils/components/space.dart';
@@ -18,6 +13,11 @@ import 'package:alrefadah/features/auth/widgets/login_page_widgets/app_welcome_w
 import 'package:alrefadah/features/auth/widgets/login_page_widgets/login_button.dart';
 import 'package:alrefadah/features/auth/widgets/login_page_widgets/title_of_welcome_page_widget.dart';
 import 'package:alrefadah/presentation/app/shared_widgets/end_of_page.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});

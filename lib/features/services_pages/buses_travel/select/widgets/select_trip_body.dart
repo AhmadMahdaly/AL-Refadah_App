@@ -1,6 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:alrefadah/core/themes/colors_constants.dart';
 import 'package:alrefadah/core/utils/components/custom_loading_indicator.dart';
 import 'package:alrefadah/data/constants_variable.dart';
@@ -11,6 +8,9 @@ import 'package:alrefadah/features/services_pages/buses_travel/main/models/get_b
 import 'package:alrefadah/features/services_pages/buses_travel/select/widgets/select_buses_travel_title_head.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/select/widgets/select_trip_card.dart';
 import 'package:alrefadah/presentation/app/shared_widgets/no_data_widget.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SelectTripBody extends StatelessWidget {
   const SelectTripBody({

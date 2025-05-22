@@ -1,7 +1,3 @@
-import 'package:collection/collection.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:alrefadah/core/services/cache_helper.dart';
 import 'package:alrefadah/core/themes/colors_constants.dart';
 import 'package:alrefadah/core/utils/components/custom_button.dart';
@@ -19,6 +15,10 @@ import 'package:alrefadah/features/services_pages/complaint/add/models/add_compl
 import 'package:alrefadah/features/services_pages/complaint/add/models/complaint_type_model.dart';
 import 'package:alrefadah/features/services_pages/guides/main/cubit/guides_cubit.dart';
 import 'package:alrefadah/features/services_pages/guides/main/models/by_criteria/assignment_model.dart';
+import 'package:collection/collection.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AddComplaintBody extends StatefulWidget {
   const AddComplaintBody({required this.trip, super.key});
@@ -135,7 +135,7 @@ class _AddComplaintBodyState extends State<AddComplaintBody> {
                           readOnly: true,
                           text: 'رقم الحافلة',
                           controller: TextEditingController(
-                            text: widget.trip.fBusId,
+                            text: widget.trip.fBus.fBusNo,
                           ),
                           enabled: false,
                         ),

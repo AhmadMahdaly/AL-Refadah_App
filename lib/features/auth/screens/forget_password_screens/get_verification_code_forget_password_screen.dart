@@ -1,6 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:alrefadah/core/themes/colors_constants.dart';
 import 'package:alrefadah/core/utils/components/custom_button.dart';
 import 'package:alrefadah/core/utils/components/custom_loading_indicator.dart';
@@ -9,6 +6,9 @@ import 'package:alrefadah/core/utils/components/text_fields/custom_number_textfi
 import 'package:alrefadah/features/auth/screens/forget_password_screens/reset_password_screen.dart';
 import 'package:alrefadah/features/auth/widgets/confirm_login_widget/custom_timer_widget.dart';
 import 'package:alrefadah/presentation/app/shared_widgets/end_of_page.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 class GetVerificationCodeForgetPasswordScreen extends StatefulWidget {
   const GetVerificationCodeForgetPasswordScreen({super.key});

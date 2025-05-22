@@ -1,7 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:alrefadah/core/themes/colors_constants.dart';
 import 'package:alrefadah/core/utils/components/custom_loading_indicator.dart';
 import 'package:alrefadah/core/utils/components/space.dart';
@@ -15,6 +11,10 @@ import 'package:alrefadah/features/auth/widgets/confirm_login_widget/custom_time
 import 'package:alrefadah/features/auth/widgets/confirm_login_widget/title_of_confirm_login_widget.dart';
 import 'package:alrefadah/presentation/app/app_loader_page.dart';
 import 'package:alrefadah/presentation/app/shared_widgets/end_of_page.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 class ConfirmLoginScreen extends StatefulWidget {
   const ConfirmLoginScreen({super.key});

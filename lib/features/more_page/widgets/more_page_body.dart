@@ -1,7 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:alrefadah/core/services/permissions_manager.dart';
 import 'package:alrefadah/core/themes/colors_constants.dart';
 import 'package:alrefadah/core/utils/components/custom_loading_indicator.dart';
@@ -22,6 +18,10 @@ import 'package:alrefadah/features/services_pages/oprating_commands/main/cubit/o
 import 'package:alrefadah/features/services_pages/oprating_commands/main/screens/oprating_command_page.dart';
 import 'package:alrefadah/features/services_pages/transport_phase_times/main/screens/transfer_stage_page.dart';
 import 'package:alrefadah/features/services_pages/transport_stage/screens/stage_screen.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 
 class MorePageBody extends StatefulWidget {
   const MorePageBody({super.key});
