@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
-import 'package:alrefadah/core/services/cache_helper.dart';
 import 'package:alrefadah/core/themes/colors_constants.dart';
 import 'package:alrefadah/core/utils/components/custom_button.dart';
 import 'package:alrefadah/core/utils/components/custom_loading_indicator.dart';
@@ -13,6 +12,7 @@ import 'package:alrefadah/core/widgets/custom_dialog/error_dialog.dart';
 import 'package:alrefadah/core/widgets/custom_dialog/show_success_dialog.dart';
 import 'package:alrefadah/core/widgets/custom_dropdown/inactive_dropdown.dart';
 import 'package:alrefadah/data/constants_variable.dart';
+import 'package:alrefadah/features/home_page/cubit/home_cubit.dart';
 import 'package:alrefadah/features/services_pages/buses/main/cubit/buses_cubit.dart';
 import 'package:alrefadah/features/services_pages/buses/main/cubit/buses_states.dart';
 import 'package:alrefadah/features/services_pages/buses/main/models/get_all_buses_model.dart';
@@ -44,14 +44,7 @@ class _AddTripBodyState extends State<AddTripBody> {
   void initState() {
     super.initState();
     initData();
-    _getUserId();
   }
-
-  Future<void> _getUserId() async {
-    userId = await CacheHelper.getUserId();
-  }
-
-  int? userId;
 
   Future<void> initData() async {
     stageNameController.text = context.read<BusTravelCubit>().getStageName(
@@ -93,6 +86,7 @@ class _AddTripBodyState extends State<AddTripBody> {
   final formattedDate = DateFormat('yyyyMMdd').format(DateTime.now());
   @override
   Widget build(BuildContext context) {
+    /// Build: BusTravelCubit
     return BlocBuilder<BusTravelCubit, BusesTravelState>(
       builder: (context, state) {
         final trackTrip =
@@ -101,6 +95,8 @@ class _AddTripBodyState extends State<AddTripBody> {
               return trackName != null && trackName.isNotEmpty;
             }).toList();
         final busTravelState = context.read<BusTravelCubit>().state;
+
+        /// Build: BusesCubit
         return BlocBuilder<BusesCubit, BusesState>(
           builder: (context, state) {
             final busesState = context.read<BusesCubit>().state;
@@ -110,6 +106,7 @@ class _AddTripBodyState extends State<AddTripBody> {
                   return fBusId != null && fBusId.isNotEmpty;
                 }).toList();
 
+            /// Build: GuidesCubit
             return BlocBuilder<GuidesCubit, GuidesState>(
               builder: (context, state) {
                 final centerGuides =
@@ -118,6 +115,7 @@ class _AddTripBodyState extends State<AddTripBody> {
                       return name != null && name.isNotEmpty;
                     }).toList();
 
+                /// Build: GetCurrentLocationCubit
                 return BlocBuilder<
                   GetCurrentLocationCubit,
                   GetCurrentLocationState
@@ -146,6 +144,7 @@ class _AddTripBodyState extends State<AddTripBody> {
                                         Row(
                                           spacing: 8.w,
                                           children: [
+                                            /// الموسم
                                             Expanded(
                                               child: CustomTextFieldWithLabel(
                                                 controller: seasonIdController,
@@ -154,6 +153,8 @@ class _AddTripBodyState extends State<AddTripBody> {
                                                 enabled: false,
                                               ),
                                             ),
+
+                                            /// المركز
                                             Expanded(
                                               child: CustomTextFieldWithLabel(
                                                 controller: centerNoController,
@@ -222,7 +223,6 @@ class _AddTripBodyState extends State<AddTripBody> {
                                             height: 1.25.h,
                                           ),
                                           value: selectedBus,
-
                                           items:
                                               busItems.map((bus) {
                                                 final busNo = bus.fBusNo;
@@ -534,6 +534,8 @@ class _AddTripBodyState extends State<AddTripBody> {
                                       ],
                                     ),
                                   ),
+
+                                  /// Saved Button
                                   Positioned(
                                     bottom: 0.h,
                                     left: 0,
@@ -541,7 +543,6 @@ class _AddTripBodyState extends State<AddTripBody> {
                                     child: Padding(
                                       padding: EdgeInsets.only(bottom: 20.h),
                                       child:
-                                      /// Saved
                                       /// تحميل الداتا
                                       CustomButton(
                                         text: 'حفظ',
@@ -562,7 +563,12 @@ class _AddTripBodyState extends State<AddTripBody> {
                                                         .toIso8601String(),
 
                                                 /// أخر تحديث
-                                                fLastUpdateUser: userId!,
+                                                fLastUpdateUser: int.parse(
+                                                  context
+                                                          .read<HomeCubit>()
+                                                          .userId ??
+                                                      '0',
+                                                ),
 
                                                 /// أخر تحديث
                                                 fLastUpdateSum: 1,
@@ -615,7 +621,10 @@ class _AddTripBodyState extends State<AddTripBody> {
 
                                                 /// المستخدم
                                                 fAdditionUser:
-                                                    userId.toString(),
+                                                    context
+                                                        .read<HomeCubit>()
+                                                        .userId ??
+                                                    '0',
 
                                                 /// خط العرض
                                                 fAdditionLatitude:
@@ -788,7 +797,7 @@ class _AddTripBodyState extends State<AddTripBody> {
           children: [
             Radio<String>(
               value: value,
-              groupValue: transType, // ✅ هذا هو المفتاح
+              groupValue: transType, // المفتاح
               onChanged: (val) {
                 setState(() {
                   isGuideSelected = true;

@@ -1,11 +1,11 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:alrefadah/core/services/connectivity_controller.dart';
 import 'package:alrefadah/core/services/setup_fcm.dart';
 import 'package:alrefadah/core/widgets/custom_dialog/no_network_dialog.dart';
 import 'package:alrefadah/features/auth/screens/check_auth_screen.dart';
 import 'package:alrefadah/features/splash_screen/widgets/splash_logo.dart';
 import 'package:alrefadah/presentation/app/shared_widgets/end_of_page.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});

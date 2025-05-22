@@ -62,7 +62,8 @@ class _OpratingCommandBodyState extends State<OpratingCommandBody> {
           final command = state.operatingList;
           final filteredCenters =
               _searchText.isEmpty
-                  ? command
+                  ? (command.toList()
+                    ..sort((a, b) => b.fOperatingNo.compareTo(a.fOperatingNo)))
                   : command.where((com) {
                     final operatingNo = com.fOperatingNo.toLowerCase();
                     final centerName = com.center?.fCenterName ?? '';

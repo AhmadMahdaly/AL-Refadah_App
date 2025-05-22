@@ -27,10 +27,11 @@ class BusesMovesHeadTitle extends StatelessWidget {
         children: [
           W(w: 0.w),
           SizedBox(
-            width: 50.w,
+            width: 45.w,
             child: Text(
               'الحالة',
               overflow: TextOverflow.fade,
+              textAlign: TextAlign.center,
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 13.sp,
@@ -40,7 +41,7 @@ class BusesMovesHeadTitle extends StatelessWidget {
             ),
           ),
           SizedBox(
-            width: 70.w,
+            width: 75.w,
             child: Text(
               'المرحلة',
               textAlign: TextAlign.center,
@@ -58,6 +59,7 @@ class BusesMovesHeadTitle extends StatelessWidget {
             width: 60.w,
             child: Text(
               'المخصص',
+              textAlign: TextAlign.center,
               style: TextStyle(
                 overflow: TextOverflow.fade,
                 color: Colors.white,
@@ -71,6 +73,7 @@ class BusesMovesHeadTitle extends StatelessWidget {
             width: 50.w,
             child: Text(
               'المرحل',
+              textAlign: TextAlign.center,
               overflow: TextOverflow.fade,
               style: TextStyle(
                 color: Colors.white,
@@ -84,6 +87,7 @@ class BusesMovesHeadTitle extends StatelessWidget {
             width: 50.w,
             child: Text(
               'المتبقي',
+              textAlign: TextAlign.center,
               overflow: TextOverflow.fade,
               style: TextStyle(
                 color: Colors.white,

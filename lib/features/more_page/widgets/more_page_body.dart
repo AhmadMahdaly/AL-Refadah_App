@@ -1,3 +1,7 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:alrefadah/core/services/permissions_manager.dart';
 import 'package:alrefadah/core/themes/colors_constants.dart';
 import 'package:alrefadah/core/utils/components/custom_loading_indicator.dart';
@@ -7,21 +11,17 @@ import 'package:alrefadah/features/more_page/widgets/services_tab_widget.dart';
 import 'package:alrefadah/features/services_pages/buses/main/cubit/buses_cubit.dart';
 import 'package:alrefadah/features/services_pages/buses/main/cubit/buses_states.dart';
 import 'package:alrefadah/features/services_pages/buses/main/screens/buses_page.dart';
-import 'package:alrefadah/features/services_pages/buses_travel/approval/views/approval_main.dart';
-import 'package:alrefadah/features/services_pages/buses_travel/incoming/views/incoming_main.dart';
-import 'package:alrefadah/features/services_pages/buses_travel/launch/views/launch_main.dart';
+import 'package:alrefadah/features/services_pages/buses_travel/approval/main/views/approval_trips_page.dart';
+import 'package:alrefadah/features/services_pages/buses_travel/incoming/main/views/incoming_trips_page.dart';
+import 'package:alrefadah/features/services_pages/buses_travel/launch/main/views/launch_trips_page.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/main/cubit/bus_travel_cubit.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/main/screens/buses_travel_page.dart';
-import 'package:alrefadah/features/services_pages/complaint/views/all_complaint_page.dart';
+import 'package:alrefadah/features/services_pages/complaint/show_all/views/all_complaint_page.dart';
 import 'package:alrefadah/features/services_pages/guides/main/screens/guides_page.dart';
 import 'package:alrefadah/features/services_pages/oprating_commands/main/cubit/oprating_command_cubit.dart';
 import 'package:alrefadah/features/services_pages/oprating_commands/main/screens/oprating_command_page.dart';
 import 'package:alrefadah/features/services_pages/transport_phase_times/main/screens/transfer_stage_page.dart';
 import 'package:alrefadah/features/services_pages/transport_stage/screens/stage_screen.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 
 class MorePageBody extends StatefulWidget {
   const MorePageBody({super.key});
@@ -279,7 +279,7 @@ class _MorePageBodyState extends State<MorePageBody> {
                         () => Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const BusesTravelIncomePage(),
+                            builder: (context) => const IncomingTripsPage(),
                           ),
                         ),
                   ),
@@ -303,8 +303,7 @@ class _MorePageBodyState extends State<MorePageBody> {
                         () => Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder:
-                                (context) => const BusesTravelApprovalPage(),
+                            builder: (context) => const ApprovalTripsPage(),
                           ),
                         ),
                   ),

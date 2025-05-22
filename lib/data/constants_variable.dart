@@ -28,3 +28,4 @@ String convertArabicToLatin(String input) {
 }
 
 const String appTitle = 'Al-Rifadah';
+const String welcomeToCompany = 'اهلا بك في شركة الرفادة';

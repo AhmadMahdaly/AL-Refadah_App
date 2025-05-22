@@ -3,8 +3,8 @@ import 'package:alrefadah/features/services_pages/buses_travel/add/models/trip_m
 import 'package:alrefadah/features/services_pages/buses_travel/main/models/get_buses_travel_centers_model.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/main/models/get_buses_travel_seasons_model.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/main/models/get_buses_travel_trip_model.dart';
-import 'package:alrefadah/features/services_pages/complaint/models/complaint_model.dart';
-import 'package:alrefadah/features/services_pages/complaint/models/complaint_type_model.dart';
+import 'package:alrefadah/features/services_pages/complaint/add/models/complaint_type_model.dart';
+import 'package:alrefadah/features/services_pages/complaint/show_all/models/complaint_model.dart';
 
 class BusesTravelState {
   BusesTravelState({

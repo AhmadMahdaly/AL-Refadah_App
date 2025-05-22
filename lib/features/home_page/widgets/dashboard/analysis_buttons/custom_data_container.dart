@@ -1,6 +1,6 @@
-import 'package:alrefadah/core/themes/colors_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:alrefadah/core/themes/colors_constants.dart';
 
 class CustomContainer extends StatelessWidget {
   const CustomContainer({
@@ -63,7 +63,7 @@ class CustomContainer extends StatelessWidget {
               gradient: LinearGradient(
                 begin: Alignment(0, 0.50),
                 end: Alignment(1, 0.50),
-                colors: [kSecondaryColor, kMainColor],
+                colors: [Color(0xFF6400CA), Color(0xFF6946C4)],
               ),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.only(

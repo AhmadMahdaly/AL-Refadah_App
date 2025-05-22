@@ -1,6 +1,7 @@
-import 'package:alrefadah/core/themes/colors_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:alrefadah/core/themes/colors_constants.dart';
+import 'package:alrefadah/data/constants_variable.dart';
 
 class AppWelcome extends StatelessWidget {
   const AppWelcome({super.key});
@@ -8,7 +9,7 @@ class AppWelcome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-      'اهلا بك في شركة الرفادة',
+      welcomeToCompany,
       textAlign: TextAlign.center,
       style: TextStyle(
         color: kMainColor,

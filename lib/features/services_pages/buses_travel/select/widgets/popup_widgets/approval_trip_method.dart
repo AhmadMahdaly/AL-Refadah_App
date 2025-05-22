@@ -6,6 +6,7 @@ import 'package:alrefadah/core/utils/components/custom_loading_indicator.dart';
 import 'package:alrefadah/core/widgets/custom_dialog/error_dialog.dart';
 import 'package:alrefadah/core/widgets/custom_dialog/show_success_dialog.dart';
 import 'package:alrefadah/data/constants_variable.dart';
+import 'package:alrefadah/features/home_page/cubit/home_cubit.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/add/models/add_trip_model.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/add/models/trip_model.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/main/cubit/bus_travel_cubit.dart';
@@ -13,11 +14,7 @@ import 'package:alrefadah/features/services_pages/buses_travel/main/cubit/bus_tr
 import 'package:alrefadah/presentation/app/shared_cubit/get_current_location_cubit/get_current_location_cubit.dart';
 import 'package:alrefadah/presentation/app/shared_widgets/no_data_widget.dart';
 
-Future<String?> approvalTripMethod(
-  BuildContext context,
-  TripModel trip,
-  int userId,
-) {
+Future<String?> approvalTripMethod(BuildContext context, TripModel trip) {
   return showDialog<String>(
     context: context,
     builder: (context) {
@@ -138,7 +135,16 @@ Future<String?> approvalTripMethod(
                                             trip.fReceiptLongitude,
                                         fApprovalDate:
                                             DateTime.now().toIso8601String(),
-                                        fApprovalUser: userId,
+                                        fApprovalUser:
+                                            context.read<HomeCubit>().userId !=
+                                                    null
+                                                ? int.tryParse(
+                                                  context
+                                                      .read<HomeCubit>()
+                                                      .userId!,
+                                                )
+                                                : null,
+
                                         fApprovalLatitude: approvalLatitude,
                                         fApprovalLongitude: approvalLongitude,
                                         fEmpNo: trip.fEmpNo,

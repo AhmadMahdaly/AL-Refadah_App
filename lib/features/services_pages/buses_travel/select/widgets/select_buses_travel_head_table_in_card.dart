@@ -15,7 +15,7 @@ class HeadTableInSelectTripCard extends StatelessWidget {
           width: 60.w,
           child: Text(
             'عدد الحجاج',
-            textAlign: TextAlign.start,
+            textAlign: TextAlign.center,
             style: TextStyle(
               color: kAnalysisMediumColor,
               fontSize: 10.sp,
@@ -26,8 +26,8 @@ class HeadTableInSelectTripCard extends StatelessWidget {
         SizedBox(
           width: 75.w,
           child: Text(
-            '   اسم المرحل',
-            textAlign: TextAlign.start,
+            'اسم المرحل',
+            textAlign: TextAlign.center,
             style: TextStyle(
               color: kAnalysisMediumColor,
               fontSize: 10.sp,
@@ -52,7 +52,7 @@ class HeadTableInSelectTripCard extends StatelessWidget {
           SizedBox(
             width: 90.w,
             child: Text(
-              '   اسم المستلم',
+              'اسم المستلم',
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: kAnalysisMediumColor,

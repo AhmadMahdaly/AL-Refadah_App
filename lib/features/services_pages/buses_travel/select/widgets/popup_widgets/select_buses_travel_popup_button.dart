@@ -10,13 +10,12 @@ import 'package:alrefadah/features/services_pages/buses_travel/select/widgets/po
 import 'package:alrefadah/features/services_pages/buses_travel/select/widgets/popup_widgets/confirm_receive_trip_method.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/select/widgets/popup_widgets/delete_trip_method.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/show/screens/show_trip.dart';
-import 'package:alrefadah/features/services_pages/complaint/views/add_complaint_page.dart';
+import 'package:alrefadah/features/services_pages/complaint/add/views/add_complaint_page.dart';
 
 PopupMenuButton<String> selectBusesPopupMenuButton(
   BuildContext context,
   TripModel trip,
   List<TripModel> tripsByStage,
-  int userId,
 ) {
   return PopupMenuButton<String>(
     iconColor: kMainColor,
@@ -45,7 +44,7 @@ PopupMenuButton<String> selectBusesPopupMenuButton(
         }
       } else if (value == 'done') {
         if (context.mounted) {
-          await confirmReceiveTripMethod(context, trip, userId);
+          await confirmReceiveTripMethod(context, trip);
         }
       } else if (value == 'edit') {
         await Navigator.push(
@@ -58,7 +57,7 @@ PopupMenuButton<String> selectBusesPopupMenuButton(
         );
       } else if (value == 'approval') {
         if (context.mounted) {
-          await approvalTripMethod(context, trip, userId);
+          await approvalTripMethod(context, trip);
         }
       } else if (value == 'delete') {
         try {

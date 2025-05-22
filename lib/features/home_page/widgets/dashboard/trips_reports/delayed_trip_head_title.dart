@@ -1,4 +1,3 @@
-import 'package:alrefadah/core/themes/colors_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -12,20 +11,19 @@ class DelayedTripHeadTitle extends StatelessWidget {
       width: double.infinity,
       height: 100.h,
       padding: EdgeInsets.all(10.sp),
-      decoration: const ShapeDecoration(
-        gradient: LinearGradient(
+      decoration: ShapeDecoration(
+        gradient: const LinearGradient(
           begin: Alignment(0, 0.50),
           end: Alignment(1, 0.50),
-          colors: [kSecondaryColor, kMainColor],
+          colors: [Color(0xFF6400CA), Color(0xFF6946C4)],
         ),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(12),
-            topRight: Radius.circular(12),
+            topRight: Radius.circular(12.r),
+            topLeft: Radius.circular(12.r),
           ),
         ),
-
-        shadows: [
+        shadows: const [
           BoxShadow(
             color: Color(0x19000000),
             blurRadius: 10,

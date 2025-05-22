@@ -27,3 +27,4 @@ void main() async {
 
   print('\n🎉 تم استبدال جميع imports من rifad إلى alrefadah بنجاح.');
 }
+/// dart rename_imports.dart

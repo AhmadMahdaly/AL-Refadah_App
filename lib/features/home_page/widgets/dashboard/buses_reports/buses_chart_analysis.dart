@@ -1,9 +1,9 @@
-import 'package:alrefadah/core/themes/colors_constants.dart';
-import 'package:alrefadah/core/utils/components/space.dart';
-import 'package:alrefadah/features/home_page/models/dashboard_model.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:alrefadah/core/themes/colors_constants.dart';
+import 'package:alrefadah/core/utils/components/space.dart';
+import 'package:alrefadah/features/home_page/models/dashboard_model.dart';
 
 class BusesChartAnalysis extends StatelessWidget {
   const BusesChartAnalysis({required this.allData, super.key});
@@ -53,7 +53,7 @@ class BusesChartAnalysis extends StatelessWidget {
       PieChartSectionData(
         radius: radius,
         value: allData.totalDepartingBuses?.toDouble(),
-        color: Colors.red[100],
+        color: Colors.purple[100],
         title:
             '${((allData.totalDepartingBuses! / total) * 100).toStringAsFixed(2)}%',
         titleStyle: TextStyle(color: Colors.black45, fontSize: 12.sp),
@@ -61,7 +61,7 @@ class BusesChartAnalysis extends StatelessWidget {
       PieChartSectionData(
         radius: radius,
         value: allData.totalFinishedBuses?.toDouble(),
-        color: Colors.red[300],
+        color: Colors.purple[300],
         title:
             '${((allData.totalFinishedBuses! / total) * 100).toStringAsFixed(2)}%',
         titleStyle: TextStyle(color: kMainExtrimeLightColor, fontSize: 12.sp),
@@ -69,7 +69,7 @@ class BusesChartAnalysis extends StatelessWidget {
       PieChartSectionData(
         radius: radius,
         value: allData.totalStageTrips?.toDouble(),
-        color: Colors.red[400],
+        color: Colors.purple[400],
         title:
             '${((allData.totalStageTrips! / total) * 100).toStringAsFixed(2)}%',
         titleStyle: TextStyle(color: kMainExtrimeLightColor, fontSize: 12.sp),
@@ -77,14 +77,14 @@ class BusesChartAnalysis extends StatelessWidget {
       PieChartSectionData(
         radius: radius,
         value: allData.totalTrips?.toDouble(),
-        color: Colors.red[300],
+        color: Colors.purple[300],
         title: '${((allData.totalTrips! / total) * 100).toStringAsFixed(2)}%',
         titleStyle: TextStyle(color: kMainExtrimeLightColor, fontSize: 12.sp),
       ),
       PieChartSectionData(
         radius: radius,
         value: allData.totalStageBuses?.toDouble(),
-        color: Colors.red[800],
+        color: Colors.purple[800],
         title:
             '${((allData.totalStageBuses! / total) * 100).toStringAsFixed(2)}%',
         titleStyle: TextStyle(color: kMainExtrimeLightColor, fontSize: 12.sp),
@@ -94,11 +94,11 @@ class BusesChartAnalysis extends StatelessWidget {
 
   Widget _buildLegend() {
     final legends = [
-      ['إجمالي حافلات المرحلة', Colors.red[800]],
-      ['إجمالي الحافلات التي أكملت الردود', Colors.red[600]],
-      ['إجمالي ردود المرحلة', Colors.red[400]],
-      ['إجمالي الردود', Colors.red[300]],
-      ['إجمالي الحافلات المطلقة', Colors.red[100]],
+      ['إجمالي حافلات المرحلة', Colors.purple[800]],
+      ['إجمالي الحافلات التي أكملت الردود', Colors.purple[600]],
+      ['إجمالي ردود المرحلة', Colors.purple[400]],
+      ['إجمالي الردود', Colors.purple[300]],
+      ['إجمالي الحافلات المطلقة', Colors.purple[100]],
     ];
 
     return Wrap(

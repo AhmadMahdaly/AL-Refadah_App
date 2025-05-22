@@ -7,9 +7,9 @@ import 'package:alrefadah/features/services_pages/buses_travel/add/models/trip_m
 import 'package:alrefadah/features/services_pages/buses_travel/main/models/get_buses_travel_centers_model.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/main/models/get_buses_travel_seasons_model.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/main/models/get_buses_travel_trip_model.dart';
-import 'package:alrefadah/features/services_pages/complaint/models/add_complaint_model.dart';
-import 'package:alrefadah/features/services_pages/complaint/models/complaint_model.dart';
-import 'package:alrefadah/features/services_pages/complaint/models/complaint_type_model.dart';
+import 'package:alrefadah/features/services_pages/complaint/add/models/add_complaint_model.dart';
+import 'package:alrefadah/features/services_pages/complaint/add/models/complaint_type_model.dart';
+import 'package:alrefadah/features/services_pages/complaint/show_all/models/complaint_model.dart';
 
 class BusesTravelRepo {
   Future<List<BusesTravelGetSeasonModel>> getSeasons() async {
@@ -99,12 +99,13 @@ class BusesTravelRepo {
     }
   }
 
-  Future<void> editTripByStage(AddTripModel inputs) async {
+  Future<Map<String, dynamic>?> editTripByStage(AddTripModel inputs) async {
     try {
-      await DioHelper.dio.put<Map<String, dynamic>>(
+      final response = await DioHelper.dio.put<Map<String, dynamic>>(
         '/BusesTravel/UpdateHajTransportTrip/Trip',
         data: inputs.toJson(),
       );
+      return response.data;
     } on DioException catch (e) {
       throw Exception('خطأ: ${e.response?.data}');
     }

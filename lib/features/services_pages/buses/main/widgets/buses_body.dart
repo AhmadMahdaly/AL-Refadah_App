@@ -98,7 +98,8 @@ class _BusesBodyState extends State<BusesBody> {
               final buses = state.allBuses;
               final filteredCenters =
                   _searchText.isEmpty
-                      ? buses
+                      ? (buses.toList()
+                        ..sort((a, b) => b.fBusStatus.compareTo(a.fBusStatus)))
                       : buses.where((bus) {
                         final operatingNo = bus.fOperatingNo.toLowerCase();
                         final busNo = bus.fBusNo;

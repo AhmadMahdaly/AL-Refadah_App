@@ -1,9 +1,9 @@
-import 'package:alrefadah/core/themes/colors_constants.dart';
-import 'package:alrefadah/core/utils/components/space.dart';
-import 'package:alrefadah/features/home_page/models/dashboard_model.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:alrefadah/core/themes/colors_constants.dart';
+import 'package:alrefadah/core/utils/components/space.dart';
+import 'package:alrefadah/features/home_page/models/dashboard_model.dart';
 
 class PilgrimsChartAnalysis extends StatelessWidget {
   const PilgrimsChartAnalysis({required this.allData, super.key});
@@ -52,7 +52,7 @@ class PilgrimsChartAnalysis extends StatelessWidget {
       PieChartSectionData(
         radius: radius,
         value: allData.totalArrivedPilgrims?.toDouble(),
-        color: Colors.red[100],
+        color: Colors.purple[100],
         title:
             '${((allData.totalArrivedPilgrims! / total) * 100).toStringAsFixed(2)}%',
         titleStyle: TextStyle(color: Colors.black45, fontSize: 12.sp),
@@ -62,7 +62,7 @@ class PilgrimsChartAnalysis extends StatelessWidget {
       PieChartSectionData(
         radius: radius,
         value: allData.totalEvacueesPilgrims?.toDouble(),
-        color: Colors.red[300],
+        color: Colors.purple[300],
         title:
             '${((allData.totalEvacueesPilgrims! / total) * 100).toStringAsFixed(2)}%',
         titleStyle: TextStyle(color: kMainExtrimeLightColor, fontSize: 12.sp),
@@ -72,7 +72,7 @@ class PilgrimsChartAnalysis extends StatelessWidget {
       PieChartSectionData(
         radius: radius,
         value: allData.totalStagePilgrims?.toDouble(),
-        color: Colors.red[400],
+        color: Colors.purple[400],
         title:
             '${((allData.totalStagePilgrims! / total) * 100).toStringAsFixed(2)}%',
         titleStyle: TextStyle(color: kMainExtrimeLightColor, fontSize: 12.sp),
@@ -82,7 +82,7 @@ class PilgrimsChartAnalysis extends StatelessWidget {
       PieChartSectionData(
         radius: radius,
         value: allData.totalRemainingPilgrims?.toDouble(),
-        color: Colors.red[600],
+        color: Colors.purple[600],
         title:
             '${((allData.totalRemainingPilgrims! / total) * 100).toStringAsFixed(2)}%',
         titleStyle: TextStyle(color: kMainExtrimeLightColor, fontSize: 12.sp),
@@ -92,7 +92,7 @@ class PilgrimsChartAnalysis extends StatelessWidget {
       PieChartSectionData(
         radius: radius,
         value: allData.totalPilgrims?.toDouble(),
-        color: Colors.red[800],
+        color: Colors.purple[800],
         title:
             '${((allData.totalPilgrims! / total) * 100).toStringAsFixed(2)}%',
         titleStyle: TextStyle(color: kMainExtrimeLightColor, fontSize: 12.sp),
@@ -102,11 +102,11 @@ class PilgrimsChartAnalysis extends StatelessWidget {
 
   Widget _buildLegend() {
     final legends = [
-      ['إجمالي عدد الحجاج', Colors.red[800]],
-      ['إجمالي الحجاج المتبقين', Colors.red[600]],
-      ['إجمالي حجاج المرحلة', Colors.red[400]],
-      ['إجمالي الذين تم اخلاؤهم', Colors.red[300]],
-      ['إجمالي الواصلين للمشعر', Colors.red[100]],
+      ['إجمالي عدد الحجاج', Colors.purple[800]],
+      ['إجمالي الحجاج المتبقين', Colors.purple[600]],
+      ['إجمالي حجاج المرحلة', Colors.purple[400]],
+      ['إجمالي الذين تم اخلاؤهم', Colors.purple[300]],
+      ['إجمالي الواصلين للمشعر', Colors.purple[100]],
     ];
 
     return Wrap(

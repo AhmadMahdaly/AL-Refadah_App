@@ -1,5 +1,10 @@
 import 'dart:developer';
 
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:alrefadah/core/services/cache_helper.dart';
 import 'package:alrefadah/core/themes/colors_constants.dart';
 import 'package:alrefadah/core/utils/components/custom_button.dart';
@@ -13,11 +18,6 @@ import 'package:alrefadah/features/auth/cubit/auth_states.dart';
 import 'package:alrefadah/features/auth/models/user_register_model.dart';
 import 'package:alrefadah/features/auth/screens/verify_register_screen.dart';
 import 'package:alrefadah/features/auth/widgets/register_widgets/register_title.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
