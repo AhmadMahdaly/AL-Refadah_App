@@ -29,14 +29,18 @@ class PilgrimsChartAnalysis extends StatelessWidget {
   }
 
   List<PieChartSectionData> _buildPieChartSections() {
-    final total =
-        // (allData.totalPilgrims ?? 0) +
-        // (allData.totalStagePilgrims ?? 0) +
-        // (allData.totalEvacueesPilgrims ?? 0) +
-        // (allData.totalArrivedPilgrims ?? 0) +
-        allData.totalRemainingPilgrims ?? 0;
+    final total = allData.totalPilgrims ?? 0;
+    // (allData.totalStagePilgrims ?? 0) +
+    // (allData.totalEvacueesPilgrims ?? 0) +
+    // (allData.totalArrivedPilgrims ?? 0) +
+
+    final totalData =
+        (allData.totalEvacueesPilgrims ?? 0) +
+        (allData.totalArrivedPilgrims ?? 0) +
+        (allData.totalRemainingPilgrims ?? 0);
+
     final radius = 80.r;
-    if (total == 0) {
+    if (totalData == 0) {
       return [
         PieChartSectionData(
           radius: radius,

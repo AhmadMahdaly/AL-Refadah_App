@@ -244,9 +244,7 @@ class _MorePageBodyState extends State<MorePageBody> {
                   ),
 
                 /// إطلاق الحافلات
-                if (fPermNo == PermNo.transMan ||
-                    fPermNo == PermNo.systemMan ||
-                    fPermNo == PermNo.centerMember ||
+                if (fPermNo == PermNo.centerMember ||
                     fPermNo == PermNo.storeWatcher)
                   ServicesTabWidget(
                     icon: Icon(Icons.logout, color: kMainColor, size: 20.sp),
@@ -261,9 +259,7 @@ class _MorePageBodyState extends State<MorePageBody> {
                   ),
 
                 /// الحافلات القادمة
-                if (fPermNo == PermNo.transMan ||
-                    fPermNo == PermNo.systemMan ||
-                    fPermNo == PermNo.trackWatcher ||
+                if (fPermNo == PermNo.trackWatcher ||
                     fPermNo == PermNo.centerMember)
                   ServicesTabWidget(
                     icon: RotatedBox(
@@ -285,9 +281,7 @@ class _MorePageBodyState extends State<MorePageBody> {
                   ),
 
                 /// الحافلات الواصلة
-                if (fPermNo == PermNo.transMan ||
-                    fPermNo == PermNo.systemMan ||
-                    fPermNo == PermNo.centerMember ||
+                if (fPermNo == PermNo.centerMember ||
                     fPermNo == PermNo.trackWatcher)
                   ServicesTabWidget(
                     icon: SvgPicture.asset(
