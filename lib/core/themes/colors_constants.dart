@@ -16,3 +16,4 @@ const kGreenColor = Color(0xFF54A700);
 
 const kAnaDarkColor = Color.fromARGB(255, 126, 0, 99);
 const kAnalysisLightColor = Color.fromARGB(255, 208, 27, 139);
+const chartColor = Colors.purple;

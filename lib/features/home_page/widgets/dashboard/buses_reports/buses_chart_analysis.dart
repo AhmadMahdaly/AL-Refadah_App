@@ -53,7 +53,7 @@ class BusesChartAnalysis extends StatelessWidget {
       PieChartSectionData(
         radius: radius,
         value: allData.totalDepartingBuses?.toDouble(),
-        color: Colors.purple[100],
+        color: chartColor[100],
         title:
             '${((allData.totalDepartingBuses! / total) * 100).toStringAsFixed(2)}%',
         titleStyle: TextStyle(color: Colors.black45, fontSize: 12.sp),
@@ -61,7 +61,7 @@ class BusesChartAnalysis extends StatelessWidget {
       PieChartSectionData(
         radius: radius,
         value: allData.totalFinishedBuses?.toDouble(),
-        color: Colors.purple[300],
+        color: chartColor[300],
         title:
             '${((allData.totalFinishedBuses! / total) * 100).toStringAsFixed(2)}%',
         titleStyle: TextStyle(color: kMainExtrimeLightColor, fontSize: 12.sp),
@@ -69,7 +69,7 @@ class BusesChartAnalysis extends StatelessWidget {
       PieChartSectionData(
         radius: radius,
         value: allData.totalStageTrips?.toDouble(),
-        color: Colors.purple[400],
+        color: chartColor[400],
         title:
             '${((allData.totalStageTrips! / total) * 100).toStringAsFixed(2)}%',
         titleStyle: TextStyle(color: kMainExtrimeLightColor, fontSize: 12.sp),
@@ -77,14 +77,14 @@ class BusesChartAnalysis extends StatelessWidget {
       PieChartSectionData(
         radius: radius,
         value: allData.totalTrips?.toDouble(),
-        color: Colors.purple[300],
+        color: chartColor[300],
         title: '${((allData.totalTrips! / total) * 100).toStringAsFixed(2)}%',
         titleStyle: TextStyle(color: kMainExtrimeLightColor, fontSize: 12.sp),
       ),
       PieChartSectionData(
         radius: radius,
         value: allData.totalStageBuses?.toDouble(),
-        color: Colors.purple[800],
+        color: chartColor[800],
         title:
             '${((allData.totalStageBuses! / total) * 100).toStringAsFixed(2)}%',
         titleStyle: TextStyle(color: kMainExtrimeLightColor, fontSize: 12.sp),
@@ -94,11 +94,11 @@ class BusesChartAnalysis extends StatelessWidget {
 
   Widget _buildLegend() {
     final legends = [
-      ['إجمالي حافلات المرحلة', Colors.purple[800]],
-      ['إجمالي الحافلات التي أكملت الردود', Colors.purple[600]],
-      ['إجمالي ردود المرحلة', Colors.purple[400]],
-      ['إجمالي الردود', Colors.purple[300]],
-      ['إجمالي الحافلات المطلقة', Colors.purple[100]],
+      ['إجمالي حافلات المرحلة', chartColor[800]],
+      ['إجمالي الحافلات التي أكملت الردود', chartColor[600]],
+      ['إجمالي ردود المرحلة', chartColor[400]],
+      ['إجمالي الردود', chartColor[300]],
+      ['إجمالي الحافلات المطلقة', chartColor[100]],
     ];
 
     return Wrap(
