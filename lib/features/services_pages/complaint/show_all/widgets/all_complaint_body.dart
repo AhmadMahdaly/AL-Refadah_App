@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:alrefadah/core/themes/app_theme.dart';
 import 'package:alrefadah/core/themes/colors_constants.dart';
 import 'package:alrefadah/core/utils/components/custom_loading_indicator.dart';
 import 'package:alrefadah/core/utils/components/custom_search_bar.dart';
@@ -89,10 +90,11 @@ class _AllComplaintBodyState extends State<AllComplaintBody> {
         Container(
           width: double.infinity,
           margin: EdgeInsets.only(top: 12.h, left: 16.w, right: 16.w),
-          height: 60.h,
+          height: 80.h,
+          alignment: Alignment.center,
           padding: EdgeInsets.all(10.sp),
           decoration: ShapeDecoration(
-            color: kMainColor,
+            gradient: customGradient(),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.only(
                 topRight: Radius.circular(8.r),
@@ -105,7 +107,6 @@ class _AllComplaintBodyState extends State<AllComplaintBody> {
             children: [
               SizedBox(
                 width: 60.w,
-
                 child: Text(
                   'رقم البلاغ',
                   textAlign: TextAlign.center,
@@ -113,6 +114,7 @@ class _AllComplaintBodyState extends State<AllComplaintBody> {
                     color: Colors.white,
                     fontSize: 13.sp,
                     fontWeight: FontWeight.w800,
+                    height: 1.5.h,
                   ),
                 ),
               ),
@@ -126,6 +128,7 @@ class _AllComplaintBodyState extends State<AllComplaintBody> {
                     color: Colors.white,
                     fontSize: 13.sp,
                     fontWeight: FontWeight.w800,
+                    height: 1.5.h,
                   ),
                 ),
               ),
@@ -139,7 +142,7 @@ class _AllComplaintBodyState extends State<AllComplaintBody> {
                     color: Colors.white,
                     fontSize: 13.sp,
                     fontWeight: FontWeight.w800,
-                    height: 1.h,
+                    height: 1.5.h,
                   ),
                 ),
               ),
@@ -153,7 +156,7 @@ class _AllComplaintBodyState extends State<AllComplaintBody> {
                     color: Colors.white,
                     fontSize: 13.sp,
                     fontWeight: FontWeight.w800,
-                    height: 1.h,
+                    height: 1.5.h,
                   ),
                 ),
               ),

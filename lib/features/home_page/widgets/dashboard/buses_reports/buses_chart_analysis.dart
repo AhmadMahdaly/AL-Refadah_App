@@ -102,7 +102,6 @@ class BusesChartAnalysis extends StatelessWidget {
     ];
 
     return Wrap(
-      // alignment: WrapAlignment.center,
       spacing: 6,
       runSpacing: 6,
       children:

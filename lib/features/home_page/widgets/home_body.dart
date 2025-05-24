@@ -28,6 +28,7 @@ class HomeBody extends StatelessWidget {
           return const AppIndicator();
         } else if (state.allData != null) {
           return SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
             child: Column(
               spacing: 14.h,
               crossAxisAlignment: CrossAxisAlignment.start,

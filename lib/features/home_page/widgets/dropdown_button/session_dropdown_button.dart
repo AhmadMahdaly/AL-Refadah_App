@@ -33,7 +33,7 @@ class _HomeSeasonDropdownState extends State<HomeSeasonDropdown> {
                 border: textfieldBorderRadius(kMainColorLightColor),
                 focusedBorder: textfieldBorderRadius(kMainColorLightColor),
                 enabledBorder: textfieldBorderRadius(kMainColorLightColor),
-                focusedErrorBorder: textfieldBorderRadius(Colors.red),
+                focusedErrorBorder: textfieldBorderRadius(kErrorColor),
               ),
               icon: const Icon(
                 Icons.keyboard_arrow_down_rounded,
@@ -95,7 +95,6 @@ class _HomeSeasonDropdownState extends State<HomeSeasonDropdown> {
           (season) => DropdownMenuItem<String>(
             value: season.fSeasonId.toString(),
             child: _buildDropdownItem(season.fSeasonName),
-            // child: _buildDropdownItem(stage.fStageName + ' - ' + stage.fStageNo.toString()),
           ),
         )
         .toList();

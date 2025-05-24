@@ -1,3 +1,4 @@
+import 'package:alrefadah/core/themes/colors_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -15,7 +16,7 @@ class DelayedTripHeadTitle extends StatelessWidget {
         gradient: const LinearGradient(
           begin: Alignment(0, 0.50),
           end: Alignment(1, 0.50),
-          colors: [Color(0xFF6400CA), Color(0xFF6946C4)],
+          colors: [kSecondaryColor, kMainColor],
         ),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(

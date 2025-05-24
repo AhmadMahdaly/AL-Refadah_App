@@ -63,7 +63,7 @@ class CustomContainer extends StatelessWidget {
               gradient: LinearGradient(
                 begin: Alignment(0, 0.50),
                 end: Alignment(1, 0.50),
-                colors: [Color(0xFF6400CA), Color(0xFF6946C4)],
+                colors: [kSecondaryColor, kMainColor],
               ),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.only(

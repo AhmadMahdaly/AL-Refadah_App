@@ -33,7 +33,7 @@ class _GetCenterDropdownState extends State<GetCenterDropdown> {
                 border: dropdownBorderRadius(kMainColorLightColor),
                 focusedBorder: dropdownBorderRadius(kMainColorLightColor),
                 enabledBorder: dropdownBorderRadius(kMainColorLightColor),
-                focusedErrorBorder: dropdownBorderRadius(Colors.red),
+                focusedErrorBorder: dropdownBorderRadius(kErrorColor),
               ),
               icon: const Icon(
                 Icons.keyboard_arrow_down_rounded,
@@ -88,7 +88,6 @@ class _GetCenterDropdownState extends State<GetCenterDropdown> {
           (center) => DropdownMenuItem<String>(
             value: center.fCenterNo.toString(),
             child: _buildDropdownItem(center.fCenterName),
-            // child: _buildDropdownItem(stage.fStageName + ' - ' + stage.fStageNo.toString()),
           ),
         )
         .toList();

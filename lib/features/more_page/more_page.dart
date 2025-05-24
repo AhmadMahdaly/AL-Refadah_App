@@ -12,10 +12,15 @@ class MorePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: kMainColor,
-        flexibleSpace: Image.asset(
-          'assets/images/Frame 427319836.png',
-          width: double.infinity,
-          fit: BoxFit.cover,
+        flexibleSpace: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Image.asset(
+              'assets/images/Frame 427319836.png',
+              width: double.infinity,
+              fit: BoxFit.cover,
+            ),
+          ],
         ),
         toolbarHeight: 90.h,
         title: const UserNameAndNumberAndLogOutButtonHeader(),

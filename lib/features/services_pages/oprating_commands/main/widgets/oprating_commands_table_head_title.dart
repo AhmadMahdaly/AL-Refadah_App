@@ -1,4 +1,4 @@
-import 'package:alrefadah/core/themes/colors_constants.dart';
+import 'package:alrefadah/core/themes/app_theme.dart';
 import 'package:alrefadah/core/utils/components/space.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -11,10 +11,10 @@ class OpratingCommandsTableHeadTitle extends StatelessWidget {
     return Container(
       width: double.infinity,
       margin: EdgeInsets.only(top: 12.h, left: 16.w, right: 16.w),
-      height: 60.h,
+      height: 80.h,
       padding: EdgeInsets.all(10.sp),
       decoration: ShapeDecoration(
-        color: kMainColor,
+        gradient: customGradient(),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
             topRight: Radius.circular(8.r),
@@ -34,7 +34,7 @@ class OpratingCommandsTableHeadTitle extends StatelessWidget {
                 color: Colors.white,
                 fontSize: 13.sp,
                 fontWeight: FontWeight.w500,
-                height: 1.h,
+                height: 1.5.h,
               ),
             ),
           ),
@@ -48,7 +48,7 @@ class OpratingCommandsTableHeadTitle extends StatelessWidget {
                 color: Colors.white,
                 fontSize: 13.sp,
                 fontWeight: FontWeight.w500,
-                height: 1.h,
+                height: 1.5.h,
               ),
             ),
           ),
@@ -62,7 +62,7 @@ class OpratingCommandsTableHeadTitle extends StatelessWidget {
                 color: Colors.white,
                 fontSize: 13.sp,
                 fontWeight: FontWeight.w500,
-                height: 1.h,
+                height: 1.5.h,
               ),
             ),
           ),
@@ -77,7 +77,7 @@ class OpratingCommandsTableHeadTitle extends StatelessWidget {
                 color: Colors.white,
                 fontSize: 13.sp,
                 fontWeight: FontWeight.w500,
-                height: 1.h,
+                height: 1.5.h,
               ),
             ),
           ),

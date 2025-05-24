@@ -29,11 +29,7 @@ class PilgrimsChartAnalysis extends StatelessWidget {
   }
 
   List<PieChartSectionData> _buildPieChartSections() {
-    final total = allData.totalPilgrims ?? 0;
-    // (allData.totalStagePilgrims ?? 0) +
-    // (allData.totalEvacueesPilgrims ?? 0) +
-    // (allData.totalArrivedPilgrims ?? 0) +
-
+    final total = allData.totalStagePilgrims ?? 0;
     final totalData =
         (allData.totalEvacueesPilgrims ?? 0) +
         (allData.totalArrivedPilgrims ?? 0) +
@@ -107,8 +103,8 @@ class PilgrimsChartAnalysis extends StatelessWidget {
   Widget _buildLegend() {
     final legends = [
       // ['إجمالي عدد الحجاج', chartColor[800]],
-      ['إجمالي الحجاج المتبقين', chartColor[600]],
       // ['إجمالي حجاج المرحلة', chartColor[400]],
+      ['إجمالي الحجاج المتبقين', chartColor[600]],
       ['إجمالي الذين تم اخلاؤهم', chartColor[300]],
       ['إجمالي الواصلين للمشعر', chartColor[100]],
     ];

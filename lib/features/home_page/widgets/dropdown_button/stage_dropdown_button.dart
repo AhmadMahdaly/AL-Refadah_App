@@ -36,7 +36,7 @@ class _GetStageDropdownState extends State<GetStageDropdown> {
                 border: dropdownBorderRadius(kMainColorLightColor),
                 focusedBorder: dropdownBorderRadius(kMainColorLightColor),
                 enabledBorder: dropdownBorderRadius(kMainColorLightColor),
-                focusedErrorBorder: dropdownBorderRadius(Colors.red),
+                focusedErrorBorder: dropdownBorderRadius(kErrorColor),
               ),
               icon: const Icon(
                 Icons.keyboard_arrow_down_rounded,

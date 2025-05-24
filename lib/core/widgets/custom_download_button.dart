@@ -1,4 +1,4 @@
-import 'package:alrefadah/core/themes/colors_constants.dart';
+import 'package:alrefadah/core/themes/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -13,7 +13,7 @@ class CustomDownloadButton extends StatelessWidget {
       height: 46.h,
       alignment: Alignment.center,
       decoration: ShapeDecoration(
-        color: kMainColor,
+        gradient: customGradient(),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.r)),
       ),
       child: IconButton(

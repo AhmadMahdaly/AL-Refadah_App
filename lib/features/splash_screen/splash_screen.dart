@@ -1,6 +1,4 @@
-import 'package:alrefadah/core/services/connectivity_controller.dart';
 import 'package:alrefadah/core/services/setup_fcm.dart';
-import 'package:alrefadah/core/widgets/custom_dialog/no_network_dialog.dart';
 import 'package:alrefadah/features/auth/screens/check_auth_screen.dart';
 import 'package:alrefadah/features/splash_screen/widgets/splash_logo.dart';
 import 'package:alrefadah/presentation/app/shared_widgets/end_of_page.dart';
@@ -18,9 +16,6 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     _initSplashScreen();
-    Future.microtask(() async {
-      await setupFCM();
-    });
   }
 
   Future<void> _initSplashScreen() async {
@@ -37,16 +32,7 @@ class _SplashScreenState extends State<SplashScreen> {
       context,
       MaterialPageRoute(
         builder: (context) {
-          return ValueListenableBuilder(
-            valueListenable: ConnectivityController.instance.isConnected,
-            builder: (_, value, __) {
-              if (value) {
-                return const CheckAuthScreen();
-              } else {
-                return const NoNetworkDialog();
-              }
-            },
-          );
+          return const CheckAuthScreen();
         },
       ),
     );

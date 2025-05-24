@@ -1,4 +1,4 @@
-import 'package:alrefadah/core/themes/colors_constants.dart';
+import 'package:alrefadah/core/themes/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -25,11 +25,7 @@ class CustomButton extends StatelessWidget {
         width: double.infinity,
         height: 60.h,
         decoration: ShapeDecoration(
-          gradient: const LinearGradient(
-            begin: Alignment(1, 0.50),
-            end: Alignment(0, 0.50),
-            colors: [kSecondaryColor, kMainColor],
-          ),
+          gradient: customGradient(),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10.r),
           ),

@@ -12,3 +12,11 @@ ThemeData appTheme(BuildContext context) {
     textTheme: Theme.of(context).textTheme.apply(fontFamily: 'GE SS Two'),
   );
 }
+
+LinearGradient customGradient() {
+  return const LinearGradient(
+    begin: Alignment(0, 0.50),
+    end: Alignment(1, 0.50),
+    colors: [kSecondaryColor, kMainColor],
+  );
+}

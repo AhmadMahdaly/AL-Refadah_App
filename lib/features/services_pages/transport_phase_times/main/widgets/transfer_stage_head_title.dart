@@ -1,4 +1,4 @@
-import 'package:alrefadah/core/themes/colors_constants.dart';
+import 'package:alrefadah/core/themes/app_theme.dart';
 import 'package:alrefadah/core/utils/components/space.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -14,7 +14,7 @@ class TransferStageHeadTitle extends StatelessWidget {
       height: 60.h,
       padding: EdgeInsets.all(10.sp),
       decoration: ShapeDecoration(
-        color: kMainColor,
+        gradient: customGradient(),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(top: Radius.circular(8.r)),
         ),
