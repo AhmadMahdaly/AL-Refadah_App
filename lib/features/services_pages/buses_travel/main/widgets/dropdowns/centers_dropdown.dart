@@ -61,7 +61,7 @@ class _GetBusSeasonDropdownState extends State<GetBusTravelCentersDropdown> {
           if (state.isLoadingCenters) {
             return const EmptyDropdown(title: 'مركز');
           }
-          if (state.centers != null) {
+          if (state.centers.isNotEmpty) {
             return SizedBox(
               height: 60.h,
               child: DropdownButtonFormField<String>(

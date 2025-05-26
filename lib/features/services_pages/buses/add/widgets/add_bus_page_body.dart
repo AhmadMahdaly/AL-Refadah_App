@@ -269,7 +269,7 @@ class _AddBusPageBodyState extends State<AddBusPageBody> {
                           state.selectedOperation != null) ...[
                         ListView.builder(
                           shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
+                          physics: const AlwaysScrollableScrollPhysics(),
                           itemCount: state.busForms.length,
                           itemBuilder: (context, index) {
                             if (state.busForms.length !=

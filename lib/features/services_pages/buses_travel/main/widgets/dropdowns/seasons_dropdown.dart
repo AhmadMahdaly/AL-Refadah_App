@@ -63,7 +63,7 @@ class _GetBusSeasonDropdownState extends State<GetBusTravelSeasonDropdown> {
           return const EmptyDropdown(title: 'موسم حج');
         }
 
-        if (state.seasons != null) {
+        if (state.seasons.isNotEmpty) {
           return SizedBox(
             height: 60.h,
             child: DropdownButtonFormField<String>(

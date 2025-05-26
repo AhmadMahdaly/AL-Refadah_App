@@ -104,11 +104,7 @@ class _AddBusButtonState extends State<AddBusButton> {
                                   fBusNo: form.busNoController.text,
                                   fOperatingNo:
                                       state.selectedOperation!.fOperatingNo,
-                                  fPilgrimsAco:
-                                      int.tryParse(
-                                        form.pilgrimsQtyController.text,
-                                      ) ??
-                                      0,
+                                  fPilgrimsAco: 47,
                                   fTripAco:
                                       int.tryParse(
                                         form.tripsQtyController.text,

@@ -103,15 +103,11 @@ class _AddBusDetailsCardState extends State<AddBusDetailsCard> {
                 /// Pilgrims qty
                 Expanded(
                   child: CustomNumberTextformfield(
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'الرجاء إدخال عدد الحجاج';
-                      }
-                      return null;
-                    },
-                    maxLength: 4,
-                    controller: form.pilgrimsQtyController,
+                    readOnly: true,
+                    enabled: false,
+                    controller: TextEditingController(text: '47'),
                     labelText: 'عدد الحجاج',
+                    textDirection: TextDirection.rtl,
                   ),
                 ),
               ],

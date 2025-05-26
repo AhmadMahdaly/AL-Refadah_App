@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 
 class AddTripPage extends StatelessWidget {
   const AddTripPage({
-    required this.tripsByStage,
+        required this.tripsByStage,
     required this.trip,
     super.key,
   });

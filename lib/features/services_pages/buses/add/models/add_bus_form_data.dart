@@ -3,24 +3,24 @@ import 'package:flutter/material.dart';
 
 class AddBusFormData {
   final TextEditingController _busNoController = TextEditingController();
-  final TextEditingController _pilgrimsQtyController = TextEditingController();
+  // final TextEditingController _pilgrimsQtyController = TextEditingController();
   final TextEditingController _tripsQtyController = TextEditingController();
   final TextEditingController _notesController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey();
   TextEditingController get busNoController => _busNoController;
-  TextEditingController get pilgrimsQtyController => _pilgrimsQtyController;
+  // TextEditingController get pilgrimsQtyController => _pilgrimsQtyController;
   TextEditingController get tripsQtyController => _tripsQtyController;
   TextEditingController get notesController => _notesController;
   GlobalKey<FormState> get formKey => _formKey;
   void dispose() {
     _busNoController.dispose();
-    _pilgrimsQtyController.dispose();
+    // _pilgrimsQtyController.dispose();
     _tripsQtyController.dispose();
     _notesController.dispose();
   }
 
   BusesGetAllTransportsModel? selectedTransport;
-  String? pilgrimsCount;
+  // String? pilgrimsCount;
   String? tripsCount;
   String note = '';
 }

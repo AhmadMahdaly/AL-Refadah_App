@@ -38,10 +38,7 @@ class AuthCubit extends Cubit<AuthStates> {
         emit(LoginErrorState('فشل تسجيل الدخول'));
       }
     } on DioException catch (e) {
-      final message =
-          (e.response?.data as Map<String, dynamic>?)?['message']?.toString() ??
-          'حدث خطأ';
-      emit(LoginErrorState(message));
+      emit(LoginErrorState(e.toString()));
     } catch (e) {
       emit(LoginErrorState('حدث خطأ غير متوقع'));
     }
