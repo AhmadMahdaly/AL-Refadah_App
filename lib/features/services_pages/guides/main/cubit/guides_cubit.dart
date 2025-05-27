@@ -1,5 +1,6 @@
 import 'package:alrefadah/features/services_pages/guides/add/models/add_guide_model.dart';
 import 'package:alrefadah/features/services_pages/guides/add_emplyee/models/add_emplyee_model.dart';
+import 'package:alrefadah/features/services_pages/guides/add_emplyee/repo/emp_repo.dart';
 import 'package:alrefadah/features/services_pages/guides/main/cubit/guides_states.dart';
 import 'package:alrefadah/features/services_pages/guides/main/repo/guides_repo.dart';
 import 'package:alrefadah/features/services_pages/guides/update/models/update_guide_model.dart';
@@ -8,7 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class GuidesCubit extends Cubit<GuidesState> {
   GuidesCubit() : super(GuidesState());
   final GuidesRepo repository = GuidesRepo();
-
+  final EmployeesRepo empRepo = EmployeesRepo();
   String? selectedSeason;
   String? selectedCenter;
   Future<void> fetchSeasons() async {
@@ -124,7 +125,7 @@ class GuidesCubit extends Cubit<GuidesState> {
   Future<void> addEmployee(List<AddEmployeeModel> model) async {
     emit(state.copyWith(isLoadingAddEmpoloyee: true));
     try {
-      await repository.addEmpoloyee(model);
+      await empRepo.addEmpoloyee(model);
       emit(
         state.copyWith(
           isLoadingAddEmpoloyee: false,
@@ -133,6 +134,35 @@ class GuidesCubit extends Cubit<GuidesState> {
       );
     } catch (e) {
       emit(state.copyWith(isLoadingAddEmpoloyee: false, error: 'حدث خطأ'));
+    }
+  }
+
+  Future<void> fetchEmployeeData() async {
+    emit(state.copyWith(isLoadingEmpData: true));
+    try {
+      final cities = await empRepo.getCities();
+      final majors = await empRepo.getMajors();
+      final certificates = await empRepo.getCertificates();
+      final banks = await empRepo.getBanks();
+      final nationalities = await empRepo.getNationalities();
+
+      emit(
+        state.copyWith(
+          isLoadingEmpData: false,
+          cities: cities,
+          majors: majors,
+          certificates: certificates,
+          banks: banks,
+          nationalities: nationalities,
+        ),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          isLoadingEmpData: false,
+          error: 'حدث خطأ في جلب بيانات الموظفين',
+        ),
+      );
     }
   }
 }

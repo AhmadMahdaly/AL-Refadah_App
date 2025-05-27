@@ -1,7 +1,6 @@
 import 'package:alrefadah/core/services/dio_helper.dart';
 import 'package:alrefadah/data/constants_variable.dart';
 import 'package:alrefadah/features/services_pages/guides/add/models/add_guide_model.dart';
-import 'package:alrefadah/features/services_pages/guides/add_emplyee/models/add_emplyee_model.dart';
 import 'package:alrefadah/features/services_pages/guides/main/models/by_criteria/assignment_model.dart';
 import 'package:alrefadah/features/services_pages/guides/main/models/get_centers_model.dart';
 import 'package:alrefadah/features/services_pages/guides/main/models/get_guide_model.dart';
@@ -115,17 +114,4 @@ class GuidesRepo {
     }
   }
 
-  Future<Map<String, dynamic>?> addEmpoloyee(
-    List<AddEmployeeModel> model,
-  ) async {
-    final response = await DioHelper.dio.post<Map<String, dynamic>>(
-      '/Employees/AddEmployeeAndGuide',
-      data: model.map((e) => e.toJson()).toList(),
-    );
-    if (response.statusCode == 200) {
-      return response.data;
-    } else {
-      throw Exception('فشل الإرسال: ${response.statusCode}');
-    }
-  }
 }
