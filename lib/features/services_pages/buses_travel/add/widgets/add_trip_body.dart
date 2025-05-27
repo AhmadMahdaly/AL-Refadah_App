@@ -23,6 +23,7 @@ import 'package:alrefadah/features/services_pages/guides/main/cubit/guides_cubit
 import 'package:alrefadah/features/services_pages/guides/main/cubit/guides_states.dart';
 import 'package:alrefadah/features/services_pages/guides/main/models/by_criteria/assignment_model.dart';
 import 'package:alrefadah/presentation/app/shared_cubit/get_current_location_cubit/get_current_location_cubit.dart';
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -179,70 +180,92 @@ class _AddTripBodyState extends State<AddTripBody> {
                                             Expanded(
                                               child:
                                               /// رقم الحافلة
-                                              DropdownButtonFormField<
-                                                GetAllBusesModel
-                                              >(
-                                                validator: (value) {
-                                                  if (value == null) {
-                                                    return 'الرجاء إدخال رقم الحافلة';
-                                                  }
-                                                  return null;
-                                                },
-                                                isExpanded: true,
-                                                dropdownColor:
-                                                    kScaffoldBackgroundColor,
-
-                                                decoration: InputDecoration(
-                                                  border: dropdownBorderRadius(
-                                                    kMainColorLightColor,
-                                                  ),
-                                                  focusedBorder:
-                                                      dropdownBorderRadius(
-                                                        kMainColorLightColor,
+                                              DropdownSearch<GetAllBusesModel>(
+                                                items: busItems,
+                                                selectedItem: selectedBus,
+                                                itemAsString:
+                                                    (GetAllBusesModel bus) =>
+                                                        bus.fBusNo,
+                                                dropdownDecoratorProps: DropDownDecoratorProps(
+                                                  dropdownSearchDecoration: InputDecoration(
+                                                    border:
+                                                        dropdownBorderRadius(
+                                                          kMainColorLightColor,
+                                                        ),
+                                                    focusedBorder:
+                                                        dropdownBorderRadius(
+                                                          kMainColorLightColor,
+                                                        ),
+                                                    enabledBorder:
+                                                        dropdownBorderRadius(
+                                                          kMainColorLightColor,
+                                                        ),
+                                                    focusedErrorBorder:
+                                                        dropdownBorderRadius(
+                                                          kErrorColor,
+                                                        ),
+                                                    label: Text(
+                                                      'رقم الحافلة',
+                                                      style: TextStyle(
+                                                        fontSize: 13.sp,
+                                                        color: const Color(
+                                                          0xFFA2A2A2,
+                                                        ),
+                                                        fontWeight:
+                                                            FontWeight.w300,
                                                       ),
-                                                  enabledBorder:
-                                                      dropdownBorderRadius(
-                                                        kMainColorLightColor,
-                                                      ),
-                                                  focusedErrorBorder:
-                                                      dropdownBorderRadius(
-                                                        kErrorColor,
-                                                      ),
-                                                  label: Text(
-                                                    'رقم الحافلة',
-                                                    style: TextStyle(
-                                                      fontSize: 13.sp,
-                                                      color: const Color(
-                                                        0xFFA2A2A2,
-                                                      ),
-                                                      fontWeight:
-                                                          FontWeight.w300,
                                                     ),
                                                   ),
                                                 ),
-                                                icon: const Icon(
-                                                  Icons
-                                                      .keyboard_arrow_down_rounded,
-                                                  color: kMainColor,
+                                                popupProps: PopupProps.menu(
+                                                  showSearchBox: true,
+                                                  searchFieldProps: TextFieldProps(
+                                                    decoration: InputDecoration(
+                                                      labelText:
+                                                          'ابحث برقم الحافلة',
+                                                      border:
+                                                          dropdownBorderRadius(
+                                                            kMainColorLightColor,
+                                                          ),
+                                                      focusedBorder:
+                                                          dropdownBorderRadius(
+                                                            kMainColorLightColor,
+                                                          ),
+                                                      enabledBorder:
+                                                          dropdownBorderRadius(
+                                                            kMainColorLightColor,
+                                                          ),
+                                                      focusedErrorBorder:
+                                                          dropdownBorderRadius(
+                                                            kErrorColor,
+                                                          ),
+                                                    ),
+                                                  ),
+                                                  itemBuilder:
+                                                      (
+                                                        context,
+                                                        GetAllBusesModel bus,
+                                                        isSelected,
+                                                      ) => ListTile(
+                                                        title: Text(
+                                                          bus.fBusNo,
+                                                          style: TextStyle(
+                                                            color:
+                                                                isSelected
+                                                                    ? kMainColor
+                                                                    : Colors
+                                                                        .black,
+                                                            fontSize: 14.sp,
+                                                          ),
+                                                        ),
+                                                      ),
                                                 ),
-                                                style: TextStyle(
-                                                  color: kMainColor,
-                                                  fontSize: 15.sp,
-                                                  fontFamily: 'GE SS Two',
-                                                  fontWeight: FontWeight.w300,
-                                                  height: 1.25.h,
-                                                ),
-                                                value: selectedBus,
-                                                items:
-                                                    busItems.map((bus) {
-                                                      final busNo = bus.fBusNo;
-                                                      return DropdownMenuItem<
-                                                        GetAllBusesModel
-                                                      >(
-                                                        value: bus,
-                                                        child: Text(busNo),
-                                                      );
-                                                    }).toList(),
+                                                validator: (value) {
+                                                  if (value == null) {
+                                                    return 'الرجاء اختيار رقم الحافلة';
+                                                  }
+                                                  return null;
+                                                },
                                                 onChanged: (
                                                   GetAllBusesModel? newValue,
                                                 ) {
@@ -251,6 +274,79 @@ class _AddTripBodyState extends State<AddTripBody> {
                                                   });
                                                 },
                                               ),
+
+                                              // DropdownButtonFormField<
+                                              //   GetAllBusesModel
+                                              // >(
+                                              //   validator: (value) {
+                                              //     if (value == null) {
+                                              //       return 'الرجاء إدخال رقم الحافلة';
+                                              //     }
+                                              //     return null;
+                                              //   },
+                                              //   isExpanded: true,
+                                              //   dropdownColor:
+                                              //       kScaffoldBackgroundColor,
+
+                                              //   decoration: InputDecoration(
+                                              //     border: dropdownBorderRadius(
+                                              //       kMainColorLightColor,
+                                              //     ),
+                                              //     focusedBorder:
+                                              //         dropdownBorderRadius(
+                                              //           kMainColorLightColor,
+                                              //         ),
+                                              //     enabledBorder:
+                                              //         dropdownBorderRadius(
+                                              //           kMainColorLightColor,
+                                              //         ),
+                                              //     focusedErrorBorder:
+                                              //         dropdownBorderRadius(
+                                              //           kErrorColor,
+                                              //         ),
+                                              //     label: Text(
+                                              //       'رقم الحافلة',
+                                              //       style: TextStyle(
+                                              //         fontSize: 13.sp,
+                                              //         color: const Color(
+                                              //           0xFFA2A2A2,
+                                              //         ),
+                                              //         fontWeight:
+                                              //             FontWeight.w300,
+                                              //       ),
+                                              //     ),
+                                              //   ),
+                                              //   icon: const Icon(
+                                              //     Icons
+                                              //         .keyboard_arrow_down_rounded,
+                                              //     color: kMainColor,
+                                              //   ),
+                                              //   style: TextStyle(
+                                              //     color: kMainColor,
+                                              //     fontSize: 15.sp,
+                                              //     fontFamily: 'GE SS Two',
+                                              //     fontWeight: FontWeight.w300,
+                                              //     height: 1.25.h,
+                                              //   ),
+                                              //   value: selectedBus,
+                                              //   items:
+                                              //       busItems.map((bus) {
+                                              //         final busNo = bus.fBusNo;
+                                              //         return DropdownMenuItem<
+                                              //           GetAllBusesModel
+                                              //         >(
+                                              //           value: bus,
+                                              //           child: Text(busNo),
+                                              //         );
+                                              //       }).toList(),
+                                              //   onChanged: (
+                                              //     GetAllBusesModel? newValue,
+                                              //   ) {
+                                              //     setState(() {
+                                              //       selectedBus = newValue;
+                                              //     });
+                                              //   },
+                                              // ),
                                             ),
                                             SizedBox(
                                               width: 50.w,
@@ -324,92 +420,91 @@ class _AddTripBodyState extends State<AddTripBody> {
                                             label: 'الشركة الناقلة',
                                           ),
                                         if (selectedBus != null)
-                                          Row(
-                                            spacing: 12.w,
-                                            children: [
-                                              /// رقم التشغيل
-                                              Expanded(
-                                                child: DropdownButtonFormField<
-                                                  String
-                                                >(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                        10.r,
-                                                      ),
-                                                  decoration: InputDecoration(
-                                                    fillColor:
-                                                        kScaffoldBackgroundColor,
-                                                    filled: true,
-                                                    border:
-                                                        textfieldBorderRadius(
-                                                          kMainColorLightColor,
-                                                        ),
-                                                    focusedBorder:
-                                                        textfieldBorderRadius(
-                                                          kMainColorLightColor,
-                                                        ),
-                                                    enabledBorder:
-                                                        textfieldBorderRadius(
-                                                          kMainColorLightColor,
-                                                        ),
-                                                    focusedErrorBorder:
-                                                        textfieldBorderRadius(
-                                                          kErrorColor,
-                                                        ),
-                                                    label: Text(
-                                                      'رقم التشغيل',
-                                                      style: TextStyle(
-                                                        fontSize: 13.sp,
-                                                        color: const Color(
-                                                          0xFFA2A2A2,
-                                                        ),
-                                                        fontWeight:
-                                                            FontWeight.w300,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  icon: const Icon(
-                                                    Icons
-                                                        .keyboard_arrow_down_rounded,
-                                                  ),
-                                                  style: TextStyle(
-                                                    color: kMainColor,
-                                                    fontSize: 15.sp,
-                                                    fontFamily: 'GE SS Two',
-                                                    fontWeight: FontWeight.w300,
-                                                    height: 1.43.h,
-                                                  ),
-                                                  value:
-                                                      selectedBus!.fOperatingNo,
-                                                  items: [
-                                                    DropdownMenuItem<String>(
-                                                      value:
-                                                          selectedBus!
-                                                              .fOperatingNo,
-                                                      child: Text(
-                                                        selectedBus!
-                                                            .fOperatingNo,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                  onChanged: null,
-                                                ),
-                                              ),
+                                          // Row(
+                                          //   spacing: 12.w,
+                                          //   children: [
+                                          //     /// رقم التشغيل
+                                          //     Expanded(
+                                          //       child: DropdownButtonFormField<
+                                          //         String
+                                          //       >(
+                                          //         borderRadius:
+                                          //             BorderRadius.circular(
+                                          //               10.r,
+                                          //             ),
+                                          //         decoration: InputDecoration(
+                                          //           fillColor:
+                                          //               kScaffoldBackgroundColor,
+                                          //           filled: true,
+                                          //           border:
+                                          //               textfieldBorderRadius(
+                                          //                 kMainColorLightColor,
+                                          //               ),
+                                          //           focusedBorder:
+                                          //               textfieldBorderRadius(
+                                          //                 kMainColorLightColor,
+                                          //               ),
+                                          //           enabledBorder:
+                                          //               textfieldBorderRadius(
+                                          //                 kMainColorLightColor,
+                                          //               ),
+                                          //           focusedErrorBorder:
+                                          //               textfieldBorderRadius(
+                                          //                 kErrorColor,
+                                          //               ),
+                                          //           label: Text(
+                                          //             'رقم التشغيل',
+                                          //             style: TextStyle(
+                                          //               fontSize: 13.sp,
+                                          //               color: const Color(
+                                          //                 0xFFA2A2A2,
+                                          //               ),
+                                          //               fontWeight:
+                                          //                   FontWeight.w300,
+                                          //             ),
+                                          //           ),
+                                          //         ),
+                                          //         icon: const Icon(
+                                          //           Icons
+                                          //               .keyboard_arrow_down_rounded,
+                                          //         ),
+                                          //         style: TextStyle(
+                                          //           color: kMainColor,
+                                          //           fontSize: 15.sp,
+                                          //           fontFamily: 'GE SS Two',
+                                          //           fontWeight: FontWeight.w300,
+                                          //           height: 1.43.h,
+                                          //         ),
+                                          //         value:
+                                          //             selectedBus!.fOperatingNo,
+                                          //         items: [
+                                          //           DropdownMenuItem<String>(
+                                          //             value:
+                                          //                 selectedBus!
+                                          //                     .fOperatingNo,
+                                          //             child: Text(
+                                          //               selectedBus!
+                                          //                   .fOperatingNo,
+                                          //             ),
+                                          //           ),
+                                          //         ],
+                                          //         onChanged: null,
+                                          //       ),
+                                          //     ),
+                                          //     /// عدد الحجاج
+                                          //     Expanded(
+                                          // child:
+                                          InActiveDropdown(
+                                            text:
+                                                selectedBus!.fPilgrimsAco
+                                                    .toString(),
+                                            value: selectedBus!.fPilgrimsAco,
 
-                                              /// عدد الحجاج
-                                              Expanded(
-                                                child: InActiveDropdown(
-                                                  text:
-                                                      selectedBus!.fPilgrimsAco
-                                                          .toString(),
-                                                  value:
-                                                      selectedBus!.fPilgrimsAco,
-
-                                                  label: 'عدد الحجاج',
-                                                ),
-                                              ),
-                                            ],
+                                            label: 'عدد الحجاج',
                                           ),
+                                        //     ),
+                                        //   ],
+                                        // ),
 
                                         /// المسار
                                         DropdownButtonFormField<TrackModel>(

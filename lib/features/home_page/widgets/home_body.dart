@@ -9,6 +9,7 @@ import 'package:alrefadah/features/home_page/widgets/dashboard/trips_reports/tri
 import 'package:alrefadah/features/home_page/widgets/dropdown_button/center_dropdown_button.dart';
 import 'package:alrefadah/features/home_page/widgets/dropdown_button/session_dropdown_button.dart';
 import 'package:alrefadah/features/home_page/widgets/dropdown_button/stage_dropdown_button.dart';
+import 'package:alrefadah/features/home_page/widgets/dropdown_button/track_dropdown_button.dart';
 import 'package:alrefadah/features/home_page/widgets/head_text_title.dart';
 import 'package:alrefadah/presentation/app/shared_widgets/no_data_widget.dart';
 import 'package:flutter/material.dart';
@@ -36,10 +37,17 @@ class HomeBody extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   /// Dropdowns
-                  /// season dropdown
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: padding.w),
-                    child: const HomeSeasonDropdown(),
+                    child: const Row(
+                      children: [
+                        /// season dropdown
+                        Expanded(child: HomeSeasonDropdown()),
+
+                        /// center dropdown
+                        Expanded(child: GetCenterDropdown()),
+                      ],
+                    ),
                   ),
 
                   Padding(
@@ -47,11 +55,11 @@ class HomeBody extends StatelessWidget {
                     child: Row(
                       spacing: 12.w,
                       children: const [
-                        /// center dropdown
-                        Expanded(child: GetCenterDropdown()),
-
                         /// stage dropdown
                         Expanded(child: GetStageDropdown()),
+
+                        /// track dropdown
+                        Expanded(child: GetTrackDropdown()),
                       ],
                     ),
                   ),

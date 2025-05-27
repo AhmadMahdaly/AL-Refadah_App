@@ -25,7 +25,7 @@ class _HomeSeasonDropdownState extends State<HomeSeasonDropdown> {
         if (state.seasons.isNotEmpty && state.seasons != null) {
           return SizedBox(
             height: 60.h,
-            child: DropdownButtonFormField<String>(
+            child: DropdownButtonFormField<int>(
               borderRadius: BorderRadius.circular(10.r),
               isExpanded: true,
               dropdownColor: kScaffoldBackgroundColor,
@@ -52,10 +52,7 @@ class _HomeSeasonDropdownState extends State<HomeSeasonDropdown> {
                     'لم يتم التحديد',
               ),
               items: _buildDropdownItems(state.seasons),
-              value:
-                  BlocProvider.of<HomeCubit>(
-                    context,
-                  ).selectedSeason?.toString(),
+              value: BlocProvider.of<HomeCubit>(context).selectedSeason,
               onChanged: _onStageChanged,
             ),
           );
@@ -87,23 +84,24 @@ class _HomeSeasonDropdownState extends State<HomeSeasonDropdown> {
     );
   }
 
-  List<DropdownMenuItem<String>> _buildDropdownItems(
+  List<DropdownMenuItem<int>> _buildDropdownItems(
     List<HomeSeasonModel> seasons,
   ) {
     return seasons
         .map(
-          (season) => DropdownMenuItem<String>(
-            value: season.fSeasonId.toString(),
+          (season) => DropdownMenuItem<int>(
+            value: season.fSeasonId,
             child: _buildDropdownItem(season.fSeasonName),
           ),
         )
         .toList();
   }
 
-  void _onStageChanged(String? value) {
+  void _onStageChanged(int? value) {
     if (value != null) {
       setState(() {
         context.read<HomeCubit>().selectedSeason = value;
+        context.read<HomeCubit>().getDashboardData();
       });
     }
   }

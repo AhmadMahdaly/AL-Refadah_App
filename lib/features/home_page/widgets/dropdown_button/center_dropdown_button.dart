@@ -25,7 +25,7 @@ class _GetCenterDropdownState extends State<GetCenterDropdown> {
         if (state.centers != null && state.centers.isNotEmpty) {
           return SizedBox(
             height: 60.h,
-            child: DropdownButtonFormField<String>(
+            child: DropdownButtonFormField<int>(
               isExpanded: true,
               dropdownColor: kScaffoldBackgroundColor,
 
@@ -53,10 +53,7 @@ class _GetCenterDropdownState extends State<GetCenterDropdown> {
                     'لم يتم التحديد',
               ),
               items: _buildDropdownItems(state.centers),
-              value:
-                  BlocProvider.of<HomeCubit>(
-                    context,
-                  ).selectedCenter?.toString(),
+              value: BlocProvider.of<HomeCubit>(context).selectedCenter,
               onChanged: _onStageChanged,
             ),
           );
@@ -80,23 +77,24 @@ class _GetCenterDropdownState extends State<GetCenterDropdown> {
     );
   }
 
-  List<DropdownMenuItem<String>> _buildDropdownItems(
+  List<DropdownMenuItem<int>> _buildDropdownItems(
     List<BusesTravelGetCenterModel> centers,
   ) {
     return centers
         .map(
-          (center) => DropdownMenuItem<String>(
-            value: center.fCenterNo.toString(),
+          (center) => DropdownMenuItem<int>(
+            value: center.fCenterNo,
             child: _buildDropdownItem(center.fCenterName),
           ),
         )
         .toList();
   }
 
-  void _onStageChanged(String? value) {
+  void _onStageChanged(int? value) {
     if (value != null) {
       setState(() {
         context.read<HomeCubit>().selectedCenter = value;
+        context.read<HomeCubit>().getDashboardData();
       });
     }
   }
