@@ -11,6 +11,7 @@ import 'package:alrefadah/features/services_pages/buses/main/cubit/buses_cubit.d
 import 'package:alrefadah/features/services_pages/buses/main/cubit/buses_states.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/add/add_bus/cubit/add_bus_cubit.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/add/add_bus/cubit/add_bus_state.dart';
+import 'package:alrefadah/features/services_pages/buses_travel/main/models/get_buses_travel_trip_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -22,8 +23,13 @@ String generateRandom6DigitNumber() {
 }
 
 class AddBusButton extends StatefulWidget {
-  const AddBusButton({required this.rootContext, super.key});
+  const AddBusButton({
+    required this.rootContext,
+    required this.trip,
+    super.key,
+  });
   final BuildContext rootContext;
+  final BusesTravelGetTripModel trip;
   @override
   State<AddBusButton> createState() => _AddBusButtonState();
 }
@@ -49,7 +55,7 @@ class _AddBusButtonState extends State<AddBusButton> {
         return BlocBuilder<AddBusTripCubit, AddBusTripState>(
           builder: (context, state) {
             /// Loading
-            return state.centers.isEmpty ||
+            return state.operations.isEmpty ||
                     busesCubit.state.isLoadingAddBus ||
                     busesCubit.state.isLoadingAllBusesByCrietia
                 ? const AppIndicator()
@@ -98,13 +104,13 @@ class _AddBusButtonState extends State<AddBusButton> {
                                           .read<BusesCubit>()
                                           .selectedSeason!,
 
-                                  fCenterNo: state.selectedCenter!.fCenterNo,
-                                  fStageNo: state.selectedStage!.fStageNo,
+                                  fCenterNo:int.parse(widget.trip.fCenterNo) ,
+                                  fStageNo: int.parse(widget.trip.fStageNo),
                                   fTransportNo:
                                       form.selectedTransport!.fTransportNo,
                                   fBusNo: form.busNoController.text,
                                   fOperatingNo:
-                                      state.selectedOperation!.fOperatingNo,
+                                      state.selectedOperation!,
                                   fPilgrimsAco: 47,
                                   fTripAco:
                                       int.tryParse(
@@ -123,7 +129,7 @@ class _AddBusButtonState extends State<AddBusButton> {
 
                             if (busesCubit.state.isSuccessAddBus) {
                               await busesCubit.getAllBusesByCrietia(
-                                state.selectedCenter!.fCenterNo.toString(),
+                               widget.trip.fCenterNo ,
                               );
 
                               if (widget.rootContext.mounted) {

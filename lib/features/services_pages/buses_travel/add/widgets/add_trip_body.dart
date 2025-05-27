@@ -394,6 +394,8 @@ class _AddTripBodyState extends State<AddTripBody> {
                                                                 0.95, //  تقريـبًا fullscreen
                                                             child: SingleChildScrollView(
                                                               child: AddBusPageBody(
+                                                                trip:
+                                                                    widget.trip,
                                                                 rootContext:
                                                                     rootContext,
                                                               ),

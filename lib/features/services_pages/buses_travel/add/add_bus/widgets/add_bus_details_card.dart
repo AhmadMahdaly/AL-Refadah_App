@@ -7,6 +7,7 @@ import 'package:alrefadah/features/services_pages/buses_travel/add/add_bus/cubit
 import 'package:alrefadah/features/services_pages/buses_travel/add/add_bus/models/add_bus_form_data.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/add/add_bus/widgets/add_bus_button.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/add/add_bus/widgets/dropdowns/transports_dropdown.dart';
+import 'package:alrefadah/features/services_pages/buses_travel/main/models/get_buses_travel_trip_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -15,14 +16,14 @@ class AddBusDetailsCardTrip extends StatefulWidget {
   const AddBusDetailsCardTrip({
     required this.index,
     required this.formKey,
-
+    required this.trip,
     required this.rootContext,
     super.key,
   });
   final BuildContext rootContext;
   final int index;
   final GlobalKey<FormState> formKey;
-
+  final BusesTravelGetTripModel trip;
   @override
   State<AddBusDetailsCardTrip> createState() => _AddBusDetailsCardTripState();
 }
@@ -212,7 +213,7 @@ class _AddBusDetailsCardTripState extends State<AddBusDetailsCardTrip> {
             if (form.busNoController.text.isNotEmpty &&
                 form.tripsQtyController.text.isNotEmpty &&
                 form.selectedTransport != null)
-              AddBusButton(rootContext: widget.rootContext),
+              AddBusButton(rootContext: widget.rootContext, trip: widget.trip),
           ],
         ),
       ),
