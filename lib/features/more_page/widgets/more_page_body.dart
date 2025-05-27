@@ -7,6 +7,7 @@ import 'package:alrefadah/features/more_page/widgets/services_tab_widget.dart';
 import 'package:alrefadah/features/services_pages/buses/main/cubit/buses_cubit.dart';
 import 'package:alrefadah/features/services_pages/buses/main/cubit/buses_states.dart';
 import 'package:alrefadah/features/services_pages/buses/main/screens/buses_page.dart';
+import 'package:alrefadah/features/services_pages/buses_travel/add/add_bus/cubit/add_bus_cubit.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/approval/main/views/approval_trips_page.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/incoming/main/views/incoming_trips_page.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/launch/main/views/launch_trips_page.dart';
@@ -86,6 +87,25 @@ class _MorePageBodyState extends State<MorePageBody> {
       }
     });
     context.read<BusesCubit>().getAllBuses();
+
+    final buseCubit = BlocProvider.of<BusesCubit>(context)..getSeasons();
+    final addBusCubit = BlocProvider.of<AddBusTripCubit>(context);
+    busesCubit.stream.listen((state) {
+      if (state.seasons != null) {
+        final session = state.seasons.map((e) => e.fSeasonId);
+        if (session.isNotEmpty) {
+          busesCubit.selectedSeason = session.last;
+        }
+      }
+    });
+    addBusCubit.stream.listen((state) {
+      if (buseCubit.selectedSeason != null) {
+        addBusCubit.selectedSeason = buseCubit.selectedSeason;
+      }
+    });
+    context
+      ..read<AddBusTripCubit>().loadCenters()
+      ..read<AddBusTripCubit>().loadTransports();
   }
 
   void initOpratingCommandData() {
@@ -209,9 +229,7 @@ class _MorePageBodyState extends State<MorePageBody> {
                   ),
 
                 /// الحافلات
-                if (fPermNo == PermNo.transMan ||
-                    fPermNo == PermNo.systemMan ||
-                    fPermNo == PermNo.storeWatcher)
+                if (fPermNo == PermNo.transMan || fPermNo == PermNo.systemMan)
                   ServicesTabWidget(
                     icon: const Icon(
                       Icons.directions_bus_outlined,
@@ -246,7 +264,9 @@ class _MorePageBodyState extends State<MorePageBody> {
                   ),
 
                 /// إطلاق الحافلات
-               if (fPermNo == PermNo.transMan || fPermNo == PermNo.systemMan||fPermNo == PermNo.centerMember ||
+                if (fPermNo == PermNo.transMan ||
+                    fPermNo == PermNo.systemMan ||
+                    fPermNo == PermNo.centerMember ||
                     fPermNo == PermNo.storeWatcher)
                   ServicesTabWidget(
                     icon: Icon(Icons.logout, color: kMainColor, size: 20.sp),
@@ -261,7 +281,9 @@ class _MorePageBodyState extends State<MorePageBody> {
                   ),
 
                 /// الحافلات القادمة
-               if (fPermNo == PermNo.transMan || fPermNo == PermNo.systemMan||fPermNo == PermNo.trackWatcher ||
+                if (fPermNo == PermNo.transMan ||
+                    fPermNo == PermNo.systemMan ||
+                    fPermNo == PermNo.trackWatcher ||
                     fPermNo == PermNo.centerMember)
                   ServicesTabWidget(
                     icon: RotatedBox(
@@ -283,7 +305,9 @@ class _MorePageBodyState extends State<MorePageBody> {
                   ),
 
                 /// الحافلات الواصلة
-               if (fPermNo == PermNo.transMan || fPermNo == PermNo.systemMan||fPermNo == PermNo.centerMember ||
+                if (fPermNo == PermNo.transMan ||
+                    fPermNo == PermNo.systemMan ||
+                    fPermNo == PermNo.centerMember ||
                     fPermNo == PermNo.trackWatcher)
                   ServicesTabWidget(
                     icon: SvgPicture.asset(

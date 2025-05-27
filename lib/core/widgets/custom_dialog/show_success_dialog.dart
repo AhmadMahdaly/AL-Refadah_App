@@ -9,6 +9,7 @@ void showSuccessDialog(
 }) {
   showDialog<void>(
     context: context,
+    useRootNavigator: false,
     barrierDismissible: false, // يمنع إغلاقه بالضغط خارج
     builder: (context) {
       return PopScope(

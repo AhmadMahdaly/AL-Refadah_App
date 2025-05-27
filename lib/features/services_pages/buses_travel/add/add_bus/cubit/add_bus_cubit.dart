@@ -1,15 +1,14 @@
-import 'package:alrefadah/features/services_pages/buses/add/cubit/add_bus_state.dart';
-import 'package:alrefadah/features/services_pages/buses/add/models/add_bus_form_data.dart';
 import 'package:alrefadah/features/services_pages/buses/main/models/buses_get_all_transports_model.dart';
 import 'package:alrefadah/features/services_pages/buses/main/models/buses_get_center_model.dart';
-import 'package:alrefadah/features/services_pages/buses/main/models/buses_get_operating_model.dart';
 import 'package:alrefadah/features/services_pages/buses/main/models/buses_get_stage_model.dart';
 import 'package:alrefadah/features/services_pages/buses/main/repo/buses_repo.dart';
+import 'package:alrefadah/features/services_pages/buses_travel/add/add_bus/cubit/add_bus_state.dart';
+import 'package:alrefadah/features/services_pages/buses_travel/add/add_bus/models/add_bus_form_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class AddBusCubit extends Cubit<AddBusState> {
-  AddBusCubit() : super(AddBusState());
+class AddBusTripCubit extends Cubit<AddBusTripState> {
+  AddBusTripCubit() : super(AddBusTripState());
   final BusesRepo repository = BusesRepo();
   int? selectedSeason;
 
@@ -50,8 +49,8 @@ class AddBusCubit extends Cubit<AddBusState> {
   }
 
   void addNewBusForm() {
-    final updatedForms = List<AddBusFormData>.from(state.busForms)
-      ..add(AddBusFormData());
+    final updatedForms = List<AddBusFormTripData>.from(state.busForms)
+      ..add(AddBusFormTripData());
     final updatedKeys = List<GlobalKey<FormState>>.from(state.formKeys)
       ..add(GlobalKey<FormState>());
 
@@ -77,22 +76,37 @@ class AddBusCubit extends Cubit<AddBusState> {
         selectedSeason!,
         center.fCenterNo.toString(),
       );
-      emit(state.copyWith(operations: operations));
+
+      // تحديد آخر أمر تشغيل تلقائيًا إن وجدت عمليات
+      final lastOperation = operations.isNotEmpty ? operations.last : null;
+
+      emit(
+        state.copyWith(
+          operations: operations,
+          selectedOperation: lastOperation,
+        ),
+      );
     } catch (e) {
       emit(AddBusErrorState());
     }
   }
 
-  void selectOperation(BusesGetOperatingModel operation) {
-    emit(state.copyWith(selectedOperation: operation));
+  void hideAddButton() {
+    emit(state.copyWith(showAddButton: false));
   }
 
   void removeBusForm(int index) {
-    final updatedForms = List<AddBusFormData>.from(state.busForms)
+    final updatedForms = List<AddBusFormTripData>.from(state.busForms)
       ..removeAt(index);
     final updatedKeys = List<GlobalKey<FormState>>.from(state.formKeys)
       ..removeAt(index);
-    emit(state.copyWith(busForms: updatedForms, formKeys: updatedKeys));
+    emit(
+      state.copyWith(
+        busForms: updatedForms,
+        formKeys: updatedKeys,
+        showAddButton: true,
+      ),
+    );
   }
 
   Future<void> loadTransports() async {

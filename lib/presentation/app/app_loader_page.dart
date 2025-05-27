@@ -16,11 +16,21 @@ class AppLoaderPage extends StatelessWidget {
     return FutureBuilder<void>(
       future: context.read<HomeCubit>().initHomeData(),
       builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          // في حالة حدوث خطأ أثناء التحميل
+          return const Scaffold(
+            body: Center(
+              child: Text(
+                'حدث خطأ أثناء تحميل البيانات',
+                style: TextStyle(color: Colors.red, fontSize: 16),
+              ),
+            ),
+          );
+        }
+        // في حالة نجاح التحميل
         if (snapshot.connectionState == ConnectionState.done) {
           final homeCubit = context.read<HomeCubit>();
-          final fPermNo =
-              homeCubit
-                  .fPermNo; // ← الآن القيمة صحيحة لأن initHomeData تم تنفيذه
+          final fPermNo = homeCubit.fPermNo;
 
           Future.microtask(() {
             if (fPermNo == PermNo.transMan ||
@@ -44,6 +54,10 @@ class AppLoaderPage extends StatelessWidget {
               );
             }
           });
+        }
+        // في حالة ما إذا كانت البيانات لا تزال قيد التحميل
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Scaffold(body: AppIndicator());
         }
         // أثناء التحميل
         return const Scaffold(body: AppIndicator());

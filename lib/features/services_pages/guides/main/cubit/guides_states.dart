@@ -15,12 +15,16 @@ class GuidesState {
     this.isLoadingGetByCriteria = false,
     this.isLoadingdeleteGuide = false,
     this.isdeleteGuidesSuccess = false,
+    this.isLoadingAddEmpoloyee = false,
+    this.isAddEmpoloyeeSuccess = false,
     this.centers = const [],
     this.seasons = const [],
     this.guides = const [],
     this.guidesByCriteria = const [],
     this.error,
   });
+  final bool isLoadingAddEmpoloyee;
+  final bool isAddEmpoloyeeSuccess;
   final bool isLoadingCenters;
   final bool isLoadingSeasons;
   final bool isLoadingGuides;
@@ -38,6 +42,8 @@ class GuidesState {
   final String? error;
 
   GuidesState copyWith({
+    bool? isLoadingAddEmpoloyee,
+    bool? isAddEmpoloyeeSuccess,
     bool? isLoadingCenters,
     bool? isLoadingSeasons,
     bool? isLoadingGuides,
@@ -72,6 +78,10 @@ class GuidesState {
       isLoadingdeleteGuide: isLoadingdeleteGuide ?? this.isLoadingdeleteGuide,
       isdeleteGuidesSuccess:
           isdeleteGuidesSuccess ?? this.isdeleteGuidesSuccess,
+      isLoadingAddEmpoloyee:
+          isLoadingAddEmpoloyee ?? this.isLoadingAddEmpoloyee,
+      isAddEmpoloyeeSuccess:
+          isAddEmpoloyeeSuccess ?? this.isAddEmpoloyeeSuccess,
     );
   }
 }

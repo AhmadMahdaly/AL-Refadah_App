@@ -12,6 +12,7 @@ void showErrorDialog(
   showDialog<void>(
     context: context,
     barrierDismissible: false,
+    useRootNavigator: false,
     builder: (context) {
       return PopScope(
         canPop: false,

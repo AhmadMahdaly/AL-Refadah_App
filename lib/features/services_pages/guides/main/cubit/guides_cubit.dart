@@ -1,4 +1,5 @@
 import 'package:alrefadah/features/services_pages/guides/add/models/add_guide_model.dart';
+import 'package:alrefadah/features/services_pages/guides/add_emplyee/models/add_emplyee_model.dart';
 import 'package:alrefadah/features/services_pages/guides/main/cubit/guides_states.dart';
 import 'package:alrefadah/features/services_pages/guides/main/repo/guides_repo.dart';
 import 'package:alrefadah/features/services_pages/guides/update/models/update_guide_model.dart';
@@ -117,6 +118,21 @@ class GuidesCubit extends Cubit<GuidesState> {
           isdeleteGuidesSuccess: false,
         ),
       );
+    }
+  }
+
+  Future<void> addEmployee(List<AddEmployeeModel> model) async {
+    emit(state.copyWith(isLoadingAddEmpoloyee: true));
+    try {
+      await repository.addEmpoloyee(model);
+      emit(
+        state.copyWith(
+          isLoadingAddEmpoloyee: false,
+          isAddEmpoloyeeSuccess: true,
+        ),
+      );
+    } catch (e) {
+      emit(state.copyWith(isLoadingAddEmpoloyee: false, error: 'حدث خطأ'));
     }
   }
 }

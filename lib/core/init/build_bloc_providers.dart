@@ -4,6 +4,7 @@ import 'package:alrefadah/features/home_page/repo/home_repo.dart';
 import 'package:alrefadah/features/services_pages/buses/add/cubit/add_bus_cubit.dart';
 import 'package:alrefadah/features/services_pages/buses/main/cubit/buses_cubit.dart';
 import 'package:alrefadah/features/services_pages/buses/main/repo/buses_repo.dart';
+import 'package:alrefadah/features/services_pages/buses_travel/add/add_bus/cubit/add_bus_cubit.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/main/cubit/bus_travel_cubit.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/main/repo/buses_travel_repo.dart';
 import 'package:alrefadah/features/services_pages/guides/main/cubit/guides_cubit.dart';
@@ -37,7 +38,8 @@ List<BlocProvider> buildBlocProviders() {
 
     /// Buses
     BlocProvider<BusesCubit>(create: (context) => BusesCubit(BusesRepo())),
-    BlocProvider<AddBusCubit>(create: (context) => AddBusCubit(BusesRepo())),
+    BlocProvider<AddBusCubit>(create: (context) => AddBusCubit()),
+    BlocProvider<AddBusTripCubit>(create: (context) => AddBusTripCubit()),
 
     /// Buses Travel
     BlocProvider<BusTravelCubit>(

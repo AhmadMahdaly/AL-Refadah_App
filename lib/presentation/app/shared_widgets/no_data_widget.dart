@@ -3,20 +3,9 @@ import 'package:alrefadah/core/utils/components/space.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class NoDataWidget extends StatefulWidget {
+class NoDataWidget extends StatelessWidget {
   const NoDataWidget({super.key, this.onPressed});
   final void Function()? onPressed;
-
-  @override
-  State<NoDataWidget> createState() => _NoDataWidgetState();
-}
-
-class _NoDataWidgetState extends State<NoDataWidget> {
-  @override
-  void initState() {
-    widget.onPressed?.call();
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +25,7 @@ class _NoDataWidgetState extends State<NoDataWidget> {
           H(h: 10.h),
           ElevatedButton(
             style: ElevatedButton.styleFrom(backgroundColor: kMainColor),
-            onPressed: widget.onPressed,
+            onPressed: onPressed,
             child: const Text(
               'حاول مرة أخرى',
               style: TextStyle(color: Colors.white),

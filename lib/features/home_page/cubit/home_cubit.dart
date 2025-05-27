@@ -51,19 +51,19 @@ class HomeCubit extends Cubit<HomeState> {
 
   Future<void> getDashboardData() async {
     emit(state.copyWith(isLoadingAllData: true));
-    if (selectedSeason == null ||
-        selectedCenter == null ||
-        selectedStage == null) {
-      emit(
-        state.copyWith(
-          isLoadingAllData: false,
-          allData: null,
-          error: 'Missing selection data.',
-        ),
-      );
-      return;
-    }
+
     try {
+      if (selectedSeason == null ||
+          selectedCenter == null ||
+          selectedStage == null) {
+        emit(
+          state.copyWith(
+            isLoadingAllData: false,
+            allData: null,
+            error: 'Missing selection data.',
+          ),
+        );
+      }
       final dashboardData = await repository.getDashboardData(
         selectedSeason!,
         selectedCenter!,
@@ -93,12 +93,9 @@ class HomeCubit extends Cubit<HomeState> {
       final centers = await repository.getCenters();
       final stages = await repository.getStages();
 
-      selectedSeason =
-          seasons.isNotEmpty ? seasons.last.fSeasonId.toString() : null;
-      selectedCenter =
-          centers.isNotEmpty ? centers.first.fCenterNo.toString() : null;
-      selectedStage =
-          stages.isNotEmpty ? stages.first.fStageNo.toString() : null;
+      selectedSeason = seasons.last.fSeasonId.toString();
+      selectedCenter = centers.first.fCenterNo.toString();
+      selectedStage = stages.first.fStageNo.toString();
       fPermNo = permNo;
       userId = user;
       emit(

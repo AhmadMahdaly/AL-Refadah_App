@@ -21,7 +21,7 @@ class _GetStageDropdownState extends State<GetStageDropdown> {
   Widget build(BuildContext context) {
     return BlocBuilder<HomeCubit, HomeState>(
       builder: (context, state) {
-        if (state.stages.isNotEmpty) {
+        if (state.stages.isNotEmpty && state.stages != null) {
           return SizedBox(
             height: 60.h,
             child: DropdownButtonFormField<String>(

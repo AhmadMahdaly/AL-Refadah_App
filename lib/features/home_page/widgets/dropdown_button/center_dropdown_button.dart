@@ -22,7 +22,7 @@ class _GetCenterDropdownState extends State<GetCenterDropdown> {
   Widget build(BuildContext context) {
     return BlocBuilder<HomeCubit, HomeState>(
       builder: (context, state) {
-        if (state.centers.isNotEmpty) {
+        if (state.centers != null && state.centers.isNotEmpty) {
           return SizedBox(
             height: 60.h,
             child: DropdownButtonFormField<String>(

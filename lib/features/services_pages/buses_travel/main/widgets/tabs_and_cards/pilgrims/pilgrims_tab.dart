@@ -20,7 +20,7 @@ class BusesMovesPilgrimsTab extends StatelessWidget {
               state.isLoadingCenters ||
               state.isLoadingTrips) {
             return const AppIndicator();
-          } else if (state.trips != null) {
+          } else if (state.trips.isNotEmpty) {
             final trips = state.trips;
 
             final filteredTrips =

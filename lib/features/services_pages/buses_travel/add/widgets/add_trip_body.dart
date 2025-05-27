@@ -9,10 +9,10 @@ import 'package:alrefadah/core/widgets/custom_dialog/show_success_dialog.dart';
 import 'package:alrefadah/core/widgets/custom_dropdown/inactive_dropdown.dart';
 import 'package:alrefadah/data/constants_variable.dart';
 import 'package:alrefadah/features/home_page/cubit/home_cubit.dart';
-import 'package:alrefadah/features/services_pages/buses/add/widgets/add_bus_page_body.dart';
 import 'package:alrefadah/features/services_pages/buses/main/cubit/buses_cubit.dart';
 import 'package:alrefadah/features/services_pages/buses/main/cubit/buses_states.dart';
 import 'package:alrefadah/features/services_pages/buses/main/models/get_all_buses_model.dart';
+import 'package:alrefadah/features/services_pages/buses_travel/add/add_bus/widgets/add_bus_page_body.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/add/models/add_trip_model.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/add/models/track_model.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/add/models/trip_model.dart';
@@ -30,7 +30,7 @@ import 'package:intl/intl.dart';
 
 class AddTripBody extends StatefulWidget {
   const AddTripBody({
-      required this.tripsByStage,
+    required this.tripsByStage,
     required this.trip,
     super.key,
   });
@@ -87,130 +87,277 @@ class _AddTripBodyState extends State<AddTripBody> {
   final formattedDate = DateFormat('yyyyMMdd').format(DateTime.now());
   @override
   Widget build(BuildContext context) {
-    
     return BlocBuilder<BusTravelCubit, BusesTravelState>(
-        builder: (context, state) {
-          final trackTrip =
-              state.track.where((track) {
-                final trackName = track.fTrackName;
-                return trackName != null && trackName.isNotEmpty;
-              }).toList();
-          final busTravelState = context.read<BusTravelCubit>().state;
-        
-          /// Build: BusesCubit
-          return BlocBuilder<BusesCubit, BusesState>(
-            builder: (context, state) {
-              final busesState = context.read<BusesCubit>().state;
-              final busItems =
-                  busesState.allBusesByCrietia.where((bus) {
-                    final fBusId = bus.fBusId;
-                    return fBusId != null && fBusId.isNotEmpty;
-                  }).toList();
-        
-              /// Build: GuidesCubit
-              return BlocBuilder<GuidesCubit, GuidesState>(
-                builder: (context, state) {
-                  final centerGuides =
-                      state.guidesByCriteria.where((emp) {
-                        final name = emp.employee?.fEmpName;
-                        return name != null && name.isNotEmpty;
-                      }).toList();
-        
-                  /// Build: GetCurrentLocationCubit
-                  return BlocBuilder<
-                    GetCurrentLocationCubit,
-                    GetCurrentLocationState
-                  >(
-                    builder: (context, state) {
-                      return state is GetCurrentLocationLoading ||
-                              busTravelState.isAddingTripByStage ||
-                              busTravelState.isLoadingTripsByStage ||
-                              busesState.isLoadingAllBusesByCrietia
-                          ? const AppIndicator()
-                          : state is GetCurrentLocationSuccess
-                          ? Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 16.w),
-                            child: AutofillGroup(
-                              onDisposeAction: AutofillContextAction.cancel,
-                              child: Form(
-                                key: formKey,
-                                child: Stack(
-                                  fit: StackFit.expand,
-                                  children: [
-                                    SingleChildScrollView(
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        spacing: 16.h,
-                                        children: [
-                                          Row(
-                                            spacing: 8.w,
-                                            children: [
-                                              /// الموسم
-                                              Expanded(
-                                                child: CustomTextFieldWithLabel(
-                                                  controller: seasonIdController,
-                                                  text: 'الموسم',
-                                                  readOnly: true,
-                                                  enabled: false,
-                                                ),
+      builder: (context, state) {
+        final trackTrip =
+            state.track.where((track) {
+              final trackName = track.fTrackName;
+              return trackName != null && trackName.isNotEmpty;
+            }).toList();
+        final busTravelState = context.read<BusTravelCubit>().state;
+
+        /// Build: BusesCubit
+        return BlocBuilder<BusesCubit, BusesState>(
+          builder: (context, state) {
+            final busesState = context.read<BusesCubit>().state;
+            final busItems =
+                busesState.allBusesByCrietia.where((bus) {
+                  final fBusId = bus.fBusId;
+                  return fBusId != null && fBusId.isNotEmpty;
+                }).toList();
+
+            /// Build: GuidesCubit
+            return BlocBuilder<GuidesCubit, GuidesState>(
+              builder: (context, state) {
+                final centerGuides =
+                    state.guidesByCriteria.where((emp) {
+                      final name = emp.employee?.fEmpName;
+                      return name != null && name.isNotEmpty;
+                    }).toList();
+
+                /// Build: GetCurrentLocationCubit
+                return BlocBuilder<
+                  GetCurrentLocationCubit,
+                  GetCurrentLocationState
+                >(
+                  builder: (context, state) {
+                    return state is GetCurrentLocationLoading ||
+                            busTravelState.isAddingTripByStage ||
+                            busTravelState.isLoadingTripsByStage ||
+                            busesState.isLoadingAllBusesByCrietia
+                        ? const AppIndicator()
+                        : state is GetCurrentLocationSuccess
+                        ? Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 16.w),
+                          child: AutofillGroup(
+                            onDisposeAction: AutofillContextAction.cancel,
+                            child: Form(
+                              key: formKey,
+                              child: Stack(
+                                fit: StackFit.expand,
+                                children: [
+                                  SingleChildScrollView(
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      spacing: 16.h,
+                                      children: [
+                                        Row(
+                                          spacing: 8.w,
+                                          children: [
+                                            /// الموسم
+                                            Expanded(
+                                              child: CustomTextFieldWithLabel(
+                                                controller: seasonIdController,
+                                                text: 'الموسم',
+                                                readOnly: true,
+                                                enabled: false,
                                               ),
-        
-                                              /// المركز
-                                              Expanded(
-                                                child: CustomTextFieldWithLabel(
-                                                  controller: centerNoController,
-                                                  text: 'المركز',
-                                                  readOnly: true,
-                                                  enabled: false,
-                                                ),
+                                            ),
+
+                                            /// المركز
+                                            Expanded(
+                                              child: CustomTextFieldWithLabel(
+                                                controller: centerNoController,
+                                                text: 'المركز',
+                                                readOnly: true,
+                                                enabled: false,
                                               ),
-                                            ],
-                                          ),
-        
-                                          /// المرحلة
-                                          CustomTextFieldWithLabel(
-                                            readOnly: true,
-                                            controller: stageNameController,
-                                            text: 'المرحلة',
-                                            enabled: false,
-                                          ),
-                                          Row(
-                                            spacing: 8.w,
-                                            children: [
-                                              Expanded(
-                                                child:
-                                                /// رقم الحافلة
-                                                DropdownButtonFormField<
-                                                  GetAllBusesModel
-                                                >(
-                                                  validator: (value) {
-                                                    if (value == null) {
-                                                      return 'الرجاء إدخال رقم الحافلة';
-                                                    }
-                                                    return null;
-                                                  },
-                                                  isExpanded: true,
-                                                  dropdownColor:
-                                                      kScaffoldBackgroundColor,
-        
-                                                  decoration: InputDecoration(
-                                                    border: dropdownBorderRadius(
-                                                      kMainColorLightColor,
+                                            ),
+                                          ],
+                                        ),
+
+                                        /// المرحلة
+                                        CustomTextFieldWithLabel(
+                                          readOnly: true,
+                                          controller: stageNameController,
+                                          text: 'المرحلة',
+                                          enabled: false,
+                                        ),
+                                        Row(
+                                          spacing: 8.w,
+                                          children: [
+                                            Expanded(
+                                              child:
+                                              /// رقم الحافلة
+                                              DropdownButtonFormField<
+                                                GetAllBusesModel
+                                              >(
+                                                validator: (value) {
+                                                  if (value == null) {
+                                                    return 'الرجاء إدخال رقم الحافلة';
+                                                  }
+                                                  return null;
+                                                },
+                                                isExpanded: true,
+                                                dropdownColor:
+                                                    kScaffoldBackgroundColor,
+
+                                                decoration: InputDecoration(
+                                                  border: dropdownBorderRadius(
+                                                    kMainColorLightColor,
+                                                  ),
+                                                  focusedBorder:
+                                                      dropdownBorderRadius(
+                                                        kMainColorLightColor,
+                                                      ),
+                                                  enabledBorder:
+                                                      dropdownBorderRadius(
+                                                        kMainColorLightColor,
+                                                      ),
+                                                  focusedErrorBorder:
+                                                      dropdownBorderRadius(
+                                                        kErrorColor,
+                                                      ),
+                                                  label: Text(
+                                                    'رقم الحافلة',
+                                                    style: TextStyle(
+                                                      fontSize: 13.sp,
+                                                      color: const Color(
+                                                        0xFFA2A2A2,
+                                                      ),
+                                                      fontWeight:
+                                                          FontWeight.w300,
                                                     ),
+                                                  ),
+                                                ),
+                                                icon: const Icon(
+                                                  Icons
+                                                      .keyboard_arrow_down_rounded,
+                                                  color: kMainColor,
+                                                ),
+                                                style: TextStyle(
+                                                  color: kMainColor,
+                                                  fontSize: 15.sp,
+                                                  fontFamily: 'GE SS Two',
+                                                  fontWeight: FontWeight.w300,
+                                                  height: 1.25.h,
+                                                ),
+                                                value: selectedBus,
+                                                items:
+                                                    busItems.map((bus) {
+                                                      final busNo = bus.fBusNo;
+                                                      return DropdownMenuItem<
+                                                        GetAllBusesModel
+                                                      >(
+                                                        value: bus,
+                                                        child: Text(busNo),
+                                                      );
+                                                    }).toList(),
+                                                onChanged: (
+                                                  GetAllBusesModel? newValue,
+                                                ) {
+                                                  setState(() {
+                                                    selectedBus = newValue;
+                                                  });
+                                                },
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: 50.w,
+                                              child: InkWell(
+                                                onTap: () {
+                                                  final rootContext =
+                                                      Navigator.of(
+                                                        context,
+                                                        rootNavigator: true,
+                                                      ).context;
+                                                  showModalBottomSheet<void>(
+                                                    backgroundColor:
+                                                        kScaffoldBackgroundColor,
+                                                    useSafeArea: true,
+                                                    isDismissible: true,
+                                                    enableDrag: true,
+                                                    useRootNavigator: true,
+                                                    showDragHandle: true,
+                                                    isScrollControlled: true,
+                                                    shape: const RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.vertical(
+                                                            top:
+                                                                Radius.circular(
+                                                                  16,
+                                                                ),
+                                                          ),
+                                                    ),
+                                                    context: context,
+                                                    builder:
+                                                        (context) => Padding(
+                                                          padding: EdgeInsets.only(
+                                                            bottom:
+                                                                MediaQuery.of(
+                                                                      context,
+                                                                    )
+                                                                    .viewInsets
+                                                                    .bottom,
+                                                          ),
+                                                          child: SizedBox(
+                                                            height:
+                                                                MediaQuery.of(
+                                                                  context,
+                                                                ).size.height *
+                                                                0.95, //  تقريـبًا fullscreen
+                                                            child: SingleChildScrollView(
+                                                              child: AddBusPageBody(
+                                                                rootContext:
+                                                                    rootContext,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                  );
+                                                },
+                                                child: Icon(
+                                                  Icons.add_circle_rounded,
+                                                  size: 40.sp,
+                                                  color: kMainColor,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+
+                                        /// الشركة الناقلة
+                                        if (selectedBus != null)
+                                          InActiveDropdown(
+                                            text: selectedBus!.fTransportName,
+                                            value: selectedBus!.fTransportNo,
+                                            label: 'الشركة الناقلة',
+                                          ),
+                                        if (selectedBus != null)
+                                          Row(
+                                            spacing: 12.w,
+                                            children: [
+                                              /// رقم التشغيل
+                                              Expanded(
+                                                child: DropdownButtonFormField<
+                                                  String
+                                                >(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                        10.r,
+                                                      ),
+                                                  decoration: InputDecoration(
+                                                    fillColor:
+                                                        kScaffoldBackgroundColor,
+                                                    filled: true,
+                                                    border:
+                                                        textfieldBorderRadius(
+                                                          kMainColorLightColor,
+                                                        ),
                                                     focusedBorder:
-                                                        dropdownBorderRadius(
+                                                        textfieldBorderRadius(
                                                           kMainColorLightColor,
                                                         ),
                                                     enabledBorder:
-                                                        dropdownBorderRadius(
+                                                        textfieldBorderRadius(
                                                           kMainColorLightColor,
                                                         ),
                                                     focusedErrorBorder:
-                                                        dropdownBorderRadius(
+                                                        textfieldBorderRadius(
                                                           kErrorColor,
                                                         ),
                                                     label: Text(
-                                                      'رقم الحافلة',
+                                                      'رقم التشغيل',
                                                       style: TextStyle(
                                                         fontSize: 13.sp,
                                                         color: const Color(
@@ -224,203 +371,193 @@ class _AddTripBodyState extends State<AddTripBody> {
                                                   icon: const Icon(
                                                     Icons
                                                         .keyboard_arrow_down_rounded,
-                                                    color: kMainColor,
                                                   ),
                                                   style: TextStyle(
                                                     color: kMainColor,
                                                     fontSize: 15.sp,
                                                     fontFamily: 'GE SS Two',
                                                     fontWeight: FontWeight.w300,
-                                                    height: 1.25.h,
+                                                    height: 1.43.h,
                                                   ),
-                                                  value: selectedBus,
-                                                  items:
-                                                      busItems.map((bus) {
-                                                        final busNo = bus.fBusNo;
-                                                        return DropdownMenuItem<
-                                                          GetAllBusesModel
-                                                        >(
-                                                          value: bus,
-                                                          child: Text(busNo),
-                                                        );
-                                                      }).toList(),
-                                                  onChanged: (
-                                                    GetAllBusesModel? newValue,
-                                                  ) {
-                                                    setState(() {
-                                                      selectedBus = newValue;
-                                                    });
-                                                  },
+                                                  value:
+                                                      selectedBus!.fOperatingNo,
+                                                  items: [
+                                                    DropdownMenuItem<String>(
+                                                      value:
+                                                          selectedBus!
+                                                              .fOperatingNo,
+                                                      child: Text(
+                                                        selectedBus!
+                                                            .fOperatingNo,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                  onChanged: null,
                                                 ),
                                               ),
-                                              SizedBox(
-                                                width: 50.w,
-                                                child: InkWell(
-                                                  onTap: () {
-                                                    showModalBottomSheet<void>(
-                                                      backgroundColor: kScaffoldBackgroundColor,
-                                                      useSafeArea: true,
-                                                      isDismissible: true,
-                                                      enableDrag: true,
-                                                      useRootNavigator: true,
-                                                      showDragHandle: true,
-                                                      isScrollControlled: true,
-                                                      shape: const RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius.vertical(
-                                                              top:
-                                                                  Radius.circular(
-                                                                    16,
-                                                                  ),
-                                                            ),
-                                                      ),
-                                                      context: context,
-                                                      builder:
-                                                          (context) =>
-                                                              const Column(
-                                                                children: [
-                                                                  AddBusPageBody(
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                    );
-                                                  },
-                                                  child:  Icon(
-                                                    Icons.add_circle_rounded,
-                                                    size: 40.sp,
-                                                    color: kMainColor,
-                                                  ),
+
+                                              /// عدد الحجاج
+                                              Expanded(
+                                                child: InActiveDropdown(
+                                                  text:
+                                                      selectedBus!.fPilgrimsAco
+                                                          .toString(),
+                                                  value:
+                                                      selectedBus!.fPilgrimsAco,
+
+                                                  label: 'عدد الحجاج',
                                                 ),
                                               ),
                                             ],
                                           ),
-        
-                                          /// الشركة الناقلة
-                                          if (selectedBus != null)
-                                            InActiveDropdown(
-                                              text: selectedBus!.fTransportName,
-                                              value: selectedBus!.fTransportNo,
-                                              label: 'الشركة الناقلة',
+
+                                        /// المسار
+                                        DropdownButtonFormField<TrackModel>(
+                                          validator: (value) {
+                                            if (value == null) {
+                                              return 'الرجاء اختيار المسار';
+                                            }
+                                            return null;
+                                          },
+                                          isExpanded: true,
+                                          dropdownColor:
+                                              kScaffoldBackgroundColor,
+
+                                          decoration: InputDecoration(
+                                            border: dropdownBorderRadius(
+                                              kMainColorLightColor,
                                             ),
-                                          if (selectedBus != null)
-                                            Row(
-                                              spacing: 12.w,
-                                              children: [
-                                                /// رقم التشغيل
-                                                Expanded(
-                                                  child: DropdownButtonFormField<
-                                                    String
-                                                  >(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                          10.r,
-                                                        ),
-                                                    decoration: InputDecoration(
-                                                      fillColor:
-                                                          kScaffoldBackgroundColor,
-                                                      filled: true,
-                                                      border:
-                                                          textfieldBorderRadius(
-                                                            kMainColorLightColor,
-                                                          ),
-                                                      focusedBorder:
-                                                          textfieldBorderRadius(
-                                                            kMainColorLightColor,
-                                                          ),
-                                                      enabledBorder:
-                                                          textfieldBorderRadius(
-                                                            kMainColorLightColor,
-                                                          ),
-                                                      focusedErrorBorder:
-                                                          textfieldBorderRadius(
-                                                            kErrorColor,
-                                                          ),
-                                                      label: Text(
-                                                        'رقم التشغيل',
-                                                        style: TextStyle(
-                                                          fontSize: 13.sp,
-                                                          color: const Color(
-                                                            0xFFA2A2A2,
-                                                          ),
-                                                          fontWeight:
-                                                              FontWeight.w300,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    icon: const Icon(
-                                                      Icons
-                                                          .keyboard_arrow_down_rounded,
-                                                    ),
-                                                    style: TextStyle(
-                                                      color: kMainColor,
-                                                      fontSize: 15.sp,
-                                                      fontFamily: 'GE SS Two',
-                                                      fontWeight: FontWeight.w300,
-                                                      height: 1.43.h,
-                                                    ),
-                                                    value:
-                                                        selectedBus!.fOperatingNo,
-                                                    items: [
-                                                      DropdownMenuItem<String>(
-                                                        value:
-                                                            selectedBus!
-                                                                .fOperatingNo,
-                                                        child: Text(
-                                                          selectedBus!
-                                                              .fOperatingNo,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                    onChanged: null,
-                                                  ),
-                                                ),
-        
-                                                /// عدد الحجاج
-                                                Expanded(
-                                                  child: InActiveDropdown(
-                                                    text:
-                                                        selectedBus!.fPilgrimsAco
-                                                            .toString(),
-                                                    value:
-                                                        selectedBus!.fPilgrimsAco,
-        
-                                                    label: 'عدد الحجاج',
-                                                  ),
-                                                ),
-                                              ],
+                                            focusedBorder: dropdownBorderRadius(
+                                              kMainColorLightColor,
                                             ),
-        
-                                          /// المسار
-                                          DropdownButtonFormField<TrackModel>(
+                                            enabledBorder: dropdownBorderRadius(
+                                              kMainColorLightColor,
+                                            ),
+                                            focusedErrorBorder:
+                                                dropdownBorderRadius(
+                                                  kErrorColor,
+                                                ),
+                                            label: Text(
+                                              'المسار',
+                                              style: TextStyle(
+                                                fontSize: 13.sp,
+                                                color: const Color(0xFFA2A2A2),
+                                                fontWeight: FontWeight.w300,
+                                              ),
+                                            ),
+                                          ),
+                                          icon: const Icon(
+                                            Icons.keyboard_arrow_down_rounded,
+                                            color: kMainColor,
+                                          ),
+                                          style: TextStyle(
+                                            color: kMainColor,
+                                            fontSize: 15.sp,
+                                            fontFamily: 'GE SS Two',
+                                            fontWeight: FontWeight.w300,
+                                            height: 1.25.h,
+                                          ),
+                                          value: selectedTrack,
+
+                                          items:
+                                              trackTrip.map((track) {
+                                                final trackName =
+                                                    track.fTrackName ??
+                                                    'لا يوجد مسار';
+                                                return DropdownMenuItem<
+                                                  TrackModel
+                                                >(
+                                                  value: track,
+                                                  child: Text(trackName),
+                                                );
+                                              }).toList(),
+                                          onChanged: (TrackModel? newValue) {
+                                            setState(() {
+                                              selectedTrack = newValue;
+                                            });
+                                          },
+                                        ),
+
+                                        /// اختيار مرشد
+                                        if (widget.trip.fStageNo == '1' ||
+                                            widget.trip.fStageNo == '2' ||
+                                            widget.trip.fStageNo == '6' ||
+                                            widget.trip.fStageNo == '7')
+                                          Row(
+                                            children: [
+                                              Text(
+                                                'اختيار المرشد',
+                                                style: TextStyle(
+                                                  color: kMainColor,
+                                                  fontSize: 14.sp,
+                                                  fontWeight: FontWeight.w300,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            buildRadioOption(
+                                              title: 'يوجد',
+                                              value: '1',
+                                            ),
+
+                                            buildRadioOption(
+                                              title: 'لا يوجد',
+                                              value: 'null',
+                                            ),
+                                          ],
+                                        ),
+                                        if (isGuideSelected == false)
+                                          Align(
+                                            alignment: Alignment.topRight,
+                                            child: Text(
+                                              'يرجى اختيار حالة المرشد',
+                                              style: TextStyle(
+                                                color: Colors.red[900],
+                                                fontSize: 12.sp,
+                                              ),
+                                            ),
+                                          ),
+                                        if (transType == '1')
+                                          DropdownButtonFormField<
+                                            AssignmentModel
+                                          >(
                                             validator: (value) {
                                               if (value == null) {
-                                                return 'الرجاء اختيار المسار';
+                                                return 'الرجاء اختيار المرشد';
                                               }
                                               return null;
                                             },
                                             isExpanded: true,
                                             dropdownColor:
                                                 kScaffoldBackgroundColor,
-        
+
                                             decoration: InputDecoration(
                                               border: dropdownBorderRadius(
                                                 kMainColorLightColor,
                                               ),
-                                              focusedBorder: dropdownBorderRadius(
-                                                kMainColorLightColor,
-                                              ),
-                                              enabledBorder: dropdownBorderRadius(
-                                                kMainColorLightColor,
-                                              ),
+                                              focusedBorder:
+                                                  dropdownBorderRadius(
+                                                    kMainColorLightColor,
+                                                  ),
+                                              enabledBorder:
+                                                  dropdownBorderRadius(
+                                                    kMainColorLightColor,
+                                                  ),
                                               focusedErrorBorder:
                                                   dropdownBorderRadius(
-                                                    kErrorColor,
+                                                    Colors.red,
                                                   ),
                                               label: Text(
-                                                'المسار',
+                                                'المرشد',
                                                 style: TextStyle(
                                                   fontSize: 13.sp,
-                                                  color: const Color(0xFFA2A2A2),
+                                                  color: const Color(
+                                                    0xFFA2A2A2,
+                                                  ),
                                                   fontWeight: FontWeight.w300,
                                                 ),
                                               ),
@@ -436,326 +573,196 @@ class _AddTripBodyState extends State<AddTripBody> {
                                               fontWeight: FontWeight.w300,
                                               height: 1.25.h,
                                             ),
-                                            value: selectedTrack,
-        
+                                            value:
+                                                selectedGuide != null &&
+                                                        centerGuides.contains(
+                                                          selectedGuide,
+                                                        )
+                                                    ? selectedGuide
+                                                    : null,
+
                                             items:
-                                                trackTrip.map((track) {
-                                                  final trackName =
-                                                      track.fTrackName ??
-                                                      'لا يوجد مسار';
+                                                centerGuides.map((guide) {
+                                                  final name =
+                                                      guide
+                                                          .employee
+                                                          ?.fEmpName ??
+                                                      'بدون اسم';
                                                   return DropdownMenuItem<
-                                                    TrackModel
+                                                    AssignmentModel
                                                   >(
-                                                    value: track,
-                                                    child: Text(trackName),
+                                                    value: guide,
+                                                    child: Text(name),
                                                   );
                                                 }).toList(),
-                                            onChanged: (TrackModel? newValue) {
+                                            onChanged: (
+                                              AssignmentModel? newValue,
+                                            ) {
                                               setState(() {
-                                                selectedTrack = newValue;
+                                                selectedGuide = newValue;
                                               });
                                             },
                                           ),
-        
-                                          /// اختيار مرشد
-                                          if (widget.trip.fStageNo == '1' ||
-                                              widget.trip.fStageNo == '2' ||
-                                              widget.trip.fStageNo == '6' ||
-                                              widget.trip.fStageNo == '7')
-                                            Row(
-                                              children: [
-                                                Text(
-                                                  'اختيار المرشد',
-                                                  style: TextStyle(
-                                                    color: kMainColor,
-                                                    fontSize: 14.sp,
-                                                    fontWeight: FontWeight.w300,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              buildRadioOption(
-                                                title: 'يوجد',
-                                                value: '1',
-                                              ),
-        
-                                              buildRadioOption(
-                                                title: 'لا يوجد',
-                                                value: 'null',
-                                              ),
-                                            ],
-                                          ),
-                                          if (isGuideSelected == false)
-                                            Align(
-                                              alignment: Alignment.topRight,
-                                              child: Text(
-                                                'يرجى اختيار حالة المرشد',
-                                                style: TextStyle(
-                                                  color: Colors.red[900],
-                                                  fontSize: 12.sp,
-                                                ),
-                                              ),
-                                            ),
-                                          if (transType == '1')
-                                            DropdownButtonFormField<
-                                              AssignmentModel
-                                            >(
-                                              validator: (value) {
-                                                if (value == null) {
-                                                  return 'الرجاء اختيار المرشد';
-                                                }
-                                                return null;
-                                              },
-                                              isExpanded: true,
-                                              dropdownColor:
-                                                  kScaffoldBackgroundColor,
-        
-                                              decoration: InputDecoration(
-                                                border: dropdownBorderRadius(
-                                                  kMainColorLightColor,
-                                                ),
-                                                focusedBorder:
-                                                    dropdownBorderRadius(
-                                                      kMainColorLightColor,
-                                                    ),
-                                                enabledBorder:
-                                                    dropdownBorderRadius(
-                                                      kMainColorLightColor,
-                                                    ),
-                                                focusedErrorBorder:
-                                                    dropdownBorderRadius(
-                                                      Colors.red,
-                                                    ),
-                                                label: Text(
-                                                  'المرشد',
-                                                  style: TextStyle(
-                                                    fontSize: 13.sp,
-                                                    color: const Color(
-                                                      0xFFA2A2A2,
-                                                    ),
-                                                    fontWeight: FontWeight.w300,
-                                                  ),
-                                                ),
-                                              ),
-                                              icon: const Icon(
-                                                Icons.keyboard_arrow_down_rounded,
-                                                color: kMainColor,
-                                              ),
-                                              style: TextStyle(
-                                                color: kMainColor,
-                                                fontSize: 15.sp,
-                                                fontFamily: 'GE SS Two',
-                                                fontWeight: FontWeight.w300,
-                                                height: 1.25.h,
-                                              ),
-                                              value:
-                                                  selectedGuide != null &&
-                                                          centerGuides.contains(
-                                                            selectedGuide,
-                                                          )
-                                                      ? selectedGuide
-                                                      : null,
-        
-                                              items:
-                                                  centerGuides.map((guide) {
-                                                    final name =
-                                                        guide
-                                                            .employee
-                                                            ?.fEmpName ??
-                                                        'بدون اسم';
-                                                    return DropdownMenuItem<
-                                                      AssignmentModel
-                                                    >(
-                                                      value: guide,
-                                                      child: Text(name),
-                                                    );
-                                                  }).toList(),
-                                              onChanged: (
-                                                AssignmentModel? newValue,
-                                              ) {
-                                                setState(() {
-                                                  selectedGuide = newValue;
-                                                });
-                                              },
-                                            ),
-        
-                                          H(h: 120.h),
-                                        ],
-                                      ),
+
+                                        H(h: 120.h),
+                                      ],
                                     ),
-        
-                                    /// Saved Button
-                                    Positioned(
-                                      bottom: 0.h,
-                                      left: 0,
-                                      right: 0,
-                                      child: Padding(
-                                        padding: EdgeInsets.only(bottom: 20.h),
-                                        child:
-                                        /// تحميل الداتا
-                                        CustomButton(
-                                          text: 'اطلاق',
-                                          onTap: () async {
-                                            if (formKey.currentState!
-                                                .validate()) {
-                                              try {
-                                                await context
-                                                    .read<
-                                                      GetCurrentLocationCubit
-                                                    >()
-                                                    .getCurrentLocation();
-        
-                                                final inputs = AddTripModel(
-                                                  /// أخر تحديث
-                                                  fLastUpdate:
-                                                      DateTime.now()
-                                                          .toIso8601String(),
-        
-                                                  /// أخر تحديث
-                                                  fLastUpdateUser: int.parse(
-                                                    context
-                                                            .read<HomeCubit>()
-                                                            .userId ??
-                                                        '0',
-                                                  ),
-        
-                                                  /// أخر تحديث
-                                                  fLastUpdateSum: 1,
-        
-                                                  /// أخر تحديث
-                                                  fLastUpdateOper: 1,
-        
-                                                  /// الشركة الناقلة
-                                                  fCompanyId: companyId,
-        
-                                                  /// الموسم
-                                                  fSeasonId: int.parse(
-                                                    seasonIdController.text,
-                                                  ),
-        
-                                                  /// حالة الرحلة
-                                                  fTripStstus: 1,
-        
-                                                  /// المركز
-                                                  fCenterNo: int.parse(
-                                                    centerNoController.text,
-                                                  ),
-        
-                                                  /// المرحلة
-                                                  fStageNo: int.parse(
-                                                    widget.trip.fStageNo,
-                                                  ),
-        
-                                                  /// رقم الرحلة
-                                                  fTripNo: 1, //
-                                                  /// تاريخ الرحلة
-                                                  fTripDate: formattedDate,
-        
-                                                  /// وقت الرحلة
-                                                  fTripTime:
-                                                      DateTime.now()
-                                                          .toIso8601String(),
-        
-                                                  /// رقم الحافلة
-                                                  fBusId: selectedBus!.fBusId,
-        
-                                                  /// عدد الحجاج
-                                                  fPilgrimsAco:
-                                                      selectedBus!.fPilgrimsAco,
-        
-                                                  /// تاريخ الإضافة
-                                                  fAdditionDate:
-                                                      DateTime.now()
-                                                          .toIso8601String(),
-        
-                                                  /// المستخدم
-                                                  fAdditionUser:
-                                                      context
+                                  ),
+
+                                  /// Saved Button
+                                  Positioned(
+                                    bottom: 0.h,
+                                    left: 0,
+                                    right: 0,
+                                    child: Padding(
+                                      padding: EdgeInsets.only(bottom: 20.h),
+                                      child:
+                                      /// تحميل الداتا
+                                      CustomButton(
+                                        text: 'اطلاق',
+                                        onTap: () async {
+                                          if (formKey.currentState!
+                                              .validate()) {
+                                            try {
+                                              await context
+                                                  .read<
+                                                    GetCurrentLocationCubit
+                                                  >()
+                                                  .getCurrentLocation();
+
+                                              final inputs = AddTripModel(
+                                                /// أخر تحديث
+                                                fLastUpdate:
+                                                    DateTime.now()
+                                                        .toIso8601String(),
+
+                                                /// أخر تحديث
+                                                fLastUpdateUser: int.parse(
+                                                  context
                                                           .read<HomeCubit>()
                                                           .userId ??
                                                       '0',
-        
-                                                  /// خط العرض
-                                                  fAdditionLatitude:
-                                                      state.position.latitude
-                                                          .toString(),
-        
-                                                  /// خط الطول
-                                                  fAdditionLongitude:
-                                                      state.position.longitude
-                                                          .toString(),
-        
-                                                  /// تاريخ الوصول
-                                                  fReceiptDate:
-                                                      DateTime.now()
-                                                          .toIso8601String(),
-        
-                                                  /// المستلم
-                                                  fReceiptUser: null,
-        
-                                                  /// خط العرض
-                                                  fReceiptLatitude: 'null',
-        
-                                                  /// خط الطول
-                                                  fReceiptLongitude: 'null',
-                                                  fApprovalUser: null,
-                                                  fApprovalLatitude: 'null',
-                                                  fApprovalLongitude: 'null',
-                                                  fEmpNo:
-                                                      transType == 'null'
-                                                          ? null
-                                                          : selectedGuide?.fEmpNo,
-                                                  fApprovalDate:
-                                                      DateTime.now()
-                                                          .toIso8601String(),
-                                                  fTrackNo:
-                                                      selectedTrack?.fTrackNo ??
-                                                      0,
-                                                );
+                                                ),
+
+                                                /// أخر تحديث
+                                                fLastUpdateSum: 1,
+
+                                                /// أخر تحديث
+                                                fLastUpdateOper: 1,
+
+                                                /// الشركة الناقلة
+                                                fCompanyId: companyId,
+
+                                                /// الموسم
+                                                fSeasonId: int.parse(
+                                                  seasonIdController.text,
+                                                ),
+
+                                                /// حالة الرحلة
+                                                fTripStstus: 1,
+
+                                                /// المركز
+                                                fCenterNo: int.parse(
+                                                  centerNoController.text,
+                                                ),
+
+                                                /// المرحلة
+                                                fStageNo: int.parse(
+                                                  widget.trip.fStageNo,
+                                                ),
+
+                                                /// رقم الرحلة
+                                                fTripNo: 1, //
+                                                /// تاريخ الرحلة
+                                                fTripDate: formattedDate,
+
+                                                /// وقت الرحلة
+                                                fTripTime:
+                                                    DateTime.now()
+                                                        .toIso8601String(),
+
+                                                /// رقم الحافلة
+                                                fBusId: selectedBus!.fBusId,
+
+                                                /// عدد الحجاج
+                                                fPilgrimsAco:
+                                                    selectedBus!.fPilgrimsAco,
+
+                                                /// تاريخ الإضافة
+                                                fAdditionDate:
+                                                    DateTime.now()
+                                                        .toIso8601String(),
+
+                                                /// المستخدم
+                                                fAdditionUser:
+                                                    context
+                                                        .read<HomeCubit>()
+                                                        .userId ??
+                                                    '0',
+
+                                                /// خط العرض
+                                                fAdditionLatitude:
+                                                    state.position.latitude
+                                                        .toString(),
+
+                                                /// خط الطول
+                                                fAdditionLongitude:
+                                                    state.position.longitude
+                                                        .toString(),
+
+                                                /// تاريخ الوصول
+                                                fReceiptDate:
+                                                    DateTime.now()
+                                                        .toIso8601String(),
+
+                                                /// المستلم
+                                                fReceiptUser: null,
+
+                                                /// خط العرض
+                                                fReceiptLatitude: 'null',
+
+                                                /// خط الطول
+                                                fReceiptLongitude: 'null',
+                                                fApprovalUser: null,
+                                                fApprovalLatitude: 'null',
+                                                fApprovalLongitude: 'null',
+                                                fEmpNo:
+                                                    transType == 'null'
+                                                        ? null
+                                                        : selectedGuide?.fEmpNo,
+                                                fApprovalDate:
+                                                    DateTime.now()
+                                                        .toIso8601String(),
+                                                fTrackNo:
+                                                    selectedTrack?.fTrackNo ??
+                                                    0,
+                                              );
+                                              await context
+                                                  .read<BusTravelCubit>()
+                                                  .addTripByStage(inputs);
+
+                                              if (context
+                                                  .read<BusTravelCubit>()
+                                                  .state
+                                                  .isAddingTripByStageSuccess) {
                                                 await context
                                                     .read<BusTravelCubit>()
-                                                    .addTripByStage(inputs);
-        
-                                                if (context
-                                                    .read<BusTravelCubit>()
-                                                    .state
-                                                    .isAddingTripByStageSuccess) {
-                                                  await context
-                                                      .read<BusTravelCubit>()
-                                                      .getTripsByStage(
-                                                        centerNoController.text,
-                                                        widget.trip.fStageNo,
-                                                      );
-                                                  if (context.mounted) {
-                                                    showSuccessDialog(context);
-                                                    Future.delayed(
-                                                      const Duration(seconds: 2),
-                                                      () {
-                                                        if (context.mounted) {
-                                                          Navigator.pop(context);
-                                                        }
-                                                      },
+                                                    .getTripsByStage(
+                                                      centerNoController.text,
+                                                      widget.trip.fStageNo,
                                                     );
-                                                  }
-                                                } else {
-                                                  if (context.mounted) {
-                                                    showErrorDialog(
-                                                      isBack: true,
-                                                      context,
-                                                      message:
-                                                          'هناك خطأ في اطلاق الرحلة',
-                                                      icon:
-                                                          Icons
-                                                              .error_outline_rounded,
-                                                      color: kErrorColor,
-                                                    );
-                                                  }
+                                                if (context.mounted) {
+                                                  showSuccessDialog(context);
+                                                  Future.delayed(
+                                                    const Duration(seconds: 2),
+                                                    () {
+                                                      if (context.mounted) {
+                                                        Navigator.pop(context);
+                                                      }
+                                                    },
+                                                  );
                                                 }
-                                              } catch (e) {
+                                              } else {
                                                 if (context.mounted) {
                                                   showErrorDialog(
                                                     isBack: true,
@@ -769,55 +776,69 @@ class _AddTripBodyState extends State<AddTripBody> {
                                                   );
                                                 }
                                               }
+                                            } catch (e) {
+                                              if (context.mounted) {
+                                                showErrorDialog(
+                                                  isBack: true,
+                                                  context,
+                                                  message:
+                                                      'هناك خطأ في اطلاق الرحلة',
+                                                  icon:
+                                                      Icons
+                                                          .error_outline_rounded,
+                                                  color: kErrorColor,
+                                                );
+                                              }
                                             }
-                                          },
-                                        ),
+                                          }
+                                        },
                                       ),
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
                             ),
-                          )
-                          : Padding(
-                            padding: EdgeInsets.all(16.w),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Icon(
-                                  Icons.location_off_rounded,
-                                  size: 80.sp,
+                          ),
+                        )
+                        : Padding(
+                          padding: EdgeInsets.all(16.w),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.location_off_rounded,
+                                size: 80.sp,
+                                color: kMainColor,
+                              ),
+                              const H(h: 20),
+                              Text(
+                                'يجب عليك تحميل الموقع لإضافة الرحلة',
+                                style: TextStyle(
+                                  fontSize: 16.sp,
                                   color: kMainColor,
                                 ),
-                                const H(h: 20),
-                                Text(
-                                  'يجب عليك تحميل الموقع لإضافة الرحلة',
-                                  style: TextStyle(
-                                    fontSize: 16.sp,
-                                    color: kMainColor,
-                                  ),
-                                ),
-                                const H(h: 40),
-                                CustomButton(
-                                  text: 'تحميل الموقع',
-                                  onTap: () {
-                                    context
-                                        .read<GetCurrentLocationCubit>()
-                                        .getCurrentLocation();
-                                  },
-                                ),
-                              ],
-                            ),
-                          );
-                    },
-                  );
-                },
-              );
-            },
-          );
-        },
-      );
+                              ),
+                              const H(h: 40),
+                              CustomButton(
+                                text: 'تحميل الموقع',
+                                onTap: () {
+                                  context
+                                      .read<GetCurrentLocationCubit>()
+                                      .getCurrentLocation();
+                                },
+                              ),
+                            ],
+                          ),
+                        );
+                  },
+                );
+              },
+            );
+          },
+        );
+      },
+    );
   }
 
   Widget buildRadioOption({required String value, required String title}) {

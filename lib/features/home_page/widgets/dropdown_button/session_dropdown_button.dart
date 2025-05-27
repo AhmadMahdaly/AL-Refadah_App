@@ -22,7 +22,7 @@ class _HomeSeasonDropdownState extends State<HomeSeasonDropdown> {
   Widget build(BuildContext context) {
     return BlocBuilder<HomeCubit, HomeState>(
       builder: (context, state) {
-        if (state.seasons.isNotEmpty) {
+        if (state.seasons.isNotEmpty && state.seasons != null) {
           return SizedBox(
             height: 60.h,
             child: DropdownButtonFormField<String>(

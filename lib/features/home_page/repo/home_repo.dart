@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:alrefadah/core/services/dio_helper.dart';
 import 'package:alrefadah/features/home_page/models/dashboard_model.dart';
 import 'package:alrefadah/features/home_page/models/home_season_model.dart';
@@ -9,7 +11,7 @@ class HomeRepo {
   Future<List<HomeSeasonModel>> fetchSeasons() async {
     try {
       final response = await DioHelper.dio.get<List<dynamic>>(
-        '/Buses/GetSeasons',
+        '/Dashboard/GetSeasons',
       );
       final data = response.data!;
 
@@ -24,7 +26,7 @@ class HomeRepo {
   Future<List<BusesTravelGetCenterModel>> getCenters() async {
     try {
       final response = await DioHelper.dio.get<List<dynamic>>(
-        '/Buses/GetCenters',
+        '/Dashboard/GetCenters',
       );
       final data = response.data!;
       return data
@@ -42,7 +44,7 @@ class HomeRepo {
   Future<List<StageModel>> getStages() async {
     try {
       final response = await DioHelper.dio.get<List<dynamic>>(
-        '/TransportStage/GetTransportStages',
+        '/Dashboard/GetTransportStages',
       );
       final data = response.data!;
       return data
@@ -63,12 +65,9 @@ class HomeRepo {
         '/Dashboard/DashboardReportNew?SeasonId=$seasonId&CenterNo=$centerNo&StageNo=$stageNo',
       );
 
-      if (response.data == null) {
-        throw Exception('فشل في تحميل البيانات: الاستجابة كانت فارغة.');
-      }
-
       return DashboardModel.fromJson(response.data!);
     } on DioException catch (e) {
+      log('Error fetching dashboard data: ${e.message}');
       final errorMessage =
           (e.response?.data is Map<String, dynamic> &&
                   (e.response?.data as Map<String, dynamic>).containsKey(
