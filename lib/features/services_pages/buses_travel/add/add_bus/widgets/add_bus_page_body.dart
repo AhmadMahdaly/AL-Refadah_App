@@ -71,52 +71,52 @@ class _AddBusPageBodyState extends State<AddBusPageBody> {
                             const H(h: 12),
 
                             /// Centers dropdown
-                            DropdownButtonFormField<String>(
-                              borderRadius: BorderRadius.circular(10.r),
-                              decoration: InputDecoration(
-                                fillColor: kScaffoldBackgroundColor,
-                                filled: true,
-                                border: textfieldBorderRadius(
-                                  kMainColorLightColor,
-                                ),
-                                focusedBorder: textfieldBorderRadius(
-                                  kMainColorLightColor,
-                                ),
-                                enabledBorder: textfieldBorderRadius(
-                                  kMainColorLightColor,
-                                ),
-                                focusedErrorBorder: textfieldBorderRadius(
-                                  Colors.red,
-                                ),
-                                label: Text(
-                                  'المركز',
-                                  style: TextStyle(
-                                    fontSize: 13.sp,
-                                    color: const Color(0xFFA2A2A2),
-                                    fontWeight: FontWeight.w300,
-                                  ),
-                                ),
-                              ),
-                              icon: const Icon(
-                                Icons.keyboard_arrow_down_rounded,
-                              ),
-                              style: TextStyle(
-                                color: kMainColor,
-                                fontSize: 15.sp,
-                                fontFamily: 'GE SS Two',
-                                fontWeight: FontWeight.w300,
-                                height: 1.43.h,
-                              ),
-                              value: widget.trip.fCenterNo,
-                              items: [
-                                DropdownMenuItem<String>(
-                                  value: widget.trip.fCenterNo,
-                                  child: Text(widget.trip.fCenterNo),
-                                ),
-                              ],
+                            // DropdownButtonFormField<String>(
+                            //   borderRadius: BorderRadius.circular(10.r),
+                            //   decoration: InputDecoration(
+                            //     fillColor: kScaffoldBackgroundColor,
+                            //     filled: true,
+                            //     border: textfieldBorderRadius(
+                            //       kMainColorLightColor,
+                            //     ),
+                            //     focusedBorder: textfieldBorderRadius(
+                            //       kMainColorLightColor,
+                            //     ),
+                            //     enabledBorder: textfieldBorderRadius(
+                            //       kMainColorLightColor,
+                            //     ),
+                            //     focusedErrorBorder: textfieldBorderRadius(
+                            //       Colors.red,
+                            //     ),
+                            //     label: Text(
+                            //       'المركز',
+                            //       style: TextStyle(
+                            //         fontSize: 13.sp,
+                            //         color: const Color(0xFFA2A2A2),
+                            //         fontWeight: FontWeight.w300,
+                            //       ),
+                            //     ),
+                            //   ),
+                            //   icon: const Icon(
+                            //     Icons.keyboard_arrow_down_rounded,
+                            //   ),
+                            //   style: TextStyle(
+                            //     color: kMainColor,
+                            //     fontSize: 15.sp,
+                            //     fontFamily: 'GE SS Two',
+                            //     fontWeight: FontWeight.w300,
+                            //     height: 1.43.h,
+                            //   ),
+                            //   value: widget.trip.fCenterNo,
+                            //   items: [
+                            //     DropdownMenuItem<String>(
+                            //       value: widget.trip.fCenterNo,
+                            //       child: Text(widget.trip.fCenterNo),
+                            //     ),
+                            //   ],
 
-                              onChanged: null,
-                            ),
+                            //   onChanged: null,
+                            // ),
                             // DropdownButtonFormField<BusesGetCenterModel>(
                             //   borderRadius: BorderRadius.circular(10.r),
                             //   isExpanded: true,
@@ -171,52 +171,52 @@ class _AddBusPageBodyState extends State<AddBusPageBody> {
                             // ),
 
                             /// stages dropdown
-                            DropdownButtonFormField<String>(
-                              borderRadius: BorderRadius.circular(10.r),
-                              decoration: InputDecoration(
-                                fillColor: kScaffoldBackgroundColor,
-                                filled: true,
-                                border: textfieldBorderRadius(
-                                  kMainColorLightColor,
-                                ),
-                                focusedBorder: textfieldBorderRadius(
-                                  kMainColorLightColor,
-                                ),
-                                enabledBorder: textfieldBorderRadius(
-                                  kMainColorLightColor,
-                                ),
-                                focusedErrorBorder: textfieldBorderRadius(
-                                  Colors.red,
-                                ),
-                                label: Text(
-                                  'المرحلة',
-                                  style: TextStyle(
-                                    fontSize: 13.sp,
-                                    color: const Color(0xFFA2A2A2),
-                                    fontWeight: FontWeight.w300,
-                                  ),
-                                ),
-                              ),
-                              icon: const Icon(
-                                Icons.keyboard_arrow_down_rounded,
-                              ),
-                              style: TextStyle(
-                                color: kMainColor,
-                                fontSize: 15.sp,
-                                fontFamily: 'GE SS Two',
-                                fontWeight: FontWeight.w300,
-                                height: 1.43.h,
-                              ),
-                              value: widget.trip.fStageNo,
-                              items: [
-                                DropdownMenuItem<String>(
-                                  value: widget.trip.fStageNo,
-                                  child: Text(widget.trip.fStageNo),
-                                ),
-                              ],
+                            // DropdownButtonFormField<String>(
+                            //   borderRadius: BorderRadius.circular(10.r),
+                            //   decoration: InputDecoration(
+                            //     fillColor: kScaffoldBackgroundColor,
+                            //     filled: true,
+                            //     border: textfieldBorderRadius(
+                            //       kMainColorLightColor,
+                            //     ),
+                            //     focusedBorder: textfieldBorderRadius(
+                            //       kMainColorLightColor,
+                            //     ),
+                            //     enabledBorder: textfieldBorderRadius(
+                            //       kMainColorLightColor,
+                            //     ),
+                            //     focusedErrorBorder: textfieldBorderRadius(
+                            //       Colors.red,
+                            //     ),
+                            //     label: Text(
+                            //       'المرحلة',
+                            //       style: TextStyle(
+                            //         fontSize: 13.sp,
+                            //         color: const Color(0xFFA2A2A2),
+                            //         fontWeight: FontWeight.w300,
+                            //       ),
+                            //     ),
+                            //   ),
+                            //   icon: const Icon(
+                            //     Icons.keyboard_arrow_down_rounded,
+                            //   ),
+                            //   style: TextStyle(
+                            //     color: kMainColor,
+                            //     fontSize: 15.sp,
+                            //     fontFamily: 'GE SS Two',
+                            //     fontWeight: FontWeight.w300,
+                            //     height: 1.43.h,
+                            //   ),
+                            //   value: widget.trip.fStageNo,
+                            //   items: [
+                            //     DropdownMenuItem<String>(
+                            //       value: widget.trip.fStageNo,
+                            //       child: Text(widget.trip.fStageNo),
+                            //     ),
+                            //   ],
 
-                              onChanged: null,
-                            ),
+                            //   onChanged: null,
+                            // ),
                             // if (state.selectedCenter != null)
                             //   DropdownButtonFormField<BusesGetStageModel>(
                             //     borderRadius: BorderRadius.circular(10.r),

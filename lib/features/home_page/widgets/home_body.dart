@@ -39,8 +39,9 @@ class HomeBody extends StatelessWidget {
                   /// Dropdowns
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: padding.w),
-                    child: const Row(
-                      children: [
+                    child: Row(
+                      spacing: 12.w,
+                      children: const [
                         /// season dropdown
                         Expanded(child: HomeSeasonDropdown()),
 

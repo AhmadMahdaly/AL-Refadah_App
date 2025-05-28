@@ -1,5 +1,6 @@
 import 'package:alrefadah/core/widgets/leading_icon.dart';
 import 'package:alrefadah/core/widgets/title_appbar.dart';
+import 'package:alrefadah/features/services_pages/guides/add_emplyee/widgets/add_employee_body.dart';
 import 'package:flutter/material.dart';
 
 class AddEmployeePage extends StatelessWidget {
@@ -12,6 +13,7 @@ class AddEmployeePage extends StatelessWidget {
         leading: const LeadingIcon(),
         title: const TitleAppBar(title: 'إضافة موظف جديد'),
       ),
+      body: const AddEmployeeBody(),
     );
   }
 }

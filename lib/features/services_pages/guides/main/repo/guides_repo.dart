@@ -48,7 +48,6 @@ class GuidesRepo {
       '/Guides/GetEmployees',
     );
     final data = response.data!;
-
     return data
         .map((json) => GetGuidesModel.fromJson(json as Map<String, dynamic>))
         .toList();
@@ -113,5 +112,4 @@ class GuidesRepo {
       }
     }
   }
-
 }
