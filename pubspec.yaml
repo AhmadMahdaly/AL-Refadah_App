@@ -36,6 +36,7 @@ dependencies:
   firebase_messaging: ^15.2.5
   http: ^1.4.0
   firebase_crashlytics: ^4.3.5
+  dropdown_search: ^5.0.6
 
 dev_dependencies:
   flutter_test:

@@ -6,9 +6,10 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 class HomeCubit extends Cubit<HomeState> {
   HomeCubit(this.repository) : super(HomeState());
   final HomeRepo repository;
-  String? selectedSeason;
-  String? selectedCenter;
-  String? selectedStage;
+  int? selectedSeason;
+  int? selectedCenter;
+  int? selectedStage;
+  int? selectedTrack;
   String? fPermNo;
   String? userId;
   static FlutterSecureStorage storage = const FlutterSecureStorage();
@@ -49,12 +50,25 @@ class HomeCubit extends Cubit<HomeState> {
     }
   }
 
+  Future<void> getTracks() async {
+    emit(state.copyWith(isLoadingTracks: true));
+    try {
+      final tracks = await repository.getTracks();
+      if (isClosed) return;
+      emit(state.copyWith(isLoadingTracks: false, tracks: tracks));
+    } catch (e) {
+      if (isClosed) return;
+      emit(state.copyWith(isLoadingTracks: false, error: e.toString()));
+    }
+  }
+
   Future<void> getDashboardData() async {
     emit(state.copyWith(isLoadingAllData: true));
 
     try {
-      if (selectedSeason == null ||
-          selectedCenter == null ||
+      if (selectedSeason == null  &&
+          selectedCenter == null  &&
+          selectedTrack == null &&
           selectedStage == null) {
         emit(
           state.copyWith(
@@ -68,6 +82,7 @@ class HomeCubit extends Cubit<HomeState> {
         selectedSeason!,
         selectedCenter!,
         selectedStage!,
+        selectedTrack!,
       );
       if (isClosed) return;
       emit(state.copyWith(isLoadingAllData: false, allData: dashboardData));
@@ -87,15 +102,18 @@ class HomeCubit extends Cubit<HomeState> {
   Future<void> initHomeData() async {
     emit(state.copyWith(isLoadingAllData: true, allData: null));
     try {
+ 
       final permNo = await storage.read(key: 'fPermNo');
       final user = await storage.read(key: 'userId');
       final seasons = await repository.fetchSeasons();
       final centers = await repository.getCenters();
       final stages = await repository.getStages();
+      final tracks = await repository.getTracks();
 
-      selectedSeason = seasons.last.fSeasonId.toString();
-      selectedCenter = centers.first.fCenterNo.toString();
-      selectedStage = stages.first.fStageNo.toString();
+      selectedSeason = seasons.last.fSeasonId;
+      selectedCenter = centers.first.fCenterNo;
+      selectedStage = stages.first.fStageNo;
+      selectedTrack = tracks.first.fTrackNo;
       fPermNo = permNo;
       userId = user;
       emit(
@@ -104,21 +122,24 @@ class HomeCubit extends Cubit<HomeState> {
           seasons: seasons,
           centers: centers,
           stages: stages,
+          tracks: tracks,
         ),
       );
 
       if (selectedSeason != null &&
           selectedCenter != null &&
+          selectedTrack != null &&
           selectedStage != null) {
         final dashboardData = await repository.getDashboardData(
           selectedSeason!,
           selectedCenter!,
           selectedStage!,
+          selectedTrack!,
         );
         emit(state.copyWith(isLoadingAllData: false, allData: dashboardData));
       }
 
-      emit(state.copyWith(isLoadingAllData: false, allData: null));
+   
     } catch (e, stackTrace) {
       emit(
         state.copyWith(

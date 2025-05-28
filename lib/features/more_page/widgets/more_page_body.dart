@@ -103,9 +103,7 @@ class _MorePageBodyState extends State<MorePageBody> {
         addBusCubit.selectedSeason = buseCubit.selectedSeason;
       }
     });
-    context
-      ..read<AddBusTripCubit>().loadCenters()
-      ..read<AddBusTripCubit>().loadTransports();
+    context.read<AddBusTripCubit>().loadTransports();
   }
 
   void initOpratingCommandData() {

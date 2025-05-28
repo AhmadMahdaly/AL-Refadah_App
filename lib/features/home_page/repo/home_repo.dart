@@ -1,8 +1,8 @@
-import 'dart:developer';
 
 import 'package:alrefadah/core/services/dio_helper.dart';
 import 'package:alrefadah/features/home_page/models/dashboard_model.dart';
 import 'package:alrefadah/features/home_page/models/home_season_model.dart';
+import 'package:alrefadah/features/services_pages/buses_travel/add/models/track_model.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/main/models/get_buses_travel_centers_model.dart';
 import 'package:alrefadah/features/services_pages/transport_stage/models/stage_model.dart';
 import 'package:dio/dio.dart';
@@ -55,19 +55,32 @@ class HomeRepo {
     }
   }
 
+  Future<List<TrackModel>> getTracks() async {
+    try {
+      final response = await DioHelper.dio.get<List<dynamic>>(
+        '/Dashboard/GetTrack',
+      );
+      final data = response.data!;
+      return data
+          .map((item) => TrackModel.fromJson(item as Map<String, dynamic>))
+          .toList();
+    } on DioException catch (e) {
+      throw Exception('خطأ: ${e.response?.data}');
+    }
+  }
+
   Future<DashboardModel> getDashboardData(
-    String seasonId,
-    String centerNo,
-    String stageNo,
+    int seasonId,
+    int centerNo,
+    int stageNo,
+    int trackNo,
   ) async {
     try {
       final response = await DioHelper.dio.get<Map<String, dynamic>>(
-        '/Dashboard/DashboardReportNew?SeasonId=$seasonId&CenterNo=$centerNo&StageNo=$stageNo',
+        '/Dashboard/DashboardReport?SeasonId=$seasonId&CenterNo=$centerNo&StageNo=$stageNo&TrackNo=$trackNo',
       );
-
       return DashboardModel.fromJson(response.data!);
     } on DioException catch (e) {
-      log('Error fetching dashboard data: ${e.message}');
       final errorMessage =
           (e.response?.data is Map<String, dynamic> &&
                   (e.response?.data as Map<String, dynamic>).containsKey(

@@ -1,6 +1,4 @@
 import 'package:alrefadah/features/services_pages/buses/main/models/buses_get_all_transports_model.dart';
-import 'package:alrefadah/features/services_pages/buses/main/models/buses_get_center_model.dart';
-import 'package:alrefadah/features/services_pages/buses/main/models/buses_get_stage_model.dart';
 import 'package:alrefadah/features/services_pages/buses/main/repo/buses_repo.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/add/add_bus/cubit/add_bus_state.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/add/add_bus/models/add_bus_form_data.dart';
@@ -12,42 +10,6 @@ class AddBusTripCubit extends Cubit<AddBusTripState> {
   final BusesRepo repository = BusesRepo();
   int? selectedSeason;
 
-  /// Loads the list of centers from the repository
-  Future<void> loadCenters() async {
-    emit(AddBusLoadingState());
-    try {
-      final centers = await repository.getCenters();
-      emit(state.copyWith(centers: centers));
-    } catch (e) {
-      emit(AddBusErrorState());
-    }
-  }
-
-  /// Selects a center and loads its related stages and operations
-  Future<void> selectCenter(BusesGetCenterModel center) async {
-    try {
-      // أولاً: تصفير الاختيارات اللاحقة
-      emit(
-        state.copyWith(
-          selectedCenter: center,
-          selectedStage: null,
-          selectedOperation: null,
-          stages: [],
-          operations: [],
-        ),
-      ); // ثانياً: تحميل البيانات المرتبطة بالمركز
-      final stages = await repository.getStages();
-      final operations = await repository.getTransportOperting(
-        selectedSeason!,
-        center.fCenterNo.toString(),
-      );
-      // تحديث الحالة بالبيانات الجديدة
-      emit(state.copyWith(stages: stages, operations: operations));
-    } catch (e) {
-      emit(AddBusErrorState());
-    }
-  }
-
   void addNewBusForm() {
     final updatedForms = List<AddBusFormTripData>.from(state.busForms)
       ..add(AddBusFormTripData());
@@ -58,37 +20,25 @@ class AddBusTripCubit extends Cubit<AddBusTripState> {
   }
 
   /// Selects a stage and resets subsequent selections
-  Future<void> selectStage(
-    BusesGetStageModel stage,
-    BusesGetCenterModel center,
-  ) async {
+  Future<void> selectOprating(String center) async {
     try {
       emit(
         state.copyWith(
-          selectedCenter: center,
-          selectedStage: stage,
-          selectedOperation: null, // تصفير أمر التشغيل
           operations: [], // تصفير قائمة أوامر التشغيل
         ),
       );
-
       final operations = await repository.getTransportOperting(
         selectedSeason!,
-        center.fCenterNo.toString(),
+        center,
       );
-
-      // تحديد آخر أمر تشغيل تلقائيًا إن وجدت عمليات
-      final lastOperation = operations.isNotEmpty ? operations.last : null;
-
-      emit(
-        state.copyWith(
-          operations: operations,
-          selectedOperation: lastOperation,
-        ),
-      );
+      emit(state.copyWith(operations: operations));
     } catch (e) {
       emit(AddBusErrorState());
     }
+  }
+
+  void selectOperation(String operation) {
+    emit(state.copyWith(selectedOperation: operation));
   }
 
   void hideAddButton() {
@@ -126,12 +76,8 @@ class AddBusTripCubit extends Cubit<AddBusTripState> {
   void reset() {
     emit(
       state.copyWith(
-        centers: [],
         transports: [],
-        selectedCenter: null,
-        selectedStage: null,
         selectedOperation: null,
-        stages: [],
         operations: [],
         busForms: [],
       ),

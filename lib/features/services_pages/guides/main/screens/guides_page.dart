@@ -2,6 +2,7 @@ import 'package:alrefadah/core/themes/colors_constants.dart';
 import 'package:alrefadah/core/widgets/custom_help_button.dart';
 import 'package:alrefadah/core/widgets/leading_icon.dart';
 import 'package:alrefadah/core/widgets/title_appbar.dart';
+import 'package:alrefadah/features/services_pages/guides/add_emplyee/views/add_employee_page.dart';
 import 'package:alrefadah/features/services_pages/guides/main/cubit/guides_cubit.dart';
 import 'package:alrefadah/features/services_pages/guides/main/widgets/guides_body.dart';
 import 'package:alrefadah/features/services_pages/guides/main/widgets/guides_season_dropdown.dart';
@@ -50,6 +51,19 @@ class _GuidesPageState extends State<GuidesPage> {
         ),
       ),
       body: const GuidesBody(),
+      floatingActionButton: FloatingActionButton(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(320.r),
+        ),
+        backgroundColor: kMainColor,
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const AddEmployeePage()),
+          );
+        },
+        child: const Icon(Icons.add, color: kMainColorLightColor),
+      ),
     );
   }
 }
