@@ -185,7 +185,9 @@ class _AddTripBodyState extends State<AddTripBody> {
                                                 selectedItem: selectedBus,
                                                 itemAsString:
                                                     (GetAllBusesModel bus) =>
-                                                        bus.fBusNo,
+                                                        convertArabicToLatin(
+                                                          bus.fBusNo,
+                                                        ),
                                                 dropdownDecoratorProps: DropDownDecoratorProps(
                                                   dropdownSearchDecoration: InputDecoration(
                                                     border:
@@ -218,6 +220,14 @@ class _AddTripBodyState extends State<AddTripBody> {
                                                   ),
                                                 ),
                                                 popupProps: PopupProps.menu(
+                                                  menuProps: MenuProps(
+                                                    shape: BeveledRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                            12.r,
+                                                          ),
+                                                    ),
+                                                  ),
                                                   showSearchBox: true,
                                                   searchFieldProps: TextFieldProps(
                                                     decoration: InputDecoration(
