@@ -3,6 +3,7 @@ import 'package:alrefadah/core/utils/components/custom_button.dart';
 import 'package:alrefadah/core/utils/components/custom_loading_indicator.dart';
 import 'package:alrefadah/core/utils/components/space.dart';
 import 'package:alrefadah/core/utils/components/text_fields/custom_number_textfield.dart';
+import 'package:alrefadah/core/utils/components/text_fields/custom_textfield_with_hint.dart';
 import 'package:alrefadah/core/utils/components/text_fields/textfield_border_radius.dart';
 import 'package:alrefadah/core/widgets/custom_dialog/error_dialog.dart';
 import 'package:alrefadah/core/widgets/custom_dialog/show_success_dialog.dart';
@@ -58,7 +59,6 @@ class _AddEmployeeBodyState extends State<AddEmployeeBody> {
   final idDateExpControll = TextEditingController();
   final birthdayControll = TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  int? gender;
   int? natEmp;
   int? age;
   int? city;
@@ -147,6 +147,7 @@ class _AddEmployeeBodyState extends State<AddEmployeeBody> {
                   child: Column(
                     spacing: 12.h,
                     children: [
+                      /// المركز
                       DropdownButtonFormField<int>(
                         borderRadius: BorderRadius.circular(10.r),
                         isExpanded: true,
@@ -205,6 +206,7 @@ class _AddEmployeeBodyState extends State<AddEmployeeBody> {
                       Row(
                         spacing: 12.w,
                         children: [
+                          /// الاسم الأول
                           Expanded(
                             child: CustomTextField(
                               validator: (value) {
@@ -218,6 +220,7 @@ class _AddEmployeeBodyState extends State<AddEmployeeBody> {
                             ),
                           ),
 
+                          /// اسم الوالد
                           Expanded(
                             child: CustomTextField(
                               validator: (value) {
@@ -235,11 +238,12 @@ class _AddEmployeeBodyState extends State<AddEmployeeBody> {
                       Row(
                         spacing: 12.w,
                         children: [
+                          /// اسم الجد
                           Expanded(
                             child: CustomTextField(
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return 'الرجاء إدخال gggاسم الجد';
+                                  return 'الرجاء إدخال اسم الجد';
                                 }
                                 return null;
                               },
@@ -248,6 +252,7 @@ class _AddEmployeeBodyState extends State<AddEmployeeBody> {
                             ),
                           ),
 
+                          /// اسم العائلة
                           Expanded(
                             child: CustomTextField(
                               validator: (value) {
@@ -263,8 +268,9 @@ class _AddEmployeeBodyState extends State<AddEmployeeBody> {
                         ],
                       ),
                       Row(
-                        spacing: 10.w,
+                        spacing: 12.w,
                         children: [
+                          /// تاريخ الميلاد
                           Expanded(
                             child: CustomTextField(
                               validator: (value) {
@@ -285,6 +291,8 @@ class _AddEmployeeBodyState extends State<AddEmployeeBody> {
                               },
                             ),
                           ),
+
+                          /// الجنس
                           Expanded(
                             child: DropdownButtonFormField<int>(
                               value: selectedGender,
@@ -350,7 +358,7 @@ class _AddEmployeeBodyState extends State<AddEmployeeBody> {
                         ],
                       ),
 
-                      /// gender dropdown
+                      /// الجنسية
                       DropdownButtonFormField<int>(
                         borderRadius: BorderRadius.circular(10.r),
                         isExpanded: true,
@@ -405,6 +413,8 @@ class _AddEmployeeBodyState extends State<AddEmployeeBody> {
                           return null;
                         },
                       ),
+
+                      /// البريد الإلكتروني
                       CustomTextField(
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -416,6 +426,8 @@ class _AddEmployeeBodyState extends State<AddEmployeeBody> {
                         labelText: 'البريد الإلكتروني',
                         textDirection: TextDirection.ltr,
                       ),
+
+                      /// رقم الهاتف
                       CustomNumberTextformfield(
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -428,6 +440,7 @@ class _AddEmployeeBodyState extends State<AddEmployeeBody> {
                         textDirection: TextDirection.ltr,
                       ),
 
+                      /// المدينة
                       DropdownButtonFormField<int>(
                         borderRadius: BorderRadius.circular(10.r),
                         isExpanded: true,
@@ -483,6 +496,8 @@ class _AddEmployeeBodyState extends State<AddEmployeeBody> {
                           return null;
                         },
                       ),
+
+                      /// العنوان
                       CustomTextField(
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -493,6 +508,8 @@ class _AddEmployeeBodyState extends State<AddEmployeeBody> {
                         controller: addressControll,
                         labelText: 'العنوان',
                       ),
+
+                      /// رقم الهوية
                       CustomNumberTextformfield(
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -507,6 +524,8 @@ class _AddEmployeeBodyState extends State<AddEmployeeBody> {
                         labelText: 'رقم الهوية',
                         textDirection: TextDirection.ltr,
                       ),
+
+                      /// تاريخ انتهاء رقم الهوية
                       CustomTextField(
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -526,7 +545,7 @@ class _AddEmployeeBodyState extends State<AddEmployeeBody> {
                         },
                       ),
 
-                      /// id date exp => data picker ==> age
+                      /// الشهادة
                       DropdownButtonFormField<int>(
                         borderRadius: BorderRadius.circular(10.r),
                         isExpanded: true,
@@ -581,6 +600,8 @@ class _AddEmployeeBodyState extends State<AddEmployeeBody> {
                           return null;
                         },
                       ),
+
+                      /// التخصص
                       DropdownButtonFormField<int>(
                         borderRadius: BorderRadius.circular(10.r),
                         isExpanded: true,
@@ -636,6 +657,8 @@ class _AddEmployeeBodyState extends State<AddEmployeeBody> {
                           return null;
                         },
                       ),
+
+                      /// البنك
                       DropdownButtonFormField<int>(
                         borderRadius: BorderRadius.circular(10.r),
                         isExpanded: true,
@@ -691,6 +714,8 @@ class _AddEmployeeBodyState extends State<AddEmployeeBody> {
                           return null;
                         },
                       ),
+
+                      /// رقم الحساب
                       CustomNumberTextformfield(
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -702,7 +727,9 @@ class _AddEmployeeBodyState extends State<AddEmployeeBody> {
                         labelText: 'رقم الحساب',
                         textDirection: TextDirection.ltr,
                       ),
-                      CustomNumberTextformfield(
+
+                      /// Bank IBAN No
+                      CustomTextField(
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'الرجاء إدخال رقم الـ IBAN';
@@ -713,7 +740,9 @@ class _AddEmployeeBodyState extends State<AddEmployeeBody> {
                         labelText: 'رقم الـ IBAN',
                         textDirection: TextDirection.ltr,
                       ),
-                      H(h: 12.h),
+                      12.verticalSpace,
+
+                      /// send data
                       CustomButton(
                         onTap: () async {
                           if (formKey.currentState!.validate()) {
@@ -730,7 +759,7 @@ class _AddEmployeeBodyState extends State<AddEmployeeBody> {
                               fEmpGrandfatherE: 'string',
                               fEmpFamilyE: 'string',
                               fEmpNameE: 'string',
-                              fGender: gender ?? 1,
+                              fGender: selectedGender ?? 0,
                               fBirthDate: birthdayDate!,
                               fAge: calculateAge(birthdayControll.text),
                               fNatiNo: natEmp ?? 0,
@@ -810,58 +839,6 @@ class _AddEmployeeBodyState extends State<AddEmployeeBody> {
               ),
             );
       },
-    );
-  }
-}
-
-class CustomTextField extends StatelessWidget {
-  const CustomTextField({
-    required this.controller,
-    required this.labelText,
-    super.key,
-    this.validator,
-    this.readOnly = false,
-    this.icon,
-    this.onTap,
-    this.textDirection,
-  });
-  final bool readOnly;
-  final TextEditingController controller;
-  final String labelText;
-  final String? Function(String?)? validator;
-  final Widget? icon;
-  final void Function()? onTap;
-  final TextDirection? textDirection;
-  @override
-  Widget build(BuildContext context) {
-    return TextFormField(
-      textDirection: textDirection,
-      readOnly: readOnly,
-      onTap: onTap,
-      keyboardType: TextInputType.text,
-      style: TextStyle(
-        fontSize: 15.sp,
-        color: const Color(0xFF494949),
-        fontWeight: FontWeight.w300,
-        fontFamily: 'FF Shamel Family',
-      ),
-      cursorWidth: 1.sp,
-      cursorColor: kMainColor,
-      controller: controller,
-      autovalidateMode: AutovalidateMode.onUnfocus,
-      decoration: InputDecoration(
-        suffixIcon: icon,
-        labelText: labelText,
-        labelStyle: TextStyle(
-          fontSize: 13.sp,
-          color: const Color(0xFFA2A2A2),
-          fontWeight: FontWeight.w300,
-        ),
-        border: textfieldBorderRadius(const Color(0xFFD6D6D6)),
-        focusedBorder: textfieldBorderRadius(kMainColor),
-        enabledBorder: textfieldBorderRadius(const Color(0xFFD6D6D6)),
-        focusedErrorBorder: textfieldBorderRadius(Colors.red),
-      ),
     );
   }
 }

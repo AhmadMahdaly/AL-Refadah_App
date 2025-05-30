@@ -112,3 +112,55 @@ class CustomTextformfieldWithHint extends StatelessWidget {
     );
   }
 }
+
+class CustomTextField extends StatelessWidget {
+  const CustomTextField({
+    required this.controller,
+    required this.labelText,
+    super.key,
+    this.validator,
+    this.readOnly = false,
+    this.icon,
+    this.onTap,
+    this.textDirection,
+  });
+  final bool readOnly;
+  final TextEditingController controller;
+  final String labelText;
+  final String? Function(String?)? validator;
+  final Widget? icon;
+  final void Function()? onTap;
+  final TextDirection? textDirection;
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      textDirection: textDirection,
+      readOnly: readOnly,
+      onTap: onTap,
+      keyboardType: TextInputType.text,
+      style: TextStyle(
+        fontSize: 15.sp,
+        color: const Color(0xFF494949),
+        fontWeight: FontWeight.w300,
+        fontFamily: 'FF Shamel Family',
+      ),
+      cursorWidth: 1.sp,
+      cursorColor: kMainColor,
+      controller: controller,
+      autovalidateMode: AutovalidateMode.onUnfocus,
+      decoration: InputDecoration(
+        suffixIcon: icon,
+        labelText: labelText,
+        labelStyle: TextStyle(
+          fontSize: 13.sp,
+          color: const Color(0xFFA2A2A2),
+          fontWeight: FontWeight.w300,
+        ),
+        border: textfieldBorderRadius(const Color(0xFFD6D6D6)),
+        focusedBorder: textfieldBorderRadius(kMainColor),
+        enabledBorder: textfieldBorderRadius(const Color(0xFFD6D6D6)),
+        focusedErrorBorder: textfieldBorderRadius(Colors.red),
+      ),
+    );
+  }
+}
