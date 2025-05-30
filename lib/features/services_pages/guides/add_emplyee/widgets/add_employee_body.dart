@@ -6,6 +6,8 @@ import 'package:alrefadah/core/utils/components/custom_loading_indicator.dart';
 import 'package:alrefadah/core/utils/components/space.dart';
 import 'package:alrefadah/core/utils/components/text_fields/custom_number_textfield.dart';
 import 'package:alrefadah/core/utils/components/text_fields/textfield_border_radius.dart';
+import 'package:alrefadah/core/widgets/custom_dialog/error_dialog.dart';
+import 'package:alrefadah/core/widgets/custom_dialog/show_success_dialog.dart';
 import 'package:alrefadah/data/constants_variable.dart';
 import 'package:alrefadah/features/services_pages/guides/add_emplyee/models/add_emplyee_model.dart';
 import 'package:alrefadah/features/services_pages/guides/main/cubit/guides_cubit.dart';
@@ -80,10 +82,27 @@ class _AddEmployeeBodyState extends State<AddEmployeeBody> {
         month = picked.month.toString().padLeft(2, '0');
         day = picked.day.toString().padLeft(2, '0');
         idDateExpControll.text = '$year-$month-$day';
+        idDateEx = '$year$month$day';
       });
     }
   }
 
+  int calculateAge(String birthDateString) {
+    final birthDate = DateTime.parse(birthDateString);
+    final today = DateTime.now();
+
+    var age = today.year - birthDate.year;
+
+    // التحقق إذا كان لم يحتفل بعيد ميلاده بعد هذه السنة
+    if (today.month < birthDate.month ||
+        (today.month == birthDate.month && today.day < birthDate.day)) {
+      age--;
+    }
+
+    return age;
+  }
+
+  String? idDateEx;
   Future<void> _selectBirthDayDate(BuildContext context) async {
     final picked = await showDatePicker(
       context: context,
@@ -98,10 +117,12 @@ class _AddEmployeeBodyState extends State<AddEmployeeBody> {
         month = picked.month.toString().padLeft(2, '0');
         day = picked.day.toString().padLeft(2, '0');
         birthdayControll.text = '$year-$month-$day';
+        birthdayDate = '$year$month$day';
       });
     }
   }
 
+  String? birthdayDate;
   String? year;
   String? month;
   String? day;
@@ -631,11 +652,11 @@ class _AddEmployeeBodyState extends State<AddEmployeeBody> {
                                     '$firstNameControll $fatherNameControll $grandfatherNameControll $familyNameControll',
                                 fEmpNameE: 'n',
                                 fGender: gender ?? 1,
-                                fBirthDate: birthdayControll.text,
-                                fAge: age ?? 19,
+                                fBirthDate: birthdayDate!,
+                                fAge: calculateAge(birthdayControll.text),
                                 fNatiNo: natEmp ?? 0,
                                 fIdNo: int.parse(idNoControll.text),
-                                fIdDateExpiry: idDateExpControll.text,
+                                fIdDateExpiry: idDateEx!,
                                 fBankNo: bankNo ?? 0,
                                 fJawNo: phoneNumberControll.text,
                                 fQualiNo: qualEmp ?? 0,
@@ -662,8 +683,42 @@ class _AddEmployeeBodyState extends State<AddEmployeeBody> {
                                 await context.read<GuidesCubit>().addEmployee(
                                   guide,
                                 );
+                                if (context
+                                    .read<GuidesCubit>()
+                                    .state
+                                    .isAddEmpoloyeeSuccess) {
+                                  if (context.mounted) {
+                                    showSuccessDialog(context, seconds: 2);
+                                    Future.delayed(
+                                      const Duration(seconds: 2),
+                                      () {
+                                        if (context.mounted) {
+                                          Navigator.pop(context);
+                                        }
+                                      },
+                                    );
+                                  }
+                                } else {
+                                  if (context.mounted) {
+                                    showErrorDialog(
+                                      isBack: true,
+                                      context,
+                                      message: 'هناك خطأ في إضافة الموظف',
+                                      icon: Icons.error_outline_rounded,
+                                      color: kErrorColor,
+                                    );
+                                  }
+                                }
                               } catch (e) {
-                                log(e.toString());
+                                if (context.mounted) {
+                                  showErrorDialog(
+                                    isBack: true,
+                                    context,
+                                    message: 'هناك خطأ عام في إضافة الموظف',
+                                    icon: Icons.error_outline_rounded,
+                                    color: kErrorColor,
+                                  );
+                                }
                               }
                             }
                           },

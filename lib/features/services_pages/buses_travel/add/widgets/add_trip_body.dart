@@ -23,6 +23,7 @@ import 'package:alrefadah/features/services_pages/guides/main/cubit/guides_cubit
 import 'package:alrefadah/features/services_pages/guides/main/cubit/guides_states.dart';
 import 'package:alrefadah/features/services_pages/guides/main/models/by_criteria/assignment_model.dart';
 import 'package:alrefadah/presentation/app/shared_cubit/get_current_location_cubit/get_current_location_cubit.dart';
+import 'package:alrefadah/presentation/app/shared_widgets/loading_location.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -943,37 +944,7 @@ class _AddTripBodyState extends State<AddTripBody> {
                               ),
                             ),
                           )
-                        : Padding(
-                            padding: EdgeInsets.all(16.w),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Icon(
-                                  Icons.location_off_rounded,
-                                  size: 80.sp,
-                                  color: kMainColor,
-                                ),
-                                const H(h: 20),
-                                Text(
-                                  'يجب عليك تحميل الموقع لإضافة الرحلة',
-                                  style: TextStyle(
-                                    fontSize: 16.sp,
-                                    color: kMainColor,
-                                  ),
-                                ),
-                                const H(h: 40),
-                                CustomButton(
-                                  text: 'تحميل الموقع',
-                                  onTap: () {
-                                    context
-                                        .read<GetCurrentLocationCubit>()
-                                        .getCurrentLocation();
-                                  },
-                                ),
-                              ],
-                            ),
-                          );
+                        : const LoadingLocation();
                   },
                 );
               },

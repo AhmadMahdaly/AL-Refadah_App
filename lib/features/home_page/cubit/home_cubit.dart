@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:alrefadah/features/home_page/cubit/home_states.dart';
 import 'package:alrefadah/features/home_page/repo/home_repo.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -64,10 +66,10 @@ class HomeCubit extends Cubit<HomeState> {
 
   Future<void> getDashboardData() async {
     emit(state.copyWith(isLoadingAllData: true));
-
+    log('$selectedSeason   && $selectedCenter $selectedTrack  $selectedStage');
     try {
-      if (selectedSeason == null  &&
-          selectedCenter == null  &&
+      if (selectedSeason == null &&
+          selectedCenter == null &&
           selectedTrack == null &&
           selectedStage == null) {
         emit(
@@ -102,7 +104,6 @@ class HomeCubit extends Cubit<HomeState> {
   Future<void> initHomeData() async {
     emit(state.copyWith(isLoadingAllData: true, allData: null));
     try {
- 
       final permNo = await storage.read(key: 'fPermNo');
       final user = await storage.read(key: 'userId');
       final seasons = await repository.fetchSeasons();
@@ -138,8 +139,6 @@ class HomeCubit extends Cubit<HomeState> {
         );
         emit(state.copyWith(isLoadingAllData: false, allData: dashboardData));
       }
-
-   
     } catch (e, stackTrace) {
       emit(
         state.copyWith(

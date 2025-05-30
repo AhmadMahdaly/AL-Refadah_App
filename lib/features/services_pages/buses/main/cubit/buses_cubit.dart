@@ -12,6 +12,7 @@ class BusesCubit extends Cubit<BusesState> {
   final BusesRepo repository;
   int? selectedSeason;
   String? selectedCenter;
+  String? selectedStage;
   Future<void> getSeasons() async {
     emit(state.copyWith(isLoadingSeasons: true));
     try {

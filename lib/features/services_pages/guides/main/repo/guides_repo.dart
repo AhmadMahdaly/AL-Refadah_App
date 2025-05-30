@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:alrefadah/core/services/dio_helper.dart';
 import 'package:alrefadah/data/constants_variable.dart';
 import 'package:alrefadah/features/services_pages/guides/add/models/add_guide_model.dart';
@@ -48,6 +50,7 @@ class GuidesRepo {
       '/Guides/GetEmployees',
     );
     final data = response.data!;
+    log(data.toString());
     return data
         .map((json) => GetGuidesModel.fromJson(json as Map<String, dynamic>))
         .toList();

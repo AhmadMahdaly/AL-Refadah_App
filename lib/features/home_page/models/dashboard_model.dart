@@ -20,24 +20,24 @@ class DashboardModel {
 
   factory DashboardModel.fromJson(Map<String, dynamic> json) {
     return DashboardModel(
-      totalStageBuses: json['totalStageBuses'] as int,
-      totalStageTrips: json['totalStageTrips'] as int,
-      totalDepartingBuses: json['totaldepartingBuses'] as int,
-      totalTrips: json['totalTrips'] as int,
-      totalFinishedBuses: json['totalFinishedBuses'] as int,
-      totalPilgrims: json['totalPilgrims'] as int,
-      totalStagePilgrims: json['totalStagePilgrims'] as int,
-      totalEvacueesPilgrims: json['totalEvacueesPilgrims'] as int,
-      totalArrivedPilgrims: json['totalArrivedPilgrims'] as int,
-      totalRemainingPilgrims: json['totalRemainigPilgrims'] as int,
-      totalFinishedCenters: json['totalFinishedCenters'] as int,
-      totalRemainingCenterPilgrims: json['totalRemainingCenterPilgrims'] as int,
-      totalDelayedTrips: json['totalDelayedTrips'] as int,
+      totalStageBuses: json['totalStageBuses'] as int? ?? 0,
+      totalStageTrips: json['totalStageTrips'] as int? ?? 0,
+      totalDepartingBuses: json['totaldepartingBuses'] as int? ?? 0,
+      totalTrips: json['totalTrips'] as int? ?? 0,
+      totalFinishedBuses: json['totalFinishedBuses'] as int? ?? 0,
+      totalPilgrims: json['totalPilgrims'] as int? ?? 0,
+      totalStagePilgrims: json['totalStagePilgrims'] as int? ?? 0,
+      totalEvacueesPilgrims: json['totalEvacueesPilgrims'] as int? ?? 0,
+      totalArrivedPilgrims: json['totalArrivedPilgrims'] as int? ?? 0,
+      totalRemainingPilgrims: json['totalRemainigPilgrims'] as int? ?? 0,
+      totalFinishedCenters: json['totalFinishedCenters'] as int? ?? 0,
+      totalRemainingCenterPilgrims:
+          json['totalRemainingCenterPilgrims'] as int? ?? 0,
+      totalDelayedTrips: json['totalDelayedTrips'] as int? ?? 0,
 
-      delayedTrip:
-          (json['delayedTrip'] as List<dynamic>)
-              .map((e) => DelayedTripModel.fromJson(e as Map<String, dynamic>))
-              .toList(),
+      delayedTrip: (json['delayedTrip'] as List<dynamic>)
+          .map((e) => DelayedTripModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 
@@ -55,23 +55,4 @@ class DashboardModel {
   final int? totalRemainingCenterPilgrims;
   final int? totalDelayedTrips;
   final List<DelayedTripModel>? delayedTrip;
-
-  Map<String, dynamic> toJson() {
-    return {
-      'totalStageBuses': totalStageBuses,
-      'totalStageTrips': totalStageTrips,
-      'totaldepartingBuses': totalDepartingBuses,
-      'totalTrips': totalTrips,
-      'totalFinishedBuses': totalFinishedBuses,
-      'totalPilgrims': totalPilgrims,
-      'totalStagePilgrims': totalStagePilgrims,
-      'totalEvacueesPilgrims': totalEvacueesPilgrims,
-      'totalArrivedPilgrims': totalArrivedPilgrims,
-      'totalRemainigPilgrims': totalRemainingPilgrims,
-      'totalFinishedCenters': totalFinishedCenters,
-      'totalRemainingCenterPilgrims': totalRemainingCenterPilgrims,
-      'totalDelayedTrips': totalDelayedTrips,
-      'delayedTrip': delayedTrip,
-    };
-  }
 }

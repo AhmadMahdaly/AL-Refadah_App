@@ -125,11 +125,11 @@ class GuidesCubit extends Cubit<GuidesState> {
   Future<void> addEmployee(AddEmployeeModel model) async {
     emit(state.copyWith(isLoadingAddEmpoloyee: true));
     try {
-      await empRepo.addEmpoloyee(model);
+      final result = await empRepo.addEmpoloyee(model);
       emit(
         state.copyWith(
           isLoadingAddEmpoloyee: false,
-          isAddEmpoloyeeSuccess: true,
+          isAddEmpoloyeeSuccess: result,
         ),
       );
     } catch (e) {

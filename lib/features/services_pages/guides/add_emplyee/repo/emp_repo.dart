@@ -1,19 +1,23 @@
-import 'dart:developer';
-
 import 'package:alrefadah/core/services/dio_helper.dart';
 import 'package:alrefadah/features/services_pages/guides/add_emplyee/models/add_emplyee_model.dart';
 import 'package:alrefadah/features/services_pages/guides/add_emplyee/models/employee_response_model.dart';
+import 'package:dio/dio.dart';
 
 class EmployeesRepo {
-  Future<Map<String, dynamic>?> addEmpoloyee(AddEmployeeModel model) async {
-    final response = await DioHelper.dio.post<Map<String, dynamic>>(
-      '/Employees/AddEmployeeAndGuide',
-      data: model.toJson(),
-    );
-
-    log(response.toString());
-    log(model.toString());
-    return response.data;
+  Future<bool> addEmpoloyee(AddEmployeeModel model) async {
+    try {
+      final response = await DioHelper.dio.post<Map<String, dynamic>>(
+        '/Employees/AddEmployeeAndGuide',
+        data: model.toJson(),
+      );
+      if (response.data!['status'] == 'Success') {
+        return true;
+      } else {
+        return false;
+      }
+    } on DioException catch (e) {
+      throw Exception(e.response?.data);
+    }
   }
 
   Future<List<EmpDataModel>> getNationalities() async {

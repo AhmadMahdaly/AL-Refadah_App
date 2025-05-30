@@ -13,6 +13,7 @@ import 'package:alrefadah/features/services_pages/buses_travel/incoming/main/vie
 import 'package:alrefadah/features/services_pages/buses_travel/launch/main/views/launch_trips_page.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/main/cubit/bus_travel_cubit.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/main/screens/buses_travel_page.dart';
+import 'package:alrefadah/features/services_pages/buses_travel/store_w_add_trip/views/store_w_add_trip_page.dart';
 import 'package:alrefadah/features/services_pages/complaint/show_all/views/all_complaint_page.dart';
 import 'package:alrefadah/features/services_pages/guides/main/screens/guides_page.dart';
 import 'package:alrefadah/features/services_pages/oprating_commands/main/cubit/oprating_command_cubit.dart';
@@ -175,13 +176,12 @@ class _MorePageBodyState extends State<MorePageBody> {
                   ServicesTabWidget(
                     icon: const Icon(Icons.menu, color: kMainColor),
                     text: 'حصص مراحل النقل',
-                    onTap:
-                        () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const TransferStagePage(),
-                          ),
-                        ),
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const TransferStagePage(),
+                      ),
+                    ),
                   ),
 
                 /// المرشدين
@@ -196,13 +196,12 @@ class _MorePageBodyState extends State<MorePageBody> {
                     ),
                     text: 'المرشدين',
 
-                    onTap:
-                        () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const GuidesPage(),
-                          ),
-                        ),
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const GuidesPage(),
+                      ),
+                    ),
                   ),
 
                 /// أوامر التشغيل
@@ -252,30 +251,40 @@ class _MorePageBodyState extends State<MorePageBody> {
                       color: kMainColor,
                     ),
                     text: 'حركة الحافلات',
-                    onTap:
-                        () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const BusesMovesPage(),
-                          ),
-                        ),
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const BusesMovesPage(),
+                      ),
+                    ),
+                  ),
+
+                /// إضافة الرحلة لمراقب المخزن
+                if (fPermNo == PermNo.storeWatcher)
+                  ServicesTabWidget(
+                    icon: Icon(Icons.logout, color: kMainColor, size: 20.sp),
+                    text: 'إطلاق الحافلة',
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const StoreWAddTripPage(),
+                      ),
+                    ),
                   ),
 
                 /// إطلاق الحافلات
                 if (fPermNo == PermNo.transMan ||
                     fPermNo == PermNo.systemMan ||
-                    fPermNo == PermNo.centerMember ||
-                    fPermNo == PermNo.storeWatcher)
+                    fPermNo == PermNo.centerMember)
                   ServicesTabWidget(
                     icon: Icon(Icons.logout, color: kMainColor, size: 20.sp),
                     text: 'إطلاق الحافلات',
-                    onTap:
-                        () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const BusesTravelLaunchPage(),
-                          ),
-                        ),
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const BusesTravelLaunchPage(),
+                      ),
+                    ),
                   ),
 
                 /// الحافلات القادمة
@@ -293,13 +302,12 @@ class _MorePageBodyState extends State<MorePageBody> {
                       ),
                     ),
                     text: 'الحافلات القادمة',
-                    onTap:
-                        () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const IncomingTripsPage(),
-                          ),
-                        ),
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const IncomingTripsPage(),
+                      ),
+                    ),
                   ),
 
                 /// الحافلات الواصلة
@@ -317,13 +325,12 @@ class _MorePageBodyState extends State<MorePageBody> {
                       ),
                     ),
                     text: 'الحافلات الواصلة',
-                    onTap:
-                        () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const ApprovalTripsPage(),
-                          ),
-                        ),
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const ApprovalTripsPage(),
+                      ),
+                    ),
                   ),
 
                 /// البلاغات
@@ -335,13 +342,12 @@ class _MorePageBodyState extends State<MorePageBody> {
                       color: kMainColor,
                     ),
                     text: 'البلاغات',
-                    onTap:
-                        () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const AllComplaintPage(),
-                          ),
-                        ),
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const AllComplaintPage(),
+                      ),
+                    ),
                   ),
                 const H(h: 20),
               ],

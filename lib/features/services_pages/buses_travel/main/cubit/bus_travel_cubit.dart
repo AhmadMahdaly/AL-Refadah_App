@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:alrefadah/features/services_pages/buses_travel/add/models/add_trip_model.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/main/cubit/bus_travel_state.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/main/repo/buses_travel_repo.dart';
+import 'package:alrefadah/features/services_pages/buses_travel/store_w_add_trip/models/store_w_add_trip_model.dart';
 import 'package:alrefadah/features/services_pages/complaint/add/models/add_complaint_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -286,6 +287,32 @@ class BusTravelCubit extends Cubit<BusesTravelState> {
           isLoadingcomplaint: false,
           error: e.toString(),
           complaint: null,
+        ),
+      );
+    }
+  }
+
+  Future<void> storeWAddTrip(StoreWAddTripModel trip) async {
+    emit(
+      state.copyWith(
+        isAddingTripByStage: true,
+        isAddingTripByStageSuccess: false,
+      ),
+    );
+    try {
+      final result = await repository.storeWAddTrip(trip);
+      emit(
+        state.copyWith(
+          isAddingTripByStage: false,
+          isAddingTripByStageSuccess: result,
+        ),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          isAddingTripByStage: false,
+          isAddingTripByStageSuccess: false,
+          error: e.toString(),
         ),
       );
     }
