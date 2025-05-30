@@ -29,7 +29,6 @@ class _LoginScreenState extends State<LoginScreen> {
   bool isHidenPassword = true;
   bool isChecked = false;
   bool isLoading = false;
-  bool _isInAsyncCall = false;
   final formKey = GlobalKey<FormState>();
   final _passwordController = TextEditingController();
   final _userNameController = TextEditingController();
@@ -49,44 +48,25 @@ class _LoginScreenState extends State<LoginScreen> {
     final isKeyboardVisible = MediaQuery.of(context).viewInsets.bottom > 0;
     return BlocConsumer<AuthCubit, AuthStates>(
       listener: (context, state) {
-        if (state is LoginLoadingState) {
-          setState(() {
-            _isInAsyncCall = true;
-          });
-        } else if (state is LoginSuccessState) {
-          setState(() {
-            _isInAsyncCall = false;
-          });
+        if (state is LoginSuccessState) {
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => const ConfirmLoginScreen()),
           );
         } else if (state is LoginErrorState) {
-          setState(() {
-            _isInAsyncCall = false;
-          });
           showErrorDialog(
             isBack: true,
             context,
             message: 'فشل في تسجيل الدخول',
           );
         } else if (state is ResendOTPLoadingState) {
-          setState(() {
-            _isInAsyncCall = true;
-          });
         } else if (state is ResendOTPSuccessState) {
-          setState(() {
-            _isInAsyncCall = false;
-          });
           showCustomSnackBar(
             context,
             'تم إرسال كود التفعيل إلى جوالك',
             kGreenColor,
           );
         } else if (state is ResendOTPErrorState) {
-          setState(() {
-            _isInAsyncCall = false;
-          });
           showCustomSnackBar(context, 'فشل في إعادة إرسال الرمز', kErrorColor);
         }
       },
@@ -95,7 +75,7 @@ class _LoginScreenState extends State<LoginScreen> {
         return Scaffold(
           appBar: AppBar(toolbarHeight: 0),
           body: ModalProgressHUD(
-            inAsyncCall: _isInAsyncCall,
+            inAsyncCall: state.isLoading,
             opacity: 0.5,
             progressIndicator: const AppIndicator(),
             child: Stack(

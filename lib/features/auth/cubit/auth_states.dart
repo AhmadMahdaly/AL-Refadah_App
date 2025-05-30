@@ -1,8 +1,13 @@
-abstract class AuthStates {}
+abstract class AuthStates {
+  const AuthStates({this.isLoading = false});
+  final bool isLoading;
+}
 
 class LoginInitialState extends AuthStates {}
 
-class LoginLoadingState extends AuthStates {}
+class LoginLoadingState extends AuthStates {
+  const LoginLoadingState() : super(isLoading: true);
+}
 
 class LoginSuccessState extends AuthStates {}
 
@@ -11,18 +16,10 @@ class LoginErrorState extends AuthStates {
   final String message;
 }
 
-///Logout
-class LogoutLoadingState extends AuthStates {}
-
-class LogoutSuccessState extends AuthStates {}
-
-class LogoutErrorState extends AuthStates {
-  LogoutErrorState(this.message);
-  final String message;
-}
-
 ///Login with code
-class LoginWithCodeLoadingState extends AuthStates {}
+class LoginWithCodeLoadingState extends AuthStates {
+  const LoginWithCodeLoadingState() : super(isLoading: true);
+}
 
 class LoginWithCodeSuccessState extends AuthStates {}
 
@@ -32,28 +29,9 @@ class LoginWithCodeErrorState extends AuthStates {
 }
 
 ///
-final class SetUpLoadingState extends AuthStates {}
-
-final class SetUpSuccessState extends AuthStates {}
-
-final class SetUpErrorState extends AuthStates {}
-
-///
-final class RefreshTokenLoadingState extends AuthStates {}
-
-final class RefreshTokenSuccessState extends AuthStates {}
-
-final class RefreshTokenErrorState extends AuthStates {}
-
-///
-final class IsLoginLoadingState extends AuthStates {}
-
-final class IsLoginSuccessState extends AuthStates {}
-
-final class IsLoginErrorState extends AuthStates {}
-
-///
-final class RegisterLoadingState extends AuthStates {}
+final class RegisterLoadingState extends AuthStates {
+  const RegisterLoadingState() : super(isLoading: true);
+}
 
 final class RegisterSuccessState extends AuthStates {}
 
@@ -63,7 +41,9 @@ final class RegisterErrorState extends AuthStates {
 }
 
 ///
-final class VerifyRegisterLoadingState extends AuthStates {}
+final class VerifyRegisterLoadingState extends AuthStates {
+  const VerifyRegisterLoadingState() : super(isLoading: true);
+}
 
 final class VerifyRegisterSuccessState extends AuthStates {}
 
@@ -73,7 +53,9 @@ final class VerifyRegisterErrorState extends AuthStates {
 }
 
 ///
-final class ResendOTPLoadingState extends AuthStates {}
+final class ResendOTPLoadingState extends AuthStates {
+  const ResendOTPLoadingState() : super(isLoading: true);
+}
 
 final class ResendOTPSuccessState extends AuthStates {}
 
@@ -83,7 +65,9 @@ final class ResendOTPErrorState extends AuthStates {
 }
 
 ///
-final class VerifyLoginLoadingState extends AuthStates {}
+final class VerifyLoginLoadingState extends AuthStates {
+  const VerifyLoginLoadingState() : super(isLoading: true);
+}
 
 final class VerifyLoginSuccessState extends AuthStates {}
 

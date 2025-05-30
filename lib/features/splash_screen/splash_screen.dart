@@ -27,7 +27,8 @@ class _SplashScreenState extends State<SplashScreen> {
 
     if (!mounted) return;
     await Future.microtask(setupFCM);
-    // Navigate to authentication check screen
+
+    /// Navigate to authentication check screen
     await Navigator.pushReplacement(
       context,
       MaterialPageRoute(

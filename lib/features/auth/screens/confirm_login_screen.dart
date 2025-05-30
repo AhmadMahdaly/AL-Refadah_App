@@ -43,29 +43,18 @@ class _ConfirmLoginScreenState extends State<ConfirmLoginScreen> {
     super.dispose();
   }
 
-  bool _isInAsyncCall = false;
   @override
   Widget build(BuildContext context) {
     final isKeyboardVisible = MediaQuery.of(context).viewInsets.bottom > 0;
     return BlocConsumer<AuthCubit, AuthStates>(
       listener: (context, state) {
-        if (state is LoginWithCodeLoadingState) {
-          setState(() {
-            _isInAsyncCall = true;
-          });
-        } else if (state is LoginWithCodeSuccessState) {
-          setState(() {
-            _isInAsyncCall = false;
-          });
+        if (state is LoginWithCodeSuccessState) {
           Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(builder: (context) => const AppLoaderPage()),
             (route) => false,
           );
         } else if (state is LoginWithCodeErrorState) {
-          setState(() {
-            _isInAsyncCall = false;
-          });
           if (mounted) {
             Navigator.pop(context);
             showErrorDialog(isBack: true, context, message: 'كود غير صالح');
@@ -77,7 +66,7 @@ class _ConfirmLoginScreenState extends State<ConfirmLoginScreen> {
         return Scaffold(
           appBar: AppBar(toolbarHeight: 0),
           body: ModalProgressHUD(
-            inAsyncCall: _isInAsyncCall,
+            inAsyncCall: state.isLoading,
             opacity: 0.5,
             progressIndicator: const AppIndicator(),
             child: Stack(

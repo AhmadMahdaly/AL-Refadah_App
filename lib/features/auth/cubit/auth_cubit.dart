@@ -20,7 +20,7 @@ class AuthCubit extends Cubit<AuthStates> {
     required String password,
   }) async {
     try {
-      emit(LoginLoadingState());
+      emit(const LoginLoadingState());
       await CacheHelper.saveData(key: 'phoneNo', value: phoneNo);
       final response = await DioHelper.dio.post<Map<String, dynamic>>(
         '/Authentication/login',
@@ -45,7 +45,7 @@ class AuthCubit extends Cubit<AuthStates> {
   }
 
   Future<void> loginWithCode({required String code}) async {
-    emit(LoginWithCodeLoadingState());
+    emit(const LoginWithCodeLoadingState());
     final userId = await CacheHelper.getData(key: 'userId');
     try {
       final response = await DioHelper.dio.post<Map<String, dynamic>>(
@@ -80,7 +80,7 @@ class AuthCubit extends Cubit<AuthStates> {
 
   Future<void> register(UserRegisterModel userRegisterModel) async {
     try {
-      emit(RegisterLoadingState());
+      emit(const RegisterLoadingState());
 
       final response = await DioHelper.dio.post<Map<String, dynamic>>(
         '/Authentication/register',
@@ -108,7 +108,7 @@ class AuthCubit extends Cubit<AuthStates> {
 
   Future<void> verifyRegister(String code) async {
     try {
-      emit(VerifyRegisterLoadingState());
+      emit(const VerifyRegisterLoadingState());
       final userId = await CacheHelper.getData(key: 'userId');
       final response = await DioHelper.dio.post<Map<String, dynamic>>(
         '/Authentication/verifyRegister',
@@ -126,7 +126,7 @@ class AuthCubit extends Cubit<AuthStates> {
 
   Future<void> resendOTP() async {
     try {
-      emit(ResendOTPLoadingState());
+      emit(const ResendOTPLoadingState());
       final phoneNo = await CacheHelper.getData(key: 'phoneNo');
       final password = await CacheHelper.getData(key: 'password');
       final response = await DioHelper.dio.post<Map<String, dynamic>>(
@@ -151,7 +151,7 @@ class AuthCubit extends Cubit<AuthStates> {
 
   Future<void> verifyLogin(String code) async {
     try {
-      emit(VerifyLoginLoadingState());
+      emit(const VerifyLoginLoadingState());
 
       final response = await DioHelper.dio.post<Map<String, dynamic>>(
         '/Authentication/ConfirmLogin?userId=$code&companyId=$companyId',

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:alrefadah/core/services/dio_helper.dart';
 import 'package:alrefadah/features/services_pages/guides/add_emplyee/models/add_emplyee_model.dart';
 import 'package:alrefadah/features/services_pages/guides/add_emplyee/models/employee_response_model.dart';
@@ -10,12 +12,14 @@ class EmployeesRepo {
         '/Employees/AddEmployeeAndGuide',
         data: model.toJson(),
       );
+      log(response.data.toString());
       if (response.data!['status'] == 'Success') {
         return true;
       } else {
         return false;
       }
     } on DioException catch (e) {
+      log(e.toString());
       throw Exception(e.response?.data);
     }
   }
