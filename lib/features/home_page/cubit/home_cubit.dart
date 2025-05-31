@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:alrefadah/features/home_page/cubit/home_states.dart';
 import 'package:alrefadah/features/home_page/repo/home_repo.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -66,7 +64,6 @@ class HomeCubit extends Cubit<HomeState> {
 
   Future<void> getDashboardData() async {
     emit(state.copyWith(isLoadingAllData: true));
-    log('$selectedSeason   && $selectedCenter $selectedTrack  $selectedStage');
     try {
       if (selectedSeason == null &&
           selectedCenter == null &&

@@ -165,4 +165,32 @@ class GuidesCubit extends Cubit<GuidesState> {
       );
     }
   }
+
+  Future<void> storeWGetGuide(String season, String center) async {
+    emit(
+      state.copyWith(
+        isLoadingGetByCriteria: true,
+        guidesByCriteria: [],
+        error: null,
+      ),
+    );
+    try {
+      final guides = await repository.getGuideByCriteria(season, center);
+      emit(
+        state.copyWith(
+          isLoadingGetByCriteria: false,
+          guidesByCriteria: guides,
+          error: null,
+        ),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          isLoadingGetByCriteria: false,
+          guidesByCriteria: [],
+          error: e.toString().replaceAll('Exception: ', ''),
+        ),
+      );
+    }
+  }
 }

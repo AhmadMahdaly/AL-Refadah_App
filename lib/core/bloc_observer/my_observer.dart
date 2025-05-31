@@ -5,12 +5,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class MyObserver implements BlocObserver {
   @override
   void onChange(BlocBase bloc, Change change) {
-    log('onChange: $change');
+    // log('onChange: $change');
   }
 
   @override
   void onClose(BlocBase bloc) {
-    // log('onClose: $bloc');
+    log('onClose: $bloc');
   }
 
   @override
@@ -20,7 +20,7 @@ class MyObserver implements BlocObserver {
 
   @override
   void onError(BlocBase bloc, Object error, StackTrace stackTrace) {
-    // log('onError: $error');
+    log('onError: $error');
   }
 
   @override
