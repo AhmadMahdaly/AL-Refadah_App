@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:alrefadah/core/services/dio_helper.dart';
 import 'package:alrefadah/features/home_page/models/dashboard_model.dart';
 import 'package:alrefadah/features/home_page/models/home_season_model.dart';
@@ -20,7 +18,6 @@ class HomeRepo {
           .map((json) => HomeSeasonModel.fromJson(json as Map<String, dynamic>))
           .toList();
     } on DioException catch (e) {
-      log(e.toString());
       throw Exception('خطأ: ${e.response?.data}');
     }
   }
@@ -39,7 +36,6 @@ class HomeRepo {
           )
           .toList();
     } on DioException catch (e) {
-      log(e.toString());
       throw Exception('خطأ: ${e.response?.data}');
     }
   }
@@ -54,7 +50,6 @@ class HomeRepo {
           .map((item) => StageModel.fromJson(item as Map<String, dynamic>))
           .toList();
     } on DioException catch (e) {
-      log(e.toString());
       throw Exception('خطأ: ${e.response?.data}');
     }
   }
@@ -69,7 +64,6 @@ class HomeRepo {
           .map((item) => TrackModel.fromJson(item as Map<String, dynamic>))
           .toList();
     } on DioException catch (e) {
-      log(e.toString());
       throw Exception('خطأ: ${e.response?.data}');
     }
   }
@@ -80,17 +74,13 @@ class HomeRepo {
     int stageNo,
     int trackNo,
   ) async {
-    log('$seasonId   && $centerNo $stageNo  $trackNo');
-
     try {
       final response = await DioHelper.dio.get<Map<String, dynamic>>(
         '/Dashboard/DashboardReport?SeasonId=$seasonId&CenterNo=$centerNo&StageNo=$stageNo&TrackNo=$trackNo',
       );
-      log(response.data.toString());
+
       return DashboardModel.fromJson(response.data!);
-   
     } catch (e) {
-      log(e.toString());
       throw Exception('خطأ غير متوقع: $e');
     }
   }

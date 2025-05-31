@@ -34,6 +34,11 @@ class _StroreWAddTripBodyState extends State<StroreWAddTripBody> {
   }
 
   Future init() async {
+    debugPrint(context.read<HomeCubit>().selectedSeason.toString());
+
+    context.read<GuidesCubit>().selectedSeason =
+        context.read<HomeCubit>().selectedSeason.toString();
+
     await Future.wait([
       context.read<BusesCubit>().getCenters(),
       context.read<BusesCubit>().getStages(),
@@ -63,7 +68,6 @@ class _StroreWAddTripBodyState extends State<StroreWAddTripBody> {
     return BlocBuilder<GuidesCubit, GuidesState>(
       builder: (context, state) {
         final guide = context.read<GuidesCubit>();
-
         return BlocBuilder<BusTravelCubit, BusesTravelState>(
           builder: (context, state) {
             final trip = context.read<BusTravelCubit>();
@@ -82,437 +86,456 @@ class _StroreWAddTripBodyState extends State<StroreWAddTripBody> {
                         ? const AppIndicator()
                         : state is GetCurrentLocationSuccess
                         ? Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 16.w),
-                            child: SingleChildScrollView(
-                              child: Form(
-                                key: formKey,
-                                child: Column(
-                                  spacing: 12.h,
-                                  children: [
-                                    12.verticalSpace,
+                          padding: EdgeInsets.symmetric(horizontal: 16.w),
+                          child: SingleChildScrollView(
+                            child: Form(
+                              key: formKey,
+                              child: Column(
+                                spacing: 12.h,
+                                children: [
+                                  12.verticalSpace,
 
-                                    /// Centers dropdown
-                                    DropdownButtonFormField<int>(
-                                      validator: (value) {
-                                        if (value == null) {
-                                          return 'الرجاء اختيار المركز';
-                                        }
-                                        return null;
-                                      },
-                                      borderRadius: BorderRadius.circular(10.r),
-                                      isExpanded: true,
-                                      decoration: InputDecoration(
-                                        fillColor: kScaffoldBackgroundColor,
-                                        filled: true,
-                                        border: textfieldBorderRadius(
-                                          kMainColorLightColor,
-                                        ),
-                                        focusedBorder: textfieldBorderRadius(
-                                          kMainColorLightColor,
-                                        ),
-                                        enabledBorder: textfieldBorderRadius(
-                                          kMainColorLightColor,
-                                        ),
-                                        focusedErrorBorder:
-                                            textfieldBorderRadius(Colors.red),
-                                        label: Text(
-                                          'المركز',
-                                          style: TextStyle(
-                                            fontSize: 13.sp,
-                                            color: const Color(0xFFA2A2A2),
-                                            fontWeight: FontWeight.w300,
-                                          ),
+                                  /// Centers dropdown
+                                  DropdownButtonFormField<int>(
+                                    validator: (value) {
+                                      if (value == null) {
+                                        return 'الرجاء اختيار المركز';
+                                      }
+                                      return null;
+                                    },
+                                    borderRadius: BorderRadius.circular(10.r),
+                                    isExpanded: true,
+                                    decoration: InputDecoration(
+                                      fillColor: kScaffoldBackgroundColor,
+                                      filled: true,
+                                      border: textfieldBorderRadius(
+                                        kMainColorLightColor,
+                                      ),
+                                      focusedBorder: textfieldBorderRadius(
+                                        kMainColorLightColor,
+                                      ),
+                                      enabledBorder: textfieldBorderRadius(
+                                        kMainColorLightColor,
+                                      ),
+                                      focusedErrorBorder: textfieldBorderRadius(
+                                        Colors.red,
+                                      ),
+                                      label: Text(
+                                        'المركز',
+                                        style: TextStyle(
+                                          fontSize: 13.sp,
+                                          color: const Color(0xFFA2A2A2),
+                                          fontWeight: FontWeight.w300,
                                         ),
                                       ),
-                                      icon: const Icon(
-                                        Icons.keyboard_arrow_down_rounded,
-                                        color: kMainColor,
-                                      ),
-                                      style: TextStyle(
-                                        color: kMainColor,
-                                        fontSize: 15.sp,
-                                        fontFamily: 'GE SS Two',
-                                        fontWeight: FontWeight.w300,
-                                        height: 1.43.h,
-                                      ),
-                                      items: bus.state.centers.map((center) {
-                                        return DropdownMenuItem<int>(
-                                          value: center.fCenterNo,
-                                          child: Text(center.fCenterName),
-                                        );
-                                      }).toList(),
-                                      onChanged: (centerNo) {
-                                        if (centerNo != null) {
+                                    ),
+                                    icon: const Icon(
+                                      Icons.keyboard_arrow_down_rounded,
+                                      color: kMainColor,
+                                    ),
+                                    style: TextStyle(
+                                      color: kMainColor,
+                                      fontSize: 15.sp,
+                                      fontFamily: 'GE SS Two',
+                                      fontWeight: FontWeight.w300,
+                                      height: 1.43.h,
+                                    ),
+                                    items:
+                                        bus.state.centers.map((center) {
+                                          return DropdownMenuItem<int>(
+                                            value: center.fCenterNo,
+                                            child: Text(center.fCenterName),
+                                          );
+                                        }).toList(),
+                                    onChanged: (centerNo) {
+                                      if (centerNo != null) {
+                                        setState(() {
                                           selectedCenter = centerNo;
+
                                           guide.getGuideByCriteria(
                                             centerNo.toString(),
                                           );
-                                        }
-                                      },
-                                      value: selectedCenter,
-                                    ),
-
-                                    /// stages dropdown
-                                    DropdownButtonFormField<int>(
-                                      validator: (value) {
-                                        if (value == null) {
-                                          return 'الرجاء اختيار المرحلة';
-                                        }
-                                        return null;
-                                      },
-                                      borderRadius: BorderRadius.circular(10.r),
-                                      isExpanded: true,
-                                      decoration: InputDecoration(
-                                        fillColor: kScaffoldBackgroundColor,
-                                        filled: true,
-                                        border: textfieldBorderRadius(
-                                          kMainColorLightColor,
-                                        ),
-                                        focusedBorder: textfieldBorderRadius(
-                                          kMainColorLightColor,
-                                        ),
-                                        enabledBorder: textfieldBorderRadius(
-                                          kMainColorLightColor,
-                                        ),
-                                        focusedErrorBorder:
-                                            textfieldBorderRadius(Colors.red),
-                                        label: Text(
-                                          'المرحلة',
-                                          style: TextStyle(
-                                            fontSize: 13.sp,
-                                            color: const Color(0xFFA2A2A2),
-                                            fontWeight: FontWeight.w300,
-                                          ),
-                                        ),
-                                      ),
-                                      icon: const Icon(
-                                        Icons.keyboard_arrow_down_rounded,
-                                        color: kMainColor,
-                                      ),
-                                      style: TextStyle(
-                                        color: kMainColor,
-                                        fontSize: 15.sp,
-                                        fontFamily: 'GE SS Two',
-                                        fontWeight: FontWeight.w300,
-                                        height: 1.43.h,
-                                      ),
-                                      items: bus.state.stages.map((stage) {
-                                        return DropdownMenuItem<int>(
-                                          value: stage.fStageNo,
-                                          child: Text(stage.fStageName),
-                                        );
-                                      }).toList(),
-                                      onChanged: (stage) {
-                                        if (stage != null) {
-                                          selectedStage = stage;
-                                        }
-                                      },
-                                      value: selectedStage,
-                                    ),
-
-                                    /// opration No
-                                    CustomNumberTextformfield(
-                                      validator: (value) {
-                                        if (value == null || value.isEmpty) {
-                                          return 'الرجاء إدخال أمر التشغيل';
-                                        }
-                                        return null;
-                                      },
-                                      maxLength: 14,
-                                      controller: oprationNoController,
-
-                                      labelText: 'أمر التشغيل',
-                                    ),
-
-                                    /// Bus No
-                                    CustomNumberTextformfield(
-                                      validator: (value) {
-                                        if (value == null || value.isEmpty) {
-                                          return 'الرجاء إدخال رقم الحافلة';
-                                        }
-                                        return null;
-                                      },
-                                      maxLength: 10,
-                                      controller: busNoController,
-
-                                      labelText: 'رقم الحافلة',
-                                    ),
-
-                                    /// المسار
-                                    DropdownButtonFormField<int>(
-                                      validator: (value) {
-                                        if (value == null) {
-                                          return 'الرجاء اختيار المسار';
-                                        }
-                                        return null;
-                                      },
-                                      isExpanded: true,
-                                      dropdownColor: kScaffoldBackgroundColor,
-
-                                      decoration: InputDecoration(
-                                        border: dropdownBorderRadius(
-                                          kMainColorLightColor,
-                                        ),
-                                        focusedBorder: dropdownBorderRadius(
-                                          kMainColorLightColor,
-                                        ),
-                                        enabledBorder: dropdownBorderRadius(
-                                          kMainColorLightColor,
-                                        ),
-                                        focusedErrorBorder:
-                                            dropdownBorderRadius(kErrorColor),
-                                        label: Text(
-                                          'المسار',
-                                          style: TextStyle(
-                                            fontSize: 13.sp,
-                                            color: const Color(0xFFA2A2A2),
-                                            fontWeight: FontWeight.w300,
-                                          ),
-                                        ),
-                                      ),
-                                      icon: const Icon(
-                                        Icons.keyboard_arrow_down_rounded,
-                                        color: kMainColor,
-                                      ),
-                                      style: TextStyle(
-                                        color: kMainColor,
-                                        fontSize: 15.sp,
-                                        fontFamily: 'GE SS Two',
-                                        fontWeight: FontWeight.w300,
-                                        height: 1.25.h,
-                                      ),
-                                      value: selectedTrack,
-
-                                      items: trip.state.track.map((track) {
-                                        final trackName =
-                                            track.fTrackName ?? 'لا يوجد مسار';
-                                        return DropdownMenuItem<int>(
-                                          value: track.fTrackNo,
-                                          child: Text(trackName),
-                                        );
-                                      }).toList(),
-                                      onChanged: (int? newValue) {
-                                        setState(() {
-                                          selectedTrack = newValue;
                                         });
-                                      },
-                                    ),
+                                      }
+                                    },
+                                    value: selectedCenter,
+                                  ),
 
-                                    /// اختيار مرشد
-                                    // if (bus.selectedStage == '1' ||
-                                    //     bus.selectedStage == '2' ||
-                                    //     bus.selectedStage == '6' ||
-                                    //     bus.selectedStage == '7')
-                                    Row(
-                                      children: [
-                                        Text(
-                                          'اختيار المرشد',
-                                          style: TextStyle(
-                                            color: kMainColor,
-                                            fontSize: 14.sp,
-                                            fontWeight: FontWeight.w300,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        buildRadioOption(
-                                          title: 'يوجد',
-                                          value: '1',
-                                        ),
-
-                                        buildRadioOption(
-                                          title: 'لا يوجد',
-                                          value: 'null',
-                                        ),
-                                      ],
-                                    ),
-                                    if (isGuideSelected == false)
-                                      Align(
-                                        alignment: Alignment.topRight,
-                                        child: Text(
-                                          'يرجى اختيار حالة المرشد',
-                                          style: TextStyle(
-                                            color: Colors.red[900],
-                                            fontSize: 12.sp,
-                                          ),
+                                  /// stages dropdown
+                                  DropdownButtonFormField<int>(
+                                    validator: (value) {
+                                      if (value == null) {
+                                        return 'الرجاء اختيار المرحلة';
+                                      }
+                                      return null;
+                                    },
+                                    borderRadius: BorderRadius.circular(10.r),
+                                    isExpanded: true,
+                                    decoration: InputDecoration(
+                                      fillColor: kScaffoldBackgroundColor,
+                                      filled: true,
+                                      border: textfieldBorderRadius(
+                                        kMainColorLightColor,
+                                      ),
+                                      focusedBorder: textfieldBorderRadius(
+                                        kMainColorLightColor,
+                                      ),
+                                      enabledBorder: textfieldBorderRadius(
+                                        kMainColorLightColor,
+                                      ),
+                                      focusedErrorBorder: textfieldBorderRadius(
+                                        Colors.red,
+                                      ),
+                                      label: Text(
+                                        'المرحلة',
+                                        style: TextStyle(
+                                          fontSize: 13.sp,
+                                          color: const Color(0xFFA2A2A2),
+                                          fontWeight: FontWeight.w300,
                                         ),
                                       ),
-                                    if (transType == '1')
-                                      DropdownButtonFormField<int>(
-                                        validator: (value) {
-                                          if (value == null) {
-                                            return 'الرجاء اختيار المرشد';
-                                          }
-                                          return null;
-                                        },
-                                        isExpanded: true,
-                                        dropdownColor: kScaffoldBackgroundColor,
+                                    ),
+                                    icon: const Icon(
+                                      Icons.keyboard_arrow_down_rounded,
+                                      color: kMainColor,
+                                    ),
+                                    style: TextStyle(
+                                      color: kMainColor,
+                                      fontSize: 15.sp,
+                                      fontFamily: 'GE SS Two',
+                                      fontWeight: FontWeight.w300,
+                                      height: 1.43.h,
+                                    ),
+                                    items:
+                                        bus.state.stages.map((stage) {
+                                          return DropdownMenuItem<int>(
+                                            value: stage.fStageNo,
+                                            child: Text(stage.fStageName),
+                                          );
+                                        }).toList(),
+                                    onChanged: (stage) {
+                                      if (stage != null) {
+                                        selectedStage = stage;
+                                      }
+                                    },
+                                    value: selectedStage,
+                                  ),
 
-                                        decoration: InputDecoration(
-                                          border: dropdownBorderRadius(
-                                            kMainColorLightColor,
-                                          ),
-                                          focusedBorder: dropdownBorderRadius(
-                                            kMainColorLightColor,
-                                          ),
-                                          enabledBorder: dropdownBorderRadius(
-                                            kMainColorLightColor,
-                                          ),
-                                          focusedErrorBorder:
-                                              dropdownBorderRadius(Colors.red),
-                                          label: Text(
-                                            guide.state.guidesByCriteria.isEmpty
-                                                ? 'لا يوجد مرشدين في هذا المركز'
-                                                : 'المرشد',
-                                            style: TextStyle(
-                                              fontSize: 13.sp,
-                                              color: const Color(0xFFA2A2A2),
-                                              fontWeight: FontWeight.w300,
-                                            ),
-                                          ),
+                                  /// opration No
+                                  CustomNumberTextformfield(
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return 'الرجاء إدخال أمر التشغيل';
+                                      }
+                                      return null;
+                                    },
+                                    maxLength: 14,
+                                    controller: oprationNoController,
+
+                                    labelText: 'أمر التشغيل',
+                                  ),
+
+                                  /// Bus No
+                                  CustomNumberTextformfield(
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return 'الرجاء إدخال رقم الحافلة';
+                                      }
+                                      return null;
+                                    },
+                                    maxLength: 10,
+                                    controller: busNoController,
+
+                                    labelText: 'رقم الحافلة',
+                                  ),
+
+                                  /// المسار
+                                  DropdownButtonFormField<int>(
+                                    validator: (value) {
+                                      if (value == null) {
+                                        return 'الرجاء اختيار المسار';
+                                      }
+                                      return null;
+                                    },
+                                    isExpanded: true,
+                                    dropdownColor: kScaffoldBackgroundColor,
+
+                                    decoration: InputDecoration(
+                                      border: dropdownBorderRadius(
+                                        kMainColorLightColor,
+                                      ),
+                                      focusedBorder: dropdownBorderRadius(
+                                        kMainColorLightColor,
+                                      ),
+                                      enabledBorder: dropdownBorderRadius(
+                                        kMainColorLightColor,
+                                      ),
+                                      focusedErrorBorder: dropdownBorderRadius(
+                                        kErrorColor,
+                                      ),
+                                      label: Text(
+                                        'المسار',
+                                        style: TextStyle(
+                                          fontSize: 13.sp,
+                                          color: const Color(0xFFA2A2A2),
+                                          fontWeight: FontWeight.w300,
                                         ),
-                                        icon: Icon(
-                                          Icons.keyboard_arrow_down_rounded,
-                                          color:
-                                              guide
-                                                  .state
-                                                  .guidesByCriteria
-                                                  .isEmpty
-                                              ? const Color(0xFFA2A2A2)
-                                              : kMainColor,
-                                        ),
+                                      ),
+                                    ),
+                                    icon: const Icon(
+                                      Icons.keyboard_arrow_down_rounded,
+                                      color: kMainColor,
+                                    ),
+                                    style: TextStyle(
+                                      color: kMainColor,
+                                      fontSize: 15.sp,
+                                      fontFamily: 'GE SS Two',
+                                      fontWeight: FontWeight.w300,
+                                      height: 1.25.h,
+                                    ),
+                                    value: selectedTrack,
+
+                                    items:
+                                        trip.state.track.map((track) {
+                                          final trackName =
+                                              track.fTrackName ??
+                                              'لا يوجد مسار';
+                                          return DropdownMenuItem<int>(
+                                            value: track.fTrackNo,
+                                            child: Text(trackName),
+                                          );
+                                        }).toList(),
+                                    onChanged: (int? newValue) {
+                                      setState(() {
+                                        selectedTrack = newValue;
+                                      });
+                                    },
+                                  ),
+
+                                  /// اختيار مرشد
+                                  // if (bus.selectedStage == '1' ||
+                                  //     bus.selectedStage == '2' ||
+                                  //     bus.selectedStage == '6' ||
+                                  //     bus.selectedStage == '7')
+                                  Row(
+                                    children: [
+                                      Text(
+                                        'اختيار المرشد',
                                         style: TextStyle(
                                           color: kMainColor,
-                                          fontSize: 15.sp,
-                                          fontFamily: 'GE SS Two',
+                                          fontSize: 14.sp,
                                           fontWeight: FontWeight.w300,
-                                          height: 1.25.h,
                                         ),
-                                        value: selectedGuide,
-
-                                        items: guide.state.guidesByCriteria.map(
-                                          (guide) {
-                                            final name =
-                                                guide.employee?.fEmpName ??
-                                                'بدون اسم';
-                                            return DropdownMenuItem<int>(
-                                              value: guide.fEmpNo,
-                                              child: Text(name),
-                                            );
-                                          },
-                                        ).toList(),
-                                        onChanged: (int? newValue) {
-                                          setState(() {
-                                            selectedGuide = newValue;
-                                          });
-                                        },
                                       ),
-                                    40.verticalSpace,
+                                    ],
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      buildRadioOption(
+                                        title: 'يوجد',
+                                        value: '1',
+                                      ),
 
-                                    /// تحميل الداتا
-                                    CustomButton(
-                                      text: 'اطلاق',
-                                      onTap: () async {
-                                        if (formKey.currentState!.validate()) {
-                                          try {
-                                            final inputs = StoreWAddTripModel(
-                                              bus: StoreWAddBus(
-                                                fBusNo: busNoController.text,
-                                                fCenterNo: selectedCenter!,
-                                                fSeasonId: context
-                                                    .read<HomeCubit>()
-                                                    .selectedSeason!,
-                                                fBusStatus: 1,
-                                              ),
-                                              operating: StoreWAddOperating(
-                                                fOperatingNo:
-                                                    oprationNoController.text,
-                                              ),
-                                              trip: StoreWAddTrip(
-                                                fBusId: 0,
-                                                fSeasonId: context
-                                                    .read<HomeCubit>()
-                                                    .selectedSeason!,
-                                                fStageNo: selectedStage!,
-                                                fEmpNo: selectedGuide,
-                                                fAdditionLatitude: state
-                                                    .position
-                                                    .latitude
-                                                    .toString(),
-                                                fAdditionLongitude: state
-                                                    .position
-                                                    .longitude
-                                                    .toString(),
-                                                fAdditionUser: int.parse(
-                                                  context
-                                                          .read<HomeCubit>()
-                                                          .userId ??
-                                                      '0',
-                                                ),
-                                                fTrackNo: selectedTrack!,
-                                              ),
-                                            );
-
-                                            await context
-                                                .read<BusTravelCubit>()
-                                                .storeWAddTrip(inputs);
-
-                                            if (context
-                                                .read<BusTravelCubit>()
-                                                .state
-                                                .isAddingTripByStageSuccess) {
-                                              if (context.mounted) {
-                                                showSuccessDialog(
-                                                  context,
-                                                  seconds: 1,
-                                                );
-                                                Future.delayed(
-                                                  const Duration(seconds: 1),
-                                                  () {
-                                                    if (context.mounted) {
-                                                      Navigator.pop(context);
-                                                    }
-                                                  },
-                                                );
-                                              }
-                                            } else {
-                                              if (context.mounted) {
-                                                showErrorDialog(
-                                                  isBack: true,
-                                                  context,
-                                                  message:
-                                                      'هناك خطأ في اطلاق الرحلة',
-                                                  icon: Icons
-                                                      .error_outline_rounded,
-                                                  color: kErrorColor,
-                                                );
-                                              }
+                                      buildRadioOption(
+                                        title: 'لا يوجد',
+                                        value: 'null',
+                                      ),
+                                    ],
+                                  ),
+                                  if (isGuideSelected == false)
+                                    Align(
+                                      alignment: Alignment.topRight,
+                                      child: Text(
+                                        'يرجى اختيار حالة المرشد',
+                                        style: TextStyle(
+                                          color: Colors.red[900],
+                                          fontSize: 12.sp,
+                                        ),
+                                      ),
+                                    ),
+                                  if (transType == '1')
+                                    guide.state.isLoadingGetByCriteria
+                                        ? SizedBox(
+                                          height: 64.h,
+                                          child: AppIndicator(size: 16.sp),
+                                        )
+                                        : DropdownButtonFormField<int>(
+                                          validator: (value) {
+                                            if (value == null) {
+                                              return 'الرجاء اختيار المرشد';
                                             }
-                                          } catch (e) {
+                                            return null;
+                                          },
+                                          isExpanded: true,
+                                          dropdownColor:
+                                              kScaffoldBackgroundColor,
+
+                                          decoration: InputDecoration(
+                                            border: dropdownBorderRadius(
+                                              kMainColorLightColor,
+                                            ),
+                                            focusedBorder: dropdownBorderRadius(
+                                              kMainColorLightColor,
+                                            ),
+                                            enabledBorder: dropdownBorderRadius(
+                                              kMainColorLightColor,
+                                            ),
+                                            focusedErrorBorder:
+                                                dropdownBorderRadius(
+                                                  Colors.red,
+                                                ),
+                                            label: Text(
+                                              guide
+                                                      .state
+                                                      .guidesByCriteria
+                                                      .isEmpty
+                                                  ? 'لا يوجد مرشدين في هذا المركز'
+                                                  : 'المرشد',
+                                              style: TextStyle(
+                                                fontSize: 13.sp,
+                                                color: const Color(0xFFA2A2A2),
+                                                fontWeight: FontWeight.w300,
+                                              ),
+                                            ),
+                                          ),
+                                          icon: Icon(
+                                            Icons.keyboard_arrow_down_rounded,
+                                            color:
+                                                guide
+                                                        .state
+                                                        .guidesByCriteria
+                                                        .isEmpty
+                                                    ? const Color(0xFFA2A2A2)
+                                                    : kMainColor,
+                                          ),
+                                          style: TextStyle(
+                                            color: kMainColor,
+                                            fontSize: 15.sp,
+                                            fontFamily: 'GE SS Two',
+                                            fontWeight: FontWeight.w300,
+                                            height: 1.25.h,
+                                          ),
+                                          value: selectedGuide,
+
+                                          items:
+                                              guide.state.guidesByCriteria.map((
+                                                guide,
+                                              ) {
+                                                final name =
+                                                    guide.employee?.fEmpName ??
+                                                    'بدون اسم';
+                                                return DropdownMenuItem<int>(
+                                                  value: guide.fEmpNo,
+                                                  child: Text(name),
+                                                );
+                                              }).toList(),
+                                          onChanged: (int? newValue) {
+                                            selectedGuide = newValue;
+                                          },
+                                        ),
+                                  40.verticalSpace,
+
+                                  /// تحميل الداتا
+                                  CustomButton(
+                                    text: 'اطلاق',
+                                    onTap: () async {
+                                      if (formKey.currentState!.validate()) {
+                                        try {
+                                          final inputs = StoreWAddTripModel(
+                                            bus: StoreWAddBus(
+                                              fBusNo: busNoController.text,
+                                              fCenterNo: selectedCenter!,
+                                              fSeasonId:
+                                                  context
+                                                      .read<HomeCubit>()
+                                                      .selectedSeason!,
+                                              fBusStatus: 1,
+                                            ),
+                                            operating: StoreWAddOperating(
+                                              fOperatingNo:
+                                                  oprationNoController.text,
+                                            ),
+                                            trip: StoreWAddTrip(
+                                              fBusId: 0,
+                                              fSeasonId:
+                                                  context
+                                                      .read<HomeCubit>()
+                                                      .selectedSeason!,
+                                              fStageNo: selectedStage!,
+                                              fEmpNo: selectedGuide,
+                                              fAdditionLatitude:
+                                                  state.position.latitude
+                                                      .toString(),
+                                              fAdditionLongitude:
+                                                  state.position.longitude
+                                                      .toString(),
+                                              fAdditionUser: int.parse(
+                                                context
+                                                        .read<HomeCubit>()
+                                                        .userId ??
+                                                    '0',
+                                              ),
+                                              fTrackNo: selectedTrack!,
+                                            ),
+                                          );
+
+                                          await context
+                                              .read<BusTravelCubit>()
+                                              .storeWAddTrip(inputs);
+
+                                          if (context
+                                              .read<BusTravelCubit>()
+                                              .state
+                                              .isAddingTripByStageSuccess) {
+                                            if (context.mounted) {
+                                              showSuccessDialog(
+                                                context,
+                                                seconds: 1,
+                                              );
+                                              Future.delayed(
+                                                const Duration(seconds: 1),
+                                                () {
+                                                  if (context.mounted) {
+                                                    Navigator.pop(context);
+                                                  }
+                                                },
+                                              );
+                                            }
+                                          } else {
                                             if (context.mounted) {
                                               showErrorDialog(
                                                 isBack: true,
                                                 context,
                                                 message:
-                                                    'هناك خطأ عام في اطلاق الرحلة',
+                                                    'هناك خطأ في اطلاق الرحلة',
                                                 icon:
                                                     Icons.error_outline_rounded,
                                                 color: kErrorColor,
                                               );
                                             }
                                           }
+                                        } catch (e) {
+                                          if (context.mounted) {
+                                            showErrorDialog(
+                                              isBack: true,
+                                              context,
+                                              message:
+                                                  'هناك خطأ عام في اطلاق الرحلة',
+                                              icon: Icons.error_outline_rounded,
+                                              color: kErrorColor,
+                                            );
+                                          }
                                         }
-                                      },
-                                    ),
-                                  ],
-                                ),
+                                      }
+                                    },
+                                  ),
+                                ],
                               ),
                             ),
-                          )
+                          ),
+                        )
                         : const LoadingLocation();
                   },
                 );
@@ -542,11 +565,12 @@ class _StroreWAddTripBodyState extends State<StroreWAddTripBody> {
           borderRadius: BorderRadius.circular(8.r),
           border: Border.all(
             width: 1,
-            color: isGuideSelected == false
-                ? (Colors.red[900] ?? Colors.red)
-                : isSelected
-                ? kMainColor
-                : const Color(0xFFD6D6D6),
+            color:
+                isGuideSelected == false
+                    ? (Colors.red[900] ?? Colors.red)
+                    : isSelected
+                    ? kMainColor
+                    : const Color(0xFFD6D6D6),
           ),
         ),
         child: Row(
@@ -558,6 +582,11 @@ class _StroreWAddTripBodyState extends State<StroreWAddTripBody> {
                 setState(() {
                   isGuideSelected = true;
                   transType = val!;
+                  if (transType == '1' && selectedCenter != null) {
+                    context.read<GuidesCubit>().getGuideByCriteria(
+                      selectedCenter.toString(),
+                    );
+                  }
                 });
               },
               materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
