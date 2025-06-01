@@ -15,7 +15,6 @@ import 'package:flutter_svg/svg.dart';
 PopupMenuButton<String> selectBusesPopupMenuButton(
   BuildContext context,
   TripModel trip,
-  List<TripModel> tripsByStage,
 ) {
   return PopupMenuButton<String>(
     iconColor: kMainColor,
@@ -49,11 +48,7 @@ PopupMenuButton<String> selectBusesPopupMenuButton(
       } else if (value == 'edit') {
         await Navigator.push(
           context,
-          MaterialPageRoute(
-            builder:
-                (context) =>
-                    EditTripByStage(trip: trip, tripsByStage: tripsByStage),
-          ),
+          MaterialPageRoute(builder: (context) => EditTripByStage(trip: trip)),
         );
       } else if (value == 'approval') {
         if (context.mounted) {

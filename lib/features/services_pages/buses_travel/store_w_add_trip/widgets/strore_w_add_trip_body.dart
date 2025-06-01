@@ -85,6 +85,7 @@ class _StroreWAddTripBodyState extends State<StroreWAddTripBody> {
                           key: formKey,
                           child: Column(
                             spacing: 12.h,
+
                             children: [
                               12.verticalSpace,
 
@@ -304,9 +305,7 @@ class _StroreWAddTripBodyState extends State<StroreWAddTripBody> {
                                       );
                                     }).toList(),
                                 onChanged: (int? newValue) {
-                                  setState(() {
-                                    selectedTrack = newValue;
-                                  });
+                                  selectedTrack = newValue;
                                 },
                               ),
                               BlocBuilder<GuidesCubit, GuidesState>(
@@ -314,6 +313,7 @@ class _StroreWAddTripBodyState extends State<StroreWAddTripBody> {
                                   final guide = context.read<GuidesCubit>();
 
                                   return Column(
+                                    spacing: 12.h,
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
@@ -443,9 +443,7 @@ class _StroreWAddTripBodyState extends State<StroreWAddTripBody> {
                                                       })
                                                       .toList(),
                                               onChanged: (int? newValue) {
-                                                setState(() {
-                                                  selectedGuide = newValue;
-                                                });
+                                                selectedGuide = newValue;
                                               },
                                             ),
                                     ],
@@ -482,7 +480,10 @@ class _StroreWAddTripBodyState extends State<StroreWAddTripBody> {
                                                   .read<HomeCubit>()
                                                   .selectedSeason!,
                                           fStageNo: selectedStage!,
-                                          fEmpNo: selectedGuide,
+                                          fEmpNo:
+                                              transType == '1'
+                                                  ? selectedGuide
+                                                  : null,
                                           fAdditionLatitude:
                                               state.position.latitude
                                                   .toString(),
@@ -567,6 +568,11 @@ class _StroreWAddTripBodyState extends State<StroreWAddTripBody> {
         setState(() {
           transType = value;
         });
+        // if (transType == '1' && selectedCenter != null) {
+        //   await context.read<GuidesCubit>().getGuideByCriteria(
+        //     selectedCenter.toString(),
+        //   );
+        // }
       },
       child: Container(
         width: 170.w,
@@ -594,12 +600,12 @@ class _StroreWAddTripBodyState extends State<StroreWAddTripBody> {
                 setState(() {
                   isGuideSelected = true;
                   transType = val!;
-                  if (transType == '1' && selectedCenter != null) {
-                    context.read<GuidesCubit>().getGuideByCriteria(
-                      selectedCenter.toString(),
-                    );
-                  }
                 });
+                // if (transType == '1' && selectedCenter != null) {
+                //   await context.read<GuidesCubit>().getGuideByCriteria(
+                //     selectedCenter.toString(),
+                //   );
+                // }
               },
               materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
               activeColor: kMainColor,

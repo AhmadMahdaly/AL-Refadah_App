@@ -14,13 +14,12 @@ class SelectTripCard extends StatefulWidget {
     required this.remainingTripsCount,
     required this.additionTrip,
     required this.trip,
-    required this.tripsByStage,
+
     super.key,
   });
   final int remainingTripsCount;
   final int additionTrip;
   final TripModel trip;
-  final List<TripModel> tripsByStage;
 
   @override
   State<SelectTripCard> createState() => _SelectTripCardState();
@@ -217,11 +216,7 @@ class _SelectTripCardState extends State<SelectTripCard> {
                       borderRadius: BorderRadius.circular(5.r),
                     ),
                   ),
-                  child: selectBusesPopupMenuButton(
-                    context,
-                    widget.trip,
-                    widget.tripsByStage,
-                  ),
+                  child: selectBusesPopupMenuButton(context, widget.trip),
                 ),
               ],
             ),

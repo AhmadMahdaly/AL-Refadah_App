@@ -108,7 +108,6 @@ class SelectTripBody extends StatelessWidget {
                           remainingTripsCount: remainingTripsCount,
                           additionTrip: additionTrip,
                           trip: trip,
-                          tripsByStage: state.tripsByStage,
                         );
                       },
                     ),

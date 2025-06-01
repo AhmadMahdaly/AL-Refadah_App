@@ -192,6 +192,30 @@ class BusesCubit extends Cubit<BusesState> {
           selectedSeason!,
           centerNo,
         );
+
+        emit(
+          state.copyWith(
+            isLoadingAllBusesByCrietia: false,
+            allBusesByCrietia: allBuses,
+          ),
+        );
+      }
+      emit(state.copyWith(isLoadingAllBusesByCrietia: false, error: 'حدث خطأ'));
+    } catch (e) {
+      emit(
+        state.copyWith(isLoadingAllBusesByCrietia: false, error: e.toString()),
+      );
+    }
+  }
+
+  Future<void> getAllBusesByCrietiaToTrip(int season, String centerNo) async {
+    emit(state.copyWith(isLoadingAllBusesByCrietia: true));
+    try {
+      if (season != null && centerNo != null) {
+        final allBuses = await repository.getAllBusesByCriatia(
+          season,
+          centerNo,
+        );
         emit(
           state.copyWith(
             isLoadingAllBusesByCrietia: false,

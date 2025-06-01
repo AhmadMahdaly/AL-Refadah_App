@@ -71,18 +71,12 @@ class _ShowTripBodyState extends State<ShowTripBody> {
         guidesState.guidesByCriteria
             .where((emp) => emp.employee?.fEmpName.isNotEmpty ?? false)
             .toList();
-    if (guidesState.isLoadingGetByCriteria && guidesList.isNotEmpty) {
-      selectedGuide = guidesList.firstWhereOrNull(
-        (guide) => guide.fEmpNo == widget.trip.fEmpNo,
-      );
-    }
   }
 
   TrackModel? selectedTrack;
   List<TrackModel> trackTrip = [];
   GetAllBusesModel? selectedBus;
   List<GetAllBusesModel> busesList = [];
-  AssignmentModel? selectedGuide;
   List<AssignmentModel> guidesList = [];
   @override
   Widget build(BuildContext context) {
@@ -96,6 +90,7 @@ class _ShowTripBodyState extends State<ShowTripBody> {
               builder: (context, state) {
                 if (busTravelState.isAddingTripByStage ||
                     busTravelState.isLoadingTripsByStage ||
+                    guidesList.isEmpty ||
                     busesState.isLoadingAllBuses) {
                   return const AppIndicator();
                 } else {
@@ -114,7 +109,7 @@ class _ShowTripBodyState extends State<ShowTripBody> {
                                 controller: TextEditingController(
                                   text: widget.trip.fSeasonId,
                                 ),
-                                text: 'الموسم',
+                                text: 'موسم',
                                 readOnly: true,
                                 enabled: false,
                               ),
@@ -126,7 +121,7 @@ class _ShowTripBodyState extends State<ShowTripBody> {
                                 controller: TextEditingController(
                                   text: widget.trip.fCenterNo,
                                 ),
-                                text: 'المركز',
+                                text: 'رقم المركز',
                                 readOnly: true,
                                 enabled: false,
                               ),
@@ -212,9 +207,14 @@ class _ShowTripBodyState extends State<ShowTripBody> {
                           text: 'المرشد',
                           controller: TextEditingController(
                             text:
-                                guidesList.contains(selectedGuide)
-                                    ? selectedGuide!.employee?.fEmpName
-                                    : 'لم يتم اختيار مرشد',
+                                guidesList
+                                    .firstWhereOrNull(
+                                      (guide) =>
+                                          guide.fEmpNo == widget.trip.fEmpNo,
+                                    )
+                                    ?.employee
+                                    ?.fEmpName ??
+                                'لم يتم تحديد مرشد',
                           ),
                         ),
                         const H(h: 40),
