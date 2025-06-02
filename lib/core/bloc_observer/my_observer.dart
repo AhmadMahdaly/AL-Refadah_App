@@ -4,9 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MyObserver implements BlocObserver {
   @override
-  void onChange(BlocBase bloc, Change change) {
-    // log('onChange: $change');
-  }
+  void onChange(BlocBase bloc, Change change) {}
 
   @override
   void onClose(BlocBase bloc) {

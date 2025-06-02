@@ -6,8 +6,11 @@ import 'package:alrefadah/core/utils/components/text_fields/textfield_border_rad
 import 'package:alrefadah/core/widgets/custom_dialog/error_dialog.dart';
 import 'package:alrefadah/core/widgets/custom_dialog/show_success_dialog.dart';
 import 'package:alrefadah/features/home_page/cubit/home_cubit.dart';
+import 'package:alrefadah/features/services_pages/buses/add/cubit/add_bus_cubit.dart';
+import 'package:alrefadah/features/services_pages/buses/add/cubit/add_bus_state.dart';
 import 'package:alrefadah/features/services_pages/buses/main/cubit/buses_cubit.dart';
 import 'package:alrefadah/features/services_pages/buses/main/cubit/buses_states.dart';
+import 'package:alrefadah/features/services_pages/buses_travel/add/add_bus/cubit/add_bus_cubit.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/main/cubit/bus_travel_cubit.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/main/cubit/bus_travel_state.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/store_w_add_trip/models/store_w_add_trip_model.dart';
@@ -39,6 +42,7 @@ class _StroreWAddTripBodyState extends State<StroreWAddTripBody> {
       context.read<BusesCubit>().getCenters(),
       context.read<BusesCubit>().getStages(),
       context.read<BusTravelCubit>().getTrackTrip(),
+      context.read<AddBusTripCubit>().loadTransports(),
     ]);
   }
 
@@ -54,9 +58,7 @@ class _StroreWAddTripBodyState extends State<StroreWAddTripBody> {
   final oprationNoController = TextEditingController();
   final busNoController = TextEditingController();
   int? selectedGuide;
-  int? selectedTrack;
-  int? selectedCenter;
-  int? selectedStage;
+  int? selectedTransport;
   String transType = '0';
   bool? isGuideSelected;
   @override
@@ -144,7 +146,7 @@ class _StroreWAddTripBodyState extends State<StroreWAddTripBody> {
                                 onChanged: (centerNo) async {
                                   if (centerNo != null) {
                                     setState(() {
-                                      selectedCenter = centerNo;
+                                      trip.state.selectedCenter = centerNo;
                                     });
 
                                     await context
@@ -158,7 +160,7 @@ class _StroreWAddTripBodyState extends State<StroreWAddTripBody> {
                                         );
                                   }
                                 },
-                                value: selectedCenter,
+                                value: trip.state.selectedCenter,
                               ),
 
                               /// stages dropdown
@@ -215,38 +217,10 @@ class _StroreWAddTripBodyState extends State<StroreWAddTripBody> {
                                     }).toList(),
                                 onChanged: (stage) {
                                   if (stage != null) {
-                                    selectedStage = stage;
+                                    trip.state.selectedStage = stage;
                                   }
                                 },
-                                value: selectedStage,
-                              ),
-
-                              /// opration No
-                              CustomNumberTextformfield(
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'الرجاء إدخال أمر التشغيل';
-                                  }
-                                  return null;
-                                },
-                                maxLength: 14,
-                                controller: oprationNoController,
-
-                                labelText: 'أمر التشغيل',
-                              ),
-
-                              /// Bus No
-                              CustomNumberTextformfield(
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'الرجاء إدخال رقم الحافلة';
-                                  }
-                                  return null;
-                                },
-                                maxLength: 10,
-                                controller: busNoController,
-
-                                labelText: 'رقم الحافلة',
+                                value: trip.state.selectedStage,
                               ),
 
                               /// المسار
@@ -293,7 +267,7 @@ class _StroreWAddTripBodyState extends State<StroreWAddTripBody> {
                                   fontWeight: FontWeight.w300,
                                   height: 1.25.h,
                                 ),
-                                value: selectedTrack,
+                                value: trip.state.selectedTrack,
 
                                 items:
                                     trip.state.track.map((track) {
@@ -305,7 +279,101 @@ class _StroreWAddTripBodyState extends State<StroreWAddTripBody> {
                                       );
                                     }).toList(),
                                 onChanged: (int? newValue) {
-                                  selectedTrack = newValue;
+                                  trip.state.selectedTrack = newValue;
+                                },
+                              ),
+
+                              /// opration No
+                              CustomNumberTextformfield(
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'الرجاء إدخال الرقم التشغيلي';
+                                  }
+                                  return null;
+                                },
+                                maxLength: 14,
+                                controller: oprationNoController,
+
+                                labelText: 'الرقم التشغيلي',
+                              ),
+
+                              /// Bus No
+                              CustomNumberTextformfield(
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'الرجاء إدخال رقم الحافلة';
+                                  }
+                                  return null;
+                                },
+                                maxLength: 10,
+                                controller: busNoController,
+
+                                labelText: 'رقم الحافلة',
+                              ),
+                              BlocBuilder<AddBusCubit, AddBusState>(
+                                builder: (context, state) {
+                                  final state =
+                                      context.watch<AddBusCubit>().state;
+                                  final transports = state.transports;
+                                  return DropdownButtonFormField<int>(
+                                    borderRadius: BorderRadius.circular(10.r),
+                                    isExpanded: true,
+                                    dropdownColor: kScaffoldBackgroundColor,
+                                    validator: (value) {
+                                      if (value == null) {
+                                        return 'الرجاء اختر الشركة الناقلة';
+                                      }
+                                      return null;
+                                    },
+                                    decoration: InputDecoration(
+                                      label: Text(
+                                        'الشركة الناقلة',
+                                        style: TextStyle(
+                                          fontSize: 13.sp,
+                                          color: const Color(0xFFA2A2A2),
+                                          fontWeight: FontWeight.w300,
+                                        ),
+                                      ),
+                                      fillColor: kScaffoldBackgroundColor,
+                                      filled: true,
+                                      border: textfieldBorderRadius(
+                                        kMainColorLightColor,
+                                      ),
+                                      focusedBorder: textfieldBorderRadius(
+                                        kMainColorLightColor,
+                                      ),
+                                      enabledBorder: textfieldBorderRadius(
+                                        kMainColorLightColor,
+                                      ),
+                                      focusedErrorBorder: textfieldBorderRadius(
+                                        Colors.red,
+                                      ),
+                                    ),
+                                    icon: const Icon(
+                                      Icons.keyboard_arrow_down_rounded,
+                                      color: kMainColor,
+                                    ),
+                                    style: TextStyle(
+                                      color: kMainColor,
+                                      fontSize: 15.sp,
+                                      fontFamily: 'GE SS Two',
+                                      fontWeight: FontWeight.w300,
+                                      height: 1.43.h,
+                                    ),
+                                    items:
+                                        transports.map((trans) {
+                                          return DropdownMenuItem<int>(
+                                            value: trans.fTransportNo,
+                                            child: Text(trans.fTransportName),
+                                          );
+                                        }).toList(),
+                                    onChanged: (value) {
+                                      setState(() {
+                                        selectedTransport = value;
+                                      });
+                                    },
+                                    value: selectedTransport,
+                                  );
                                 },
                               ),
                               BlocBuilder<GuidesCubit, GuidesState>(
@@ -317,10 +385,10 @@ class _StroreWAddTripBodyState extends State<StroreWAddTripBody> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      if (selectedStage == 1 ||
-                                          selectedStage == 2 ||
-                                          selectedStage == 6 ||
-                                          selectedStage == 7)
+                                      if (trip.state.selectedStage == 1 ||
+                                          trip.state.selectedStage == 2 ||
+                                          trip.state.selectedStage == 6 ||
+                                          trip.state.selectedStage == 7)
                                         Text(
                                           'اختيار المرشد',
                                           style: TextStyle(
@@ -461,8 +529,9 @@ class _StroreWAddTripBodyState extends State<StroreWAddTripBody> {
                                     try {
                                       final inputs = StoreWAddTripModel(
                                         bus: StoreWAddBus(
+                                          fTransportNo: selectedTransport ?? 0,
                                           fBusNo: busNoController.text,
-                                          fCenterNo: selectedCenter!,
+                                          fCenterNo: trip.state.selectedCenter!,
                                           fSeasonId:
                                               context
                                                   .read<HomeCubit>()
@@ -479,7 +548,7 @@ class _StroreWAddTripBodyState extends State<StroreWAddTripBody> {
                                               context
                                                   .read<HomeCubit>()
                                                   .selectedSeason!,
-                                          fStageNo: selectedStage!,
+                                          fStageNo: trip.state.selectedStage!,
                                           fEmpNo:
                                               transType == '1'
                                                   ? selectedGuide
@@ -494,7 +563,7 @@ class _StroreWAddTripBodyState extends State<StroreWAddTripBody> {
                                             context.read<HomeCubit>().userId ??
                                                 '0',
                                           ),
-                                          fTrackNo: selectedTrack!,
+                                          fTrackNo: trip.state.selectedTrack!,
                                         ),
                                       );
 
@@ -511,14 +580,11 @@ class _StroreWAddTripBodyState extends State<StroreWAddTripBody> {
                                             context,
                                             seconds: 1,
                                           );
-                                          Future.delayed(
-                                            const Duration(seconds: 1),
-                                            () {
-                                              if (context.mounted) {
-                                                Navigator.pop(context);
-                                              }
-                                            },
-                                          );
+                                          oprationNoController.clear();
+                                          busNoController.clear();
+                                          selectedGuide = null;
+                                          selectedTransport = null;
+                                          transType = '0';
                                         }
                                       } else {
                                         if (context.mounted) {
@@ -568,11 +634,6 @@ class _StroreWAddTripBodyState extends State<StroreWAddTripBody> {
         setState(() {
           transType = value;
         });
-        // if (transType == '1' && selectedCenter != null) {
-        //   await context.read<GuidesCubit>().getGuideByCriteria(
-        //     selectedCenter.toString(),
-        //   );
-        // }
       },
       child: Container(
         width: 170.w,
@@ -601,11 +662,6 @@ class _StroreWAddTripBodyState extends State<StroreWAddTripBody> {
                   isGuideSelected = true;
                   transType = val!;
                 });
-                // if (transType == '1' && selectedCenter != null) {
-                //   await context.read<GuidesCubit>().getGuideByCriteria(
-                //     selectedCenter.toString(),
-                //   );
-                // }
               },
               materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
               activeColor: kMainColor,

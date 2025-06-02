@@ -52,72 +52,79 @@ class _MorePageBodyState extends State<MorePageBody> {
 
   ///
   void initBusTravelData() {
-    final busTravelSeasonsCubit = BlocProvider.of<BusTravelCubit>(context)
-      ..getSeasons();
-    busTravelSeasonsCubit.stream.listen((state) {
-      if (!mounted) return;
-      if (state.seasons != null) {
-        final sessions = state.seasons.map((e) => e.fSeasonId.toString());
-        if (sessions.isNotEmpty) {
-          busTravelSeasonsCubit.selectedSeason = sessions.last;
+    if (fPermNo == PermNo.transMan || fPermNo == PermNo.systemMan) {
+      final busTravelSeasonsCubit = BlocProvider.of<BusTravelCubit>(context)
+        ..getSeasons();
+      busTravelSeasonsCubit.stream.listen((state) {
+        if (!mounted) return;
+        if (state.seasons != null) {
+          final sessions = state.seasons.map((e) => e.fSeasonId.toString());
+          if (sessions.isNotEmpty) {
+            busTravelSeasonsCubit.selectedSeason = sessions.last;
+          }
         }
-      }
-    });
-    final busTravelCentersCubit = BlocProvider.of<BusTravelCubit>(context)
-      ..getCenters();
-    busTravelCentersCubit.stream.listen((state) {
-      if (!mounted) return;
-      if (state.centers != null) {
-        final centers = state.centers.map((e) => e.fCenterNo.toString());
-        if (centers.isNotEmpty) {
-          busTravelCentersCubit.selectedCenter = centers.first;
+      });
+      final busTravelCentersCubit = BlocProvider.of<BusTravelCubit>(context)
+        ..getCenters();
+      busTravelCentersCubit.stream.listen((state) {
+        if (!mounted) return;
+        if (state.centers != null) {
+          final centers = state.centers.map((e) => e.fCenterNo.toString());
+          if (centers.isNotEmpty) {
+            busTravelCentersCubit.selectedCenter = centers.first;
+          }
         }
-      }
-    });
+      });
+    }
   }
 
   void initBusesData() {
-    final busesCubit = BlocProvider.of<BusesCubit>(context)..getSeasons();
-    busesCubit.stream.listen((state) {
-      if (!mounted) return;
-      if (state.seasons != null) {
-        final sessions = state.seasons.map((e) => e.fSeasonId);
-        if (sessions.isNotEmpty) {
-          busesCubit.selectedSeason = sessions.last;
+    if (fPermNo == PermNo.transMan || fPermNo == PermNo.systemMan) {
+      final busesCubit = BlocProvider.of<BusesCubit>(context)..getSeasons();
+      busesCubit.stream.listen((state) {
+        if (!mounted) return;
+        if (state.seasons != null) {
+          final sessions = state.seasons.map((e) => e.fSeasonId);
+          if (sessions.isNotEmpty) {
+            busesCubit.selectedSeason = sessions.last;
+          }
         }
-      }
-    });
-    context.read<BusesCubit>().getAllBuses();
+      });
+      context.read<BusesCubit>().getAllBuses();
 
-    final buseCubit = BlocProvider.of<BusesCubit>(context)..getSeasons();
-    final addBusCubit = BlocProvider.of<AddBusTripCubit>(context);
-    busesCubit.stream.listen((state) {
-      if (state.seasons != null) {
-        final session = state.seasons.map((e) => e.fSeasonId);
-        if (session.isNotEmpty) {
-          busesCubit.selectedSeason = session.last;
+      final buseCubit = BlocProvider.of<BusesCubit>(context)..getSeasons();
+      final addBusCubit = BlocProvider.of<AddBusTripCubit>(context);
+      busesCubit.stream.listen((state) {
+        if (state.seasons != null) {
+          final session = state.seasons.map((e) => e.fSeasonId);
+          if (session.isNotEmpty) {
+            busesCubit.selectedSeason = session.last;
+          }
         }
-      }
-    });
-    addBusCubit.stream.listen((state) {
-      if (buseCubit.selectedSeason != null) {
-        addBusCubit.selectedSeason = buseCubit.selectedSeason;
-      }
-    });
-    context.read<AddBusTripCubit>().loadTransports();
+      });
+      addBusCubit.stream.listen((state) {
+        if (buseCubit.selectedSeason != null) {
+          addBusCubit.selectedSeason = buseCubit.selectedSeason;
+        }
+      });
+      context.read<AddBusTripCubit>().loadTransports();
+    }
   }
 
   void initOpratingCommandData() {
-    final cubit = BlocProvider.of<OpratingCommandsCubit>(context)..getSeasons();
-    cubit.stream.listen((state) {
-      if (!mounted) return;
-      if (state.seasons != null) {
-        final sessions = state.seasons.map((e) => e.fSeasonId.toString());
-        if (sessions.isNotEmpty) {
-          cubit.selectedSeasonId = sessions.last;
+    if (fPermNo == PermNo.transMan || fPermNo == PermNo.systemMan) {
+      final cubit = BlocProvider.of<OpratingCommandsCubit>(context)
+        ..getSeasons();
+      cubit.stream.listen((state) {
+        if (!mounted) return;
+        if (state.seasons != null) {
+          final sessions = state.seasons.map((e) => e.fSeasonId.toString());
+          if (sessions.isNotEmpty) {
+            cubit.selectedSeasonId = sessions.last;
+          }
         }
-      }
-    });
+      });
+    }
   }
 
   @override

@@ -36,7 +36,6 @@ Future<void> initializeApp() async {
       FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
       return true;
     };
-    ;
   }
 
   await AuthManager.loadTokens();

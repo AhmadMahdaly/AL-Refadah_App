@@ -23,18 +23,20 @@ class StoreWAddBus {
     required this.fCenterNo,
     required this.fSeasonId,
     required this.fBusStatus,
+    required this.fTransportNo,
   });
   final String fBusNo;
   final int fCenterNo;
   final int fSeasonId;
   final int fBusStatus;
-
+  final int fTransportNo;
   Map<String, dynamic> toJson() {
     return {
       'fBusNo': fBusNo,
       'fCenterNo': fCenterNo,
       'fSeasonId': fSeasonId,
       'fBusStatus': fBusStatus,
+      'fTransportNo': fTransportNo,
     };
   }
 }

@@ -38,6 +38,9 @@ class BusesTravelState {
     this.isSuccessAddcomplaint = false,
     this.complaint = const [],
     this.isLoadingcomplaint = false,
+    this.selectedTrack,
+    this.selectedCenter,
+    this.selectedStage,
   });
   final bool isLoadingCenters;
   final bool isLoadingSeasons;
@@ -69,6 +72,9 @@ class BusesTravelState {
   final bool isSuccessAddcomplaint;
   final List<ComplaintModel> complaint;
   final bool isLoadingcomplaint;
+  int? selectedTrack;
+  int? selectedCenter;
+  int? selectedStage;
 
   BusesTravelState copyWith({
     bool? isLoadingTrackTrip,
@@ -101,6 +107,9 @@ class BusesTravelState {
     bool? isSuccessAddcomplaint,
     List<ComplaintModel>? complaint,
     bool? isLoadingcomplaint,
+    int? selectedTrack,
+    int? selectedCenter,
+    int? selectedStage,
   }) {
     return BusesTravelState(
       isLoadingCenters: isLoadingCenters ?? this.isLoadingCenters,
@@ -144,6 +153,9 @@ class BusesTravelState {
           isSuccessAddcomplaint ?? this.isSuccessAddcomplaint,
       complaint: complaint ?? this.complaint,
       isLoadingcomplaint: isLoadingcomplaint ?? this.isLoadingcomplaint,
+      selectedTrack: selectedTrack ?? this.selectedTrack,
+      selectedCenter: selectedCenter ?? this.selectedCenter,
+      selectedStage: selectedStage ?? this.selectedStage,
     );
   }
 }
