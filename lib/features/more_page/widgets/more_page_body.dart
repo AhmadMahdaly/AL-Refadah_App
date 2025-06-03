@@ -37,10 +37,16 @@ class _MorePageBodyState extends State<MorePageBody> {
   @override
   void initState() {
     super.initState();
-    initBusesData();
-    initBusTravelData();
-    initOpratingCommandData();
     _checkPermissions();
+    init();
+  }
+
+  Future<void> init() async {
+    await Future.wait([
+      initBusesData(),
+      initBusTravelData(),
+      initOpratingCommandData(),
+    ]);
   }
 
   /// get permissions
@@ -51,7 +57,7 @@ class _MorePageBodyState extends State<MorePageBody> {
   String? fPermNo;
 
   ///
-  void initBusTravelData() {
+  Future<void> initBusTravelData() async {
     if (fPermNo == PermNo.transMan || fPermNo == PermNo.systemMan) {
       final busTravelSeasonsCubit = BlocProvider.of<BusTravelCubit>(context)
         ..getSeasons();
@@ -78,7 +84,7 @@ class _MorePageBodyState extends State<MorePageBody> {
     }
   }
 
-  void initBusesData() {
+  Future<void> initBusesData() async {
     if (fPermNo == PermNo.transMan || fPermNo == PermNo.systemMan) {
       final busesCubit = BlocProvider.of<BusesCubit>(context)..getSeasons();
       busesCubit.stream.listen((state) {
@@ -90,7 +96,7 @@ class _MorePageBodyState extends State<MorePageBody> {
           }
         }
       });
-      context.read<BusesCubit>().getAllBuses();
+      await context.read<BusesCubit>().getAllBuses();
 
       final buseCubit = BlocProvider.of<BusesCubit>(context)..getSeasons();
       final addBusCubit = BlocProvider.of<AddBusTripCubit>(context);
@@ -107,11 +113,11 @@ class _MorePageBodyState extends State<MorePageBody> {
           addBusCubit.selectedSeason = buseCubit.selectedSeason;
         }
       });
-      context.read<AddBusTripCubit>().loadTransports();
+      await context.read<AddBusTripCubit>().loadTransports();
     }
   }
 
-  void initOpratingCommandData() {
+  Future<void> initOpratingCommandData() async {
     if (fPermNo == PermNo.transMan || fPermNo == PermNo.systemMan) {
       final cubit = BlocProvider.of<OpratingCommandsCubit>(context)
         ..getSeasons();
