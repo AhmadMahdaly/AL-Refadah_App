@@ -121,7 +121,7 @@ class _StroreWAddTripBodyState extends State<StroreWAddTripBody> {
                                   ),
                                 ),
                                 icon: const Icon(
-                                  Icons.arrow_drop_down_outlined,
+                                  Icons.keyboard_arrow_down_rounded,
                                   color: kMainColor,
                                 ),
                                 style: TextStyle(
@@ -201,7 +201,7 @@ class _StroreWAddTripBodyState extends State<StroreWAddTripBody> {
                                   ),
                                 ),
                                 icon: const Icon(
-                                  Icons.arrow_drop_down_outlined,
+                                  Icons.keyboard_arrow_down_rounded,
                                   color: kMainColor,
                                 ),
                                 style: TextStyle(
@@ -260,7 +260,7 @@ class _StroreWAddTripBodyState extends State<StroreWAddTripBody> {
                                   ),
                                 ),
                                 icon: const Icon(
-                                  Icons.arrow_drop_down_outlined,
+                                  Icons.keyboard_arrow_down_rounded,
                                   color: kMainColor,
                                 ),
                                 style: TextStyle(
@@ -483,7 +483,7 @@ class _StroreWAddTripBodyState extends State<StroreWAddTripBody> {
                                       ),
                                     ),
                                     icon: const Icon(
-                                      Icons.arrow_drop_down_outlined,
+                                      Icons.keyboard_arrow_down_rounded,
                                       color: kMainColor,
                                     ),
                                     style: TextStyle(
