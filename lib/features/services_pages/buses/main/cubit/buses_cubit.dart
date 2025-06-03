@@ -54,6 +54,7 @@ class BusesCubit extends Cubit<BusesState> {
         selectedSeason!,
         selectedCenter,
       );
+
       emit(
         state.copyWith(
           isLoadingTransportOperating: false,
@@ -61,6 +62,7 @@ class BusesCubit extends Cubit<BusesState> {
         ),
       );
     } catch (e) {
+      log(e.toString());
       emit(
         state.copyWith(isLoadingTransportOperating: false, error: e.toString()),
       );
@@ -227,6 +229,31 @@ class BusesCubit extends Cubit<BusesState> {
     } catch (e) {
       emit(
         state.copyWith(isLoadingAllBusesByCrietia: false, error: e.toString()),
+      );
+    }
+  }
+
+  Future<void> getBusTransportOperating(int season, String center) async {
+    emit(state.copyWith(isLoadingTransportOperating: true));
+    try {
+      final transportOperating = await repository.getTransportOperting(
+        season,
+        center,
+      );
+      log(transportOperating.toString());
+      final transports = await repository.getAllTransports();
+
+      emit(
+        state.copyWith(
+          isLoadingTransportOperating: false,
+          transportOperating: transportOperating,
+          transports: transports,
+        ),
+      );
+    } catch (e) {
+      log(e.toString());
+      emit(
+        state.copyWith(isLoadingTransportOperating: false, error: e.toString()),
       );
     }
   }

@@ -90,7 +90,7 @@ class _AddTripBodyState extends State<AddTripBody> {
   final formattedDate = DateFormat('yyyyMMdd').format(DateTime.now());
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<BusTravelCubit, BusesTravelState>(
+    return BlocBuilder<BusTravelCubit, BusTravelState>(
       builder: (context, state) {
         final trackTrip =
             state.track.where((track) {

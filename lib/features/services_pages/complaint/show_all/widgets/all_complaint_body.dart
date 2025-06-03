@@ -164,7 +164,7 @@ class _AllComplaintBodyState extends State<AllComplaintBody> {
             ],
           ),
         ),
-        BlocBuilder<BusTravelCubit, BusesTravelState>(
+        BlocBuilder<BusTravelCubit, BusTravelState>(
           builder: (context, state) {
             if (state.isLoadingcomplaint) {
               return SizedBox(height: 350.h, child: const AppIndicator());

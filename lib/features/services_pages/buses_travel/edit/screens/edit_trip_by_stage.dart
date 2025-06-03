@@ -100,7 +100,7 @@ class _EditTripByStageState extends State<EditTripByStage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<BusTravelCubit, BusesTravelState>(
+    return BlocBuilder<BusTravelCubit, BusTravelState>(
       builder: (context, state) {
         final busTravelState = context.read<BusTravelCubit>().state;
 

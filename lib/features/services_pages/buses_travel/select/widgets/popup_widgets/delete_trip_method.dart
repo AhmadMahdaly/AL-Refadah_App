@@ -13,7 +13,7 @@ Future<String?> deleteTripMethod(BuildContext context, TripModel trip) {
   return showDialog<String>(
     context: context,
     builder: (context) {
-      return BlocBuilder<BusTravelCubit, BusesTravelState>(
+      return BlocBuilder<BusTravelCubit, BusTravelState>(
         builder: (context, state) {
           return AlertDialog(
             backgroundColor: kScaffoldBackgroundColor,

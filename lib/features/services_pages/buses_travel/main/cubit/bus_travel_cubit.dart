@@ -7,8 +7,8 @@ import 'package:alrefadah/features/services_pages/buses_travel/store_w_add_trip/
 import 'package:alrefadah/features/services_pages/complaint/add/models/add_complaint_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class BusTravelCubit extends Cubit<BusesTravelState> {
-  BusTravelCubit(this.repository) : super(BusesTravelState());
+class BusTravelCubit extends Cubit<BusTravelState> {
+  BusTravelCubit(this.repository) : super(BusTravelState());
 
   final BusesTravelRepo repository;
   String? selectedSeason;
@@ -47,6 +47,7 @@ class BusTravelCubit extends Cubit<BusesTravelState> {
         return;
       }
       final trips = await repository.getTrips(selectedSeason!, selectedCenter!);
+
       emit(state.copyWith(isLoadingTrips: false, trips: trips));
     } catch (e) {
       emit(state.copyWith(isLoadingTrips: false, error: e.toString()));

@@ -72,7 +72,7 @@ class _AddComplaintBodyState extends State<AddComplaintBody> {
   ComplaintTypeModel? selectedComplaintType;
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<BusTravelCubit, BusesTravelState>(
+    return BlocBuilder<BusTravelCubit, BusTravelState>(
       builder: (context, state) {
         if (state.isLoadingAddcomplaint ||
             state.isLoadingcomplaintType ||

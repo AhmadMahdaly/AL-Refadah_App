@@ -18,7 +18,7 @@ Future<String?> confirmReceiveTripMethod(BuildContext context, TripModel trip) {
   return showDialog<String>(
     context: context,
     builder: (context) {
-      return BlocBuilder<BusTravelCubit, BusesTravelState>(
+      return BlocBuilder<BusTravelCubit, BusTravelState>(
         builder: (context, state) {
           return AlertDialog(
             backgroundColor: kScaffoldBackgroundColor,
@@ -41,7 +41,7 @@ Future<String?> confirmReceiveTripMethod(BuildContext context, TripModel trip) {
                     final approvalLatitude = state.position.latitude.toString();
                     final approvalLongitude =
                         state.position.longitude.toString();
-                    return BlocBuilder<BusTravelCubit, BusesTravelState>(
+                    return BlocBuilder<BusTravelCubit, BusTravelState>(
                       builder: (context, state) {
                         if (state.isEditingTripByStage) {
                           return const AppIndicator();

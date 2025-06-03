@@ -6,8 +6,8 @@ import 'package:alrefadah/features/services_pages/buses_travel/main/models/get_b
 import 'package:alrefadah/features/services_pages/complaint/add/models/complaint_type_model.dart';
 import 'package:alrefadah/features/services_pages/complaint/show_all/models/complaint_model.dart';
 
-class BusesTravelState {
-  BusesTravelState({
+class BusTravelState {
+  BusTravelState({
     this.isLoadingCenters = false,
     this.isLoadingSeasons = false,
     this.isLoadingTrips = false,
@@ -60,6 +60,7 @@ class BusesTravelState {
   final List<TripModel> tripsByStage;
   final List<TripModel> incomingTripsByStage;
   final List<TrackModel> track;
+
   final bool isLoadingArrivingTripByStage;
   final bool isSuccessArrivingTripByStage;
   final List<TripModel> arrivingTripsByStage;
@@ -76,7 +77,7 @@ class BusesTravelState {
   int? selectedCenter;
   int? selectedStage;
 
-  BusesTravelState copyWith({
+  BusTravelState copyWith({
     bool? isLoadingTrackTrip,
     List<TrackModel>? track,
     bool? isLoadingCenters,
@@ -95,7 +96,9 @@ class BusesTravelState {
     List<BusesTravelGetCenterModel>? centers,
     List<BusesTravelGetSeasonModel>? seasons,
     List<BusesTravelGetTripModel>? trips,
+
     List<TripModel>? tripsByStage,
+
     String? error,
     List<TripModel>? incomingTripsByStage,
     bool? isLoadingArrivingTripByStage,
@@ -111,7 +114,7 @@ class BusesTravelState {
     int? selectedCenter,
     int? selectedStage,
   }) {
-    return BusesTravelState(
+    return BusTravelState(
       isLoadingCenters: isLoadingCenters ?? this.isLoadingCenters,
       isLoadingSeasons: isLoadingSeasons ?? this.isLoadingSeasons,
       isLoadingTrips: isLoadingTrips ?? this.isLoadingTrips,

@@ -13,7 +13,7 @@ class BusesMovesBusesTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Tab(
-      child: BlocBuilder<BusTravelCubit, BusesTravelState>(
+      child: BlocBuilder<BusTravelCubit, BusTravelState>(
         builder: (context, state) {
           if (state.isLoadingSeasons ||
               state.isLoadingCenters ||

@@ -29,7 +29,7 @@ class SelectIncomingTripsBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<BusTravelCubit, BusesTravelState>(
+    return BlocBuilder<BusTravelCubit, BusTravelState>(
       builder: (context, state) {
         final trips = state.incomingTripsByStage;
         final filteredIncomingTrips =

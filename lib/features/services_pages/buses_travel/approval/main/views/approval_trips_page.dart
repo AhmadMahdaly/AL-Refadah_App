@@ -197,7 +197,7 @@ class _ApprovalTripsPageState extends State<ApprovalTripsPage>
           children: [
             /// Pilgrims tab
             Tab(
-              child: BlocBuilder<BusTravelCubit, BusesTravelState>(
+              child: BlocBuilder<BusTravelCubit, BusTravelState>(
                 builder: (context, state) {
                   if (state.isLoadingSeasons ||
                       state.isLoadingCenters ||
@@ -255,7 +255,7 @@ class _ApprovalTripsPageState extends State<ApprovalTripsPage>
 
             /// Buses tab
             Tab(
-              child: BlocBuilder<BusTravelCubit, BusesTravelState>(
+              child: BlocBuilder<BusTravelCubit, BusTravelState>(
                 builder: (context, state) {
                   if (state.isLoadingSeasons ||
                       state.isLoadingCenters ||
@@ -311,7 +311,7 @@ class _ApprovalTripsPageState extends State<ApprovalTripsPage>
 
             /// Trips tab
             Tab(
-              child: BlocBuilder<BusTravelCubit, BusesTravelState>(
+              child: BlocBuilder<BusTravelCubit, BusTravelState>(
                 builder: (context, state) {
                   if (state.isLoadingSeasons ||
                       state.isLoadingCenters ||

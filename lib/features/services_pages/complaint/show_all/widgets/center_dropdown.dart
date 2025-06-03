@@ -45,7 +45,7 @@ class _ComplaintTravelCentersDropdownState
   final List<String> centers = [];
   @override
   Widget build(BuildContext context) {
-    return BlocListener<BusTravelCubit, BusesTravelState>(
+    return BlocListener<BusTravelCubit, BusTravelState>(
       listener: (context, state) {
         if (state.centers != null && state.centers.isNotEmpty) {
           centers
@@ -57,7 +57,7 @@ class _ComplaintTravelCentersDropdownState
           }
         }
       },
-      child: BlocBuilder<BusTravelCubit, BusesTravelState>(
+      child: BlocBuilder<BusTravelCubit, BusTravelState>(
         builder: (context, state) {
           if (state.isLoadingCenters) {
             return const EmptyDropdown(title: 'مركز');

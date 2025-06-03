@@ -45,7 +45,7 @@ class _GetBusSeasonDropdownState extends State<GetBusTravelSeasonDropdown> {
   final List<String> sessions = [];
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<BusTravelCubit, BusesTravelState>(
+    return BlocConsumer<BusTravelCubit, BusTravelState>(
       listener: (context, state) {
         if (state.seasons != null) {
           sessions

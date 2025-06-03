@@ -80,7 +80,7 @@ class _ShowTripBodyState extends State<ShowTripBody> {
   List<AssignmentModel> guidesList = [];
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<BusTravelCubit, BusesTravelState>(
+    return BlocBuilder<BusTravelCubit, BusTravelState>(
       builder: (context, state) {
         final busTravelState = context.read<BusTravelCubit>().state;
         return BlocBuilder<BusesCubit, BusesState>(
