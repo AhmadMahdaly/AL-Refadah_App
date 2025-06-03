@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:alrefadah/core/services/dio_helper.dart';
 import 'package:alrefadah/data/constants_variable.dart';
@@ -73,7 +72,6 @@ class BusesRepo {
         '/Buses/GetHajTransportOperating?SeasonId=$seasonId&CenterNo=$centerNo',
       );
       final data = response.data!;
-      log(data.toString());
       return data
           .map(
             (item) =>
@@ -81,7 +79,6 @@ class BusesRepo {
           )
           .toList();
     } on DioException catch (e) {
-      log(e.toString());
       throw Exception('خطأ: ${e.response?.data}');
     }
   }

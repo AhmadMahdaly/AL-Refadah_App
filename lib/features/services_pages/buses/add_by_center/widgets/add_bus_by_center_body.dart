@@ -208,7 +208,7 @@ class _AddBusPageByCenterBodyState extends State<AddBusPageByCenterBody> {
                                 Colors.red,
                               ),
                               label: Text(
-                                'أمر التشغيل',
+                                'الرقم التشغيلي',
                                 style: TextStyle(
                                   color: kMainColor,
                                   fontSize: 15.sp,

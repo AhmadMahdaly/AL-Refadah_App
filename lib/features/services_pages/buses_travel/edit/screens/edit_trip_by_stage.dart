@@ -286,7 +286,7 @@ class _EditTripByStageState extends State<EditTripByStage> {
                                                         kErrorColor,
                                                       ),
                                                   label: Text(
-                                                    'رقم التشغيل',
+                                                    'الرقم التشغيلي',
                                                     style: TextStyle(
                                                       fontSize: 13.sp,
                                                       color: const Color(

@@ -168,7 +168,7 @@ class _ShowTripBodyState extends State<ShowTripBody> {
                               child: CustomTextFieldWithLabel(
                                 enabled: false,
                                 readOnly: true,
-                                text: 'أمر التشغيل',
+                                text: 'الرقم التشغيلي',
                                 controller: TextEditingController(
                                   text: widget.trip.fBus.fOperatingNo,
                                 ),

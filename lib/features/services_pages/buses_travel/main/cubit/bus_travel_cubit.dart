@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:alrefadah/features/services_pages/buses_travel/add/models/add_trip_model.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/main/cubit/bus_travel_state.dart';
@@ -64,7 +63,6 @@ class BusTravelCubit extends Cubit<BusTravelState> {
       );
       emit(state.copyWith(isLoadingTripsByStage: false, tripsByStage: trips));
     } catch (e) {
-      log(e.toString());
       emit(state.copyWith(isLoadingTripsByStage: false, error: e.toString()));
     }
   }
@@ -109,7 +107,6 @@ class BusTravelCubit extends Cubit<BusTravelState> {
         ),
       );
     } catch (e) {
-      log(e.toString());
       emit(
         state.copyWith(
           isEditingTripByStage: false,

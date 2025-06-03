@@ -100,7 +100,7 @@ class BusCard extends StatelessWidget {
                         SizedBox(
                           width: 80.w,
                           child: Text(
-                            'أمر التشغيل',
+                            'الرقم التشغيلي',
                             textAlign: TextAlign.start,
                             style: TextStyle(
                               color: kAnalysisMediumColor,

@@ -220,7 +220,7 @@ class _AddBusPageBodyState extends State<AddBusPageBody> {
                                     Colors.red,
                                   ),
                                   label: Text(
-                                    'أمر التشغيل',
+                                    'الرقم التشغيلي',
                                     style: TextStyle(
                                       fontSize: 13.sp,
                                       color: const Color(0xFFA2A2A2),

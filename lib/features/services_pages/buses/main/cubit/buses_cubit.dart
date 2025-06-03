@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:alrefadah/features/services_pages/buses/add/models/add_bus_model.dart';
 import 'package:alrefadah/features/services_pages/buses/add/repo/add_bus_repo.dart';
@@ -62,7 +61,6 @@ class BusesCubit extends Cubit<BusesState> {
         ),
       );
     } catch (e) {
-      log(e.toString());
       emit(
         state.copyWith(isLoadingTransportOperating: false, error: e.toString()),
       );
@@ -175,7 +173,6 @@ class BusesCubit extends Cubit<BusesState> {
         );
       }
     } catch (e) {
-      log('Delete failed: $e');
       emit(
         state.copyWith(
           isLoadingDeleteBus: false,
@@ -240,7 +237,6 @@ class BusesCubit extends Cubit<BusesState> {
         season,
         center,
       );
-      log(transportOperating.toString());
       final transports = await repository.getAllTransports();
 
       emit(
@@ -251,7 +247,6 @@ class BusesCubit extends Cubit<BusesState> {
         ),
       );
     } catch (e) {
-      log(e.toString());
       emit(
         state.copyWith(isLoadingTransportOperating: false, error: e.toString()),
       );

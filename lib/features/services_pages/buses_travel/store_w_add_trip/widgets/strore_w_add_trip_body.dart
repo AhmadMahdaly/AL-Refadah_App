@@ -8,12 +8,15 @@ import 'package:alrefadah/core/widgets/custom_dialog/show_success_dialog.dart';
 import 'package:alrefadah/features/home_page/cubit/home_cubit.dart';
 import 'package:alrefadah/features/services_pages/buses/main/cubit/buses_cubit.dart';
 import 'package:alrefadah/features/services_pages/buses/main/cubit/buses_states.dart';
+import 'package:alrefadah/features/services_pages/buses/main/models/buses_get_operating_model.dart';
+import 'package:alrefadah/features/services_pages/buses_travel/add/widgets/add_trip_body.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/main/cubit/bus_travel_cubit.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/main/cubit/bus_travel_state.dart';
 import 'package:alrefadah/features/services_pages/buses_travel/store_w_add_trip/models/store_w_add_trip_model.dart';
 import 'package:alrefadah/features/services_pages/guides/main/cubit/guides_cubit.dart';
 import 'package:alrefadah/presentation/app/shared_cubit/get_current_location_cubit/get_current_location_cubit.dart';
 import 'package:alrefadah/presentation/app/shared_widgets/loading_location.dart';
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -118,7 +121,7 @@ class _StroreWAddTripBodyState extends State<StroreWAddTripBody> {
                                   ),
                                 ),
                                 icon: const Icon(
-                                  Icons.keyboard_arrow_down_rounded,
+                                  Icons.arrow_drop_down_outlined,
                                   color: kMainColor,
                                 ),
                                 style: TextStyle(
@@ -198,7 +201,7 @@ class _StroreWAddTripBodyState extends State<StroreWAddTripBody> {
                                   ),
                                 ),
                                 icon: const Icon(
-                                  Icons.keyboard_arrow_down_rounded,
+                                  Icons.arrow_drop_down_outlined,
                                   color: kMainColor,
                                 ),
                                 style: TextStyle(
@@ -257,7 +260,7 @@ class _StroreWAddTripBodyState extends State<StroreWAddTripBody> {
                                   ),
                                 ),
                                 icon: const Icon(
-                                  Icons.keyboard_arrow_down_rounded,
+                                  Icons.arrow_drop_down_outlined,
                                   color: kMainColor,
                                 ),
                                 style: TextStyle(
@@ -283,68 +286,144 @@ class _StroreWAddTripBodyState extends State<StroreWAddTripBody> {
                                 },
                               ),
 
-                              /// opration No
                               BlocBuilder<BusesCubit, BusesState>(
                                 builder: (context, state) {
-                                  final state =
-                                      context.watch<BusesCubit>().state;
-                                  final operating = state.transportOperating;
-                                  return DropdownButtonFormField<String>(
+                                  final operating =
+                                      context
+                                          .watch<BusesCubit>()
+                                          .state
+                                          .transportOperating;
+                                  BusesGetOperatingModel? selectedOperating;
+                                  if (selectOperating != null) {
+                                    if (operating.isNotEmpty) {
+                                      selectedOperating = operating.firstWhere(
+                                        (op) =>
+                                            op.fOperatingNo == selectOperating,
+                                        orElse: () => operating.first,
+                                      );
+                                    } else {
+                                      selectedOperating = null;
+                                    }
+                                  }
+
+                                  return DropdownSearch<BusesGetOperatingModel>(
+                                    items: operating,
+                                    selectedItem: selectedOperating,
+                                    itemAsString:
+                                        (operate) => operate.fOperatingNo,
+
+                                    dropdownDecoratorProps:
+                                        DropDownDecoratorProps(
+                                          baseStyle: TextStyle(
+                                            color: kMainColor,
+                                            fontSize: 15.sp,
+                                            fontFamily: 'GE SS Two',
+                                            fontWeight: FontWeight.w300,
+                                            height: 1.43.h,
+                                          ),
+                                          dropdownSearchDecoration:
+                                              InputDecoration(
+                                                suffixIconColor: kMainColor,
+
+                                                border: dropdownBorderRadius(
+                                                  kMainColorLightColor,
+                                                ),
+                                                focusedBorder:
+                                                    dropdownBorderRadius(
+                                                      kMainColorLightColor,
+                                                    ),
+                                                enabledBorder:
+                                                    dropdownBorderRadius(
+                                                      kMainColorLightColor,
+                                                    ),
+                                                focusedErrorBorder:
+                                                    dropdownBorderRadius(
+                                                      kErrorColor,
+                                                    ),
+
+                                                label: Text(
+                                                  'الرقم التشغيلي',
+                                                  style: TextStyle(
+                                                    fontSize: 13.sp,
+                                                    color: const Color(
+                                                      0xFFA2A2A2,
+                                                    ),
+                                                    fontWeight: FontWeight.w300,
+                                                  ),
+                                                ),
+                                              ),
+                                        ),
+
+                                    popupProps: PopupProps.menu(
+                                      showSearchBox: true,
+                                      searchFieldProps: TextFieldProps(
+                                        style: TextStyle(
+                                          color: kMainColor,
+                                          fontSize: 15.sp,
+                                          fontFamily: 'GE SS Two',
+                                          fontWeight: FontWeight.w300,
+                                          height: 1.43.h,
+                                        ),
+                                        inputFormatters: [
+                                          ArabicToLatinDigitsFormatter(), // ✅ هنا نستخدم الفلتر
+                                        ],
+                                        decoration: InputDecoration(
+                                          label: Text(
+                                            'ابحث عن الرقم التشغيلي',
+                                            style: TextStyle(
+                                              fontSize: 13.sp,
+                                              color: const Color(0xFFA2A2A2),
+                                              fontWeight: FontWeight.w300,
+                                            ),
+                                          ),
+                                          border: dropdownBorderRadius(
+                                            kMainColorLightColor,
+                                          ),
+                                          focusedBorder: dropdownBorderRadius(
+                                            kMainColorLightColor,
+                                          ),
+                                          enabledBorder: dropdownBorderRadius(
+                                            kMainColorLightColor,
+                                          ),
+                                          focusedErrorBorder:
+                                              dropdownBorderRadius(kErrorColor),
+                                        ),
+                                      ),
+
+                                      itemBuilder:
+                                          (
+                                            context,
+                                            BusesGetOperatingModel item,
+                                            isSelected,
+                                          ) => ListTile(
+                                            title: Text(
+                                              item.fOperatingNo,
+                                              style: TextStyle(
+                                                color: kMainColor,
+                                                fontSize: 15.sp,
+                                                fontFamily: 'GE SS Two',
+                                                fontWeight: FontWeight.w300,
+                                                height: 1.43.h,
+                                              ),
+                                            ),
+                                          ),
+                                    ),
+
                                     validator: (value) {
                                       if (value == null) {
-                                        return 'الرجاء الرقم التشغيلي';
+                                        return 'الرجاء اختيار الرقم التشغيلي';
                                       }
                                       return null;
                                     },
-                                    isExpanded: true,
-                                    dropdownColor: kScaffoldBackgroundColor,
 
-                                    decoration: InputDecoration(
-                                      border: dropdownBorderRadius(
-                                        kMainColorLightColor,
-                                      ),
-                                      focusedBorder: dropdownBorderRadius(
-                                        kMainColorLightColor,
-                                      ),
-                                      enabledBorder: dropdownBorderRadius(
-                                        kMainColorLightColor,
-                                      ),
-                                      focusedErrorBorder: dropdownBorderRadius(
-                                        kErrorColor,
-                                      ),
-                                      label: Text(
-                                        'الرقم التشغيلي',
-                                        style: TextStyle(
-                                          fontSize: 13.sp,
-                                          color: const Color(0xFFA2A2A2),
-                                          fontWeight: FontWeight.w300,
-                                        ),
-                                      ),
-                                    ),
-                                    icon: const Icon(
-                                      Icons.keyboard_arrow_down_rounded,
-                                      color: kMainColor,
-                                    ),
-                                    style: TextStyle(
-                                      color: kMainColor,
-                                      fontSize: 15.sp,
-                                      fontFamily: 'GE SS Two',
-                                      fontWeight: FontWeight.w300,
-                                      height: 1.25.h,
-                                    ),
-                                    value: selectOperating,
-
-                                    items:
-                                        operating.map((operate) {
-                                          final trackName =
-                                              operate.fOperatingNo;
-                                          return DropdownMenuItem<String>(
-                                            value: operate.fOperatingNo,
-                                            child: Text(trackName),
-                                          );
-                                        }).toList(),
-                                    onChanged: (newValue) {
-                                      selectOperating = newValue;
+                                    onChanged: (
+                                      BusesGetOperatingModel? newValue,
+                                    ) {
+                                      setState(() {
+                                        selectOperating =
+                                            newValue
+                                                ?.fOperatingNo; // إذا كنت لا زلت تحتاج القيمة النصية
+                                      });
                                     },
                                   );
                                 },
@@ -404,7 +483,7 @@ class _StroreWAddTripBodyState extends State<StroreWAddTripBody> {
                                       ),
                                     ),
                                     icon: const Icon(
-                                      Icons.keyboard_arrow_down_rounded,
+                                      Icons.arrow_drop_down_outlined,
                                       color: kMainColor,
                                     ),
                                     style: TextStyle(
