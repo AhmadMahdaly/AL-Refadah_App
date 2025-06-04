@@ -37,7 +37,7 @@ class _StroreWAddTripBodyState extends State<StroreWAddTripBody> {
 
   Future init() async {
     await Future.wait([
-      context.read<BusesCubit>().getCenters(),
+      context.read<BusTravelCubit>().getCenters(),
       context.read<BusesCubit>().getStages(),
       context.read<BusTravelCubit>().getTrackTrip(),
     ]);
@@ -61,7 +61,7 @@ class _StroreWAddTripBodyState extends State<StroreWAddTripBody> {
     return BlocBuilder<BusTravelCubit, BusTravelState>(
       builder: (context, state) {
         final trip = context.read<BusTravelCubit>();
-        return BlocBuilder<BusesCubit, BusesState>(
+        return BlocBuilder<BusTravelCubit, BusTravelState>(
           builder: (context, state) {
             final bus = context.read<BusesCubit>();
             return BlocBuilder<
