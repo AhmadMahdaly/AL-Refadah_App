@@ -103,6 +103,8 @@ class HomeCubit extends Cubit<HomeState> {
     try {
       final permNo = await storage.read(key: 'fPermNo');
       final user = await storage.read(key: 'userId');
+      fPermNo = permNo;
+      userId = user;
       final seasons = await repository.fetchSeasons();
       final centers = await repository.getCenters();
       final stages = await repository.getStages();
@@ -112,8 +114,7 @@ class HomeCubit extends Cubit<HomeState> {
       selectedCenter = centers.first.fCenterNo;
       selectedStage = stages.first.fStageNo;
       selectedTrack = tracks.first.fTrackNo;
-      fPermNo = permNo;
-      userId = user;
+
       emit(
         state.copyWith(
           isLoadingAllData: false,
